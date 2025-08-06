@@ -1,0 +1,65 @@
+[
+  {
+    "_id": "6877f08290e407b7bb9da8c5",
+    "user": "6877f08190e407b7bb9da8c1",
+    "items": [
+      {
+        "product": "6877ebb66bfc047520675bfb",
+        "quantity": 1,
+        "price": 409.99,
+        "_id": "6877f08e90e407b7bb9da8d0",
+        "addedAt": "2025-07-16T18:33:50.949Z"
+      }
+    ],
+    "builds": [],
+    "totalAmount": 409.99,
+    "totalItems": 1,
+    "createdAt": "2025-07-16T18:33:38.121Z",
+    "updatedAt": "2025-07-16T18:38:32.119Z",
+    "__v": 1
+  },
+  {
+    "_id": "687a2539015182d2ae9c8fb9",
+    "user": "687a24d46cd4712839147f6e",
+    "items": [],
+    "builds": [],
+    "totalAmount": 0,
+    "totalItems": 0,
+    "createdAt": "2025-07-18T10:43:05.636Z",
+    "updatedAt": "2025-07-18T10:43:05.636Z",
+    "__v": 0
+  },
+  {
+    "_id": "687a28de015182d2ae9c9002",
+    "user": "687a130a7205730e0679419e",
+    "items": [],
+    "builds": [],
+    "totalAmount": 0,
+    "totalItems": 0,
+    "createdAt": "2025-07-18T10:58:38.614Z",
+    "updatedAt": "2025-08-05T17:31:52.518Z",
+    "__v": 1
+  },
+  {
+    "_id": "6888b2c7a5fbec48dfec8534",
+    "user": "6888b2c6a5fbec48dfec8530",
+    "items": [],
+    "builds": [],
+    "totalAmount": 0,
+    "totalItems": 0,
+    "createdAt": "2025-07-29T11:38:47.355Z",
+    "updatedAt": "2025-08-05T18:47:17.494Z",
+    "__v": 2
+  },
+  {
+    "_id": "689236b32b82698237c32b72",
+    "user": "689236b22b82698237c32b6e",
+    "items": [],
+    "builds": [],
+    "totalAmount": 0,
+    "totalItems": 0,
+    "createdAt": "2025-08-05T16:52:03.076Z",
+    "updatedAt": "2025-08-05T16:52:03.076Z",
+    "__v": 0
+  }
+]

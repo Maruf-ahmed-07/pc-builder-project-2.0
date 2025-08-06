@@ -1,0 +1,167 @@
+[
+  {
+    "_id": "687a34ade6e868590f766f34",
+    "name": "Sarah Johnson",
+    "email": "sarah.johnson@email.com",
+    "phone": "+1-555-0123",
+    "subject": "Issue with GPU compatibility",
+    "message": "Hi, I recently purchased an RTX 4080 but I'm having trouble with my current motherboard. The system won't boot properly and I'm getting error codes. Could you help me troubleshoot this issue? I've tried reseating the card multiple times but the problem persists.",
+    "category": "Technical Support",
+    "priority": "High",
+    "status": "Open",
+    "tags": [],
+    "createdAt": "2025-06-28T11:49:01.217Z",
+    "responses": [],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f35",
+    "name": "Mike Chen",
+    "email": "mike.chen@email.com",
+    "phone": "+1-555-0456",
+    "subject": "Order #ORD-123456 delivery delay",
+    "message": "Hello, I placed an order last week (Order #ORD-123456) and was told it would be delivered by today, but I haven't received any tracking information. Could you please provide an update on the status of my order?",
+    "category": "Order Support",
+    "priority": "Medium",
+    "status": "In Progress",
+    "tags": [],
+    "createdAt": "2025-07-12T11:49:01.222Z",
+    "responses": [
+      {
+        "message": "Thank you for contacting us. I've checked your order and it's currently being processed at our warehouse. You should receive tracking information within 24 hours.",
+        "respondedBy": "687a34ade6e868590f766f36",
+        "respondedAt": "2025-07-12T13:49:01.222Z",
+        "isInternal": false,
+        "_id": "687a34ade6e868590f766f37"
+      }
+    ],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f38",
+    "name": "Alex Rodriguez",
+    "email": "alex.rodriguez@email.com",
+    "subject": "Question about RAM compatibility",
+    "message": "I'm planning to upgrade my system and I want to know if DDR5-5600 RAM would be compatible with the Intel Z790 motherboard you have listed. Also, would this RAM work well with an i7-13700K processor?",
+    "category": "Product Question",
+    "priority": "Low",
+    "status": "Open",
+    "tags": [],
+    "createdAt": "2025-07-06T11:49:01.223Z",
+    "responses": [],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f39",
+    "name": "Emily Davis",
+    "email": "emily.davis@email.com",
+    "phone": "+1-555-0789",
+    "subject": "PC Builder Tool Bug Report",
+    "message": "I found a bug in your PC builder tool. When I try to add a specific power supply to my build, the page freezes and I have to refresh. This happens consistently with the EVGA 850W Gold model. I'm using Chrome browser on Windows 11.",
+    "category": "Technical Support",
+    "priority": "Medium",
+    "status": "In Progress",
+    "tags": [],
+    "createdAt": "2025-07-04T11:49:01.223Z",
+    "responses": [
+      {
+        "message": "Internal note: Reproduced the issue. Seems to be related to the AJAX request timeout for that specific product.",
+        "respondedBy": "687a34ade6e868590f766f3a",
+        "respondedAt": "2025-07-04T12:49:01.223Z",
+        "isInternal": true,
+        "_id": "687a34ade6e868590f766f3c"
+      },
+      {
+        "message": "Hi Alex, thank you for reporting this issue. Our development team has confirmed the bug and we're working on a fix. As a temporary workaround, you can try using a different browser or clearing your cache. We'll update you once the fix is deployed.",
+        "respondedBy": "687a34ade6e868590f766f3b",
+        "respondedAt": "2025-07-04T14:49:01.223Z",
+        "isInternal": false,
+        "_id": "687a34ade6e868590f766f3d"
+      }
+    ],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f3e",
+    "name": "David Wilson",
+    "email": "david.wilson@email.com",
+    "subject": "Excellent customer service!",
+    "message": "I just wanted to say thank you for the amazing customer service. The tech support team helped me resolve my build issues quickly and professionally. The PC is running perfectly now. Keep up the great work!",
+    "category": "Feedback",
+    "priority": "Low",
+    "status": "Resolved",
+    "tags": [],
+    "createdAt": "2025-06-21T11:49:01.224Z",
+    "responses": [
+      {
+        "message": "Thank you so much for your kind words! We really appreciate customers like you. I've forwarded your feedback to the tech support team - they'll be thrilled to hear this!",
+        "respondedBy": "687a34ade6e868590f766f3f",
+        "respondedAt": "2025-06-21T12:19:01.224Z",
+        "isInternal": false,
+        "_id": "687a34ade6e868590f766f40"
+      }
+    ],
+    "attachments": [],
+    "resolvedAt": "2025-06-21T12:29:01.224Z",
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f41",
+    "name": "Lisa Thompson",
+    "email": "lisa.thompson@email.com",
+    "phone": "+1-555-0321",
+    "subject": "Wrong item shipped",
+    "message": "I ordered a 32GB RAM kit but received a 16GB kit instead. The order number is ORD-789012. I need to exchange this for the correct item as soon as possible since I need it for a work project next week.",
+    "category": "Order Support",
+    "priority": "Urgent",
+    "status": "Open",
+    "tags": [],
+    "createdAt": "2025-07-06T11:49:01.224Z",
+    "responses": [],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f42",
+    "name": "Robert Brown",
+    "email": "robert.brown@email.com",
+    "subject": "Request for bulk pricing",
+    "message": "Hello, I represent a small business and we're looking to purchase 10-15 complete PC builds for our office. Could you provide information about bulk pricing and any business discounts you might offer?",
+    "category": "General Inquiry",
+    "priority": "Medium",
+    "status": "Open",
+    "tags": [],
+    "createdAt": "2025-06-20T11:49:01.224Z",
+    "responses": [],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  },
+  {
+    "_id": "687a34ade6e868590f766f43",
+    "name": "Jessica Garcia",
+    "email": "jessica.garcia@email.com",
+    "phone": "+1-555-0654",
+    "subject": "Website account issues",
+    "message": "I'm having trouble logging into my account. I keep getting an 'invalid credentials' error even though I'm sure my password is correct. I've tried resetting it twice but the issue persists. Please help!",
+    "category": "Technical Support",
+    "priority": "Medium",
+    "status": "In Progress",
+    "tags": [],
+    "createdAt": "2025-07-01T11:49:01.224Z",
+    "responses": [],
+    "attachments": [],
+    "__v": 0,
+    "updatedAt": "2025-07-18T11:49:01.229Z"
+  }
+]

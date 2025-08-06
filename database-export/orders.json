@@ -1,0 +1,313 @@
+[
+  {
+    "_id": "687a24d46cd4712839147f7c",
+    "user": "687a24d46cd4712839147f6e",
+    "orderNumber": "ORD-284451-ZPSFQC",
+    "items": [
+      {
+        "product": "687a130a7205730e067941a4",
+        "quantity": 1,
+        "price": 449.99,
+        "_id": "687a24d46cd4712839147f7d"
+      },
+      {
+        "product": "687a130a7205730e067941b4",
+        "quantity": 1,
+        "price": 149.99,
+        "_id": "687a24d46cd4712839147f7e"
+      },
+      {
+        "product": "687a130a7205730e067941a4",
+        "quantity": 2,
+        "price": 449.99,
+        "_id": "687a24d46cd4712839147f7f"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Smith",
+      "address": "123 Main Street, Apt 4B",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f80"
+    },
+    "billingAddress": {
+      "fullName": "John Smith",
+      "address": "123 Main Street, Apt 4B",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f81"
+    },
+    "paymentMethod": "credit_card",
+    "subtotal": 1499.96,
+    "tax": 120,
+    "shipping": 15.99,
+    "total": 1635.95,
+    "status": "delivered",
+    "notes": "Please deliver during business hours",
+    "deliveredAt": "2025-06-19T18:23:58.331Z",
+    "createdAt": "2025-07-18T10:41:24.454Z",
+    "updatedAt": "2025-07-18T10:41:24.454Z",
+    "estimatedDelivery": "2025-07-25T10:41:24.455Z",
+    "__v": 0
+  },
+  {
+    "_id": "687a24d46cd4712839147f84",
+    "user": "687a24d46cd4712839147f6e",
+    "orderNumber": "ORD-284514-Q3J4CK",
+    "items": [
+      {
+        "product": "687a130a7205730e067941ac",
+        "quantity": 1,
+        "price": 499.99,
+        "_id": "687a24d46cd4712839147f85"
+      },
+      {
+        "product": "687a130a7205730e067941a6",
+        "quantity": 2,
+        "price": 409.99,
+        "_id": "687a24d46cd4712839147f86"
+      },
+      {
+        "product": "687a130a7205730e067941b0",
+        "quantity": 2,
+        "price": 159.99,
+        "_id": "687a24d46cd4712839147f87"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Smith",
+      "address": "456 Oak Avenue",
+      "city": "Brooklyn",
+      "state": "NY",
+      "zipCode": "11201",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f88"
+    },
+    "billingAddress": {
+      "fullName": "John Smith",
+      "address": "123 Main Street, Apt 4B",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f89"
+    },
+    "paymentMethod": "paypal",
+    "subtotal": 1639.95,
+    "tax": 131.2,
+    "shipping": 9.99,
+    "total": 1781.14,
+    "status": "shipped",
+    "notes": "Gift wrap requested",
+    "trackingNumber": "1Z999AA1234567890",
+    "createdAt": "2025-07-18T10:41:24.516Z",
+    "updatedAt": "2025-07-18T10:41:24.516Z",
+    "estimatedDelivery": "2025-07-25T10:41:24.516Z",
+    "__v": 0
+  },
+  {
+    "_id": "687a24d46cd4712839147f8d",
+    "user": "687a24d46cd4712839147f6e",
+    "orderNumber": "ORD-284574-AR11QF",
+    "items": [
+      {
+        "product": "687a130a7205730e067941b6",
+        "quantity": 2,
+        "price": 109.99,
+        "_id": "687a24d46cd4712839147f8e"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Smith",
+      "address": "789 Pine Street",
+      "city": "Manhattan",
+      "state": "NY",
+      "zipCode": "10002",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f8f"
+    },
+    "billingAddress": {
+      "fullName": "John Smith",
+      "address": "123 Main Street, Apt 4B",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "+1-555-0123",
+      "_id": "687a24d46cd4712839147f90"
+    },
+    "paymentMethod": "credit_card",
+    "subtotal": 219.98,
+    "tax": 17.6,
+    "shipping": 12.99,
+    "total": 250.57,
+    "status": "processing",
+    "createdAt": "2025-07-18T10:41:24.576Z",
+    "updatedAt": "2025-07-18T10:41:24.576Z",
+    "estimatedDelivery": "2025-07-25T10:41:24.576Z",
+    "__v": 0
+  },
+  {
+    "_id": "68924008b1c4ad9cf23d2e46",
+    "user": "687a130a7205730e0679419e",
+    "orderNumber": "ORD-20250805-18937",
+    "items": [
+      {
+        "product": "688aae49e2edcc24d22669c9",
+        "quantity": 1,
+        "price": 13500,
+        "_id": "68924008b1c4ad9cf23d2e47"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "a",
+      "address": "asdf",
+      "city": "adsf",
+      "state": "asdf",
+      "zipCode": "234",
+      "country": "USA",
+      "phone": "12313",
+      "_id": "68924008b1c4ad9cf23d2e48"
+    },
+    "billingAddress": {
+      "fullName": "a",
+      "address": "asdf",
+      "city": "adsf",
+      "state": "asdf",
+      "zipCode": "234",
+      "country": "USA",
+      "phone": "12313",
+      "_id": "68924008b1c4ad9cf23d2e49"
+    },
+    "paymentMethod": "credit_card",
+    "paymentDetails": {
+      "cardNumber": "****1231",
+      "expiryDate": "23/42",
+      "cvv": "123",
+      "nameOnCard": "adfasdf"
+    },
+    "subtotal": 13500,
+    "tax": 1080,
+    "shipping": 0,
+    "total": 14580,
+    "status": "cancelled",
+    "notes": "",
+    "createdAt": "2025-08-05T17:31:52.368Z",
+    "updatedAt": "2025-08-05T17:32:01.331Z",
+    "estimatedDelivery": "2025-08-12T17:31:52.368Z",
+    "__v": 0,
+    "cancellationReason": "Cancelled by customer",
+    "cancelledAt": "2025-08-05T17:32:01.328Z"
+  },
+  {
+    "_id": "68924354b1c4ad9cf23d2eff",
+    "user": "6888b2c6a5fbec48dfec8530",
+    "orderNumber": "ORD-20250805-67976",
+    "items": [
+      {
+        "product": "688aae48e2edcc24d22668dc",
+        "quantity": 1,
+        "price": 7490,
+        "_id": "68924354b1c4ad9cf23d2f00"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Doe",
+      "address": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "(555) 123-4567",
+      "_id": "68924354b1c4ad9cf23d2f01"
+    },
+    "billingAddress": {
+      "fullName": "John Doe",
+      "address": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "(555) 123-4567",
+      "_id": "68924354b1c4ad9cf23d2f02"
+    },
+    "paymentMethod": "credit_card",
+    "paymentDetails": {
+      "cardNumber": "****9012",
+      "expiryDate": "12/28",
+      "cvv": "123",
+      "nameOnCard": "John Doe"
+    },
+    "subtotal": 7490,
+    "tax": 599.2,
+    "shipping": 0,
+    "total": 8089.2,
+    "status": "cancelled",
+    "notes": "",
+    "createdAt": "2025-08-05T17:45:56.320Z",
+    "updatedAt": "2025-08-05T18:10:02.486Z",
+    "estimatedDelivery": "2025-08-12T17:45:56.320Z",
+    "__v": 0,
+    "cancellationReason": "asdf",
+    "cancelledAt": "2025-08-05T18:10:02.484Z"
+  },
+  {
+    "_id": "689251b56548ea74478249d9",
+    "user": "6888b2c6a5fbec48dfec8530",
+    "orderNumber": "ORD-20250806-12563",
+    "items": [
+      {
+        "product": "688aae49e2edcc24d226699d",
+        "quantity": 1,
+        "price": 12000,
+        "_id": "689251b56548ea74478249da"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Doe",
+      "address": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "(555) 123-4567",
+      "_id": "689251b56548ea74478249db"
+    },
+    "billingAddress": {
+      "fullName": "John Doe",
+      "address": "123 Main Street",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA",
+      "phone": "(555) 123-4567",
+      "_id": "689251b56548ea74478249dc"
+    },
+    "paymentMethod": "credit_card",
+    "paymentDetails": {
+      "cardNumber": "****9012",
+      "expiryDate": "12/28",
+      "cvv": "123",
+      "nameOnCard": "John Doe"
+    },
+    "subtotal": 12000,
+    "tax": 960,
+    "shipping": 0,
+    "total": 12960,
+    "status": "pending",
+    "notes": "",
+    "createdAt": "2025-08-05T18:47:17.349Z",
+    "updatedAt": "2025-08-05T18:47:17.349Z",
+    "estimatedDelivery": "2025-08-12T18:47:17.350Z",
+    "__v": 0
+  }
+]
