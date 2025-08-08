@@ -10,7 +10,6 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
-// Trust proxy for rate limiting
 app.set('trust proxy', 1);
 
 console.log('Environment loaded:', {
@@ -19,7 +18,6 @@ console.log('Environment loaded:', {
   MONGODB_URI: process.env.MONGODB_URI ? 'Set' : 'Not set'
 });
 
-// Connect to MongoDB first
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -27,27 +25,22 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('MongoDB connected successfully'))
 .catch(err => console.error('MongoDB connection error:', err));
 
-// Security middleware
 app.use(helmet());
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW) * 60 * 1000, // 15 minutes
-  max: parseInt(process.env.RATE_LIMIT_MAX) // limit each IP to 100 requests per windowMs
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW) * 60 * 1000,
+  max: parseInt(process.env.RATE_LIMIT_MAX)
 });
 app.use('/api/', limiter);
 
-// Body parser middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Request logging middleware
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
 
-// Session middleware
 app.use(session({
   secret: process.env.SESSION_SECRET || 'pc-builder-secret-key',
   resave: false,
@@ -55,11 +48,10 @@ app.use(session({
   cookie: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    maxAge: 30 * 24 * 60 * 60 * 1000
   }
 }));
 
-// CORS middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
     ? ['https://your-domain.com'] 
@@ -67,10 +59,8 @@ app.use(cors({
   credentials: true
 }));
 
-// Static files
 app.use('/uploads', express.static('public/uploads'));
 
-// Routes
 console.log('Setting up routes...');
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
@@ -83,7 +73,6 @@ app.use('/api/contact', require('./routes/contact'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/wishlist', require('./routes/wishlist'));
 
-// Health check route
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -92,7 +81,6 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ 
@@ -101,7 +89,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });

@@ -1,6 +1,5 @@
 const User = require('../models/User');
 
-// Simple session-based protection - require user in session
 const protect = async (req, res, next) => {
   try {
     if (!req.session || !req.session.userId) {
@@ -10,7 +9,6 @@ const protect = async (req, res, next) => {
       });
     }
 
-    // Get user from session
     const user = await User.findById(req.session.userId).select('-password');
     
     if (!user) {
@@ -38,7 +36,6 @@ const protect = async (req, res, next) => {
   }
 };
 
-// Admin only access
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next();
@@ -50,7 +47,7 @@ const adminOnly = (req, res, next) => {
   }
 };
 
-// Optional auth - don't require session but set user if logged in
+// Sets user info if logged in, but doesn't require authentication
 const optionalAuth = async (req, res, next) => {
   try {
     if (req.session && req.session.userId) {
@@ -62,7 +59,6 @@ const optionalAuth = async (req, res, next) => {
     
     next();
   } catch (error) {
-    // Continue without authentication if session is invalid
     next();
   }
 };

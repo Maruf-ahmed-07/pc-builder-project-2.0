@@ -51,7 +51,7 @@ const Cart = () => {
 
   const subtotal = getCartTotal();
   const shipping = subtotal > 100 ? 0 : 10;
-  const tax = subtotal * 0.08; // 8% tax
+  const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
 
   if (cartItems.length === 0) {

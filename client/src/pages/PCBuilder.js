@@ -9,7 +9,6 @@ const PCBuilder = () => {
   const { addToCart } = useCart();
   const { user, isAuthenticated } = useAuth();
   
-  // Enhanced state management based on new structure
   const [globalSearchTerm, setGlobalSearchTerm] = useState('');
   const [activeFilter, setActiveFilter] = useState('all');
   const [categorySearchTerms, setCategorySearchTerms] = useState({});
@@ -30,7 +29,6 @@ const PCBuilder = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // Component categories organized by main components and peripherals
   const mainComponents = {
     CPU: { name: 'Processor', icon: '⚡', category: 'CPU', description: 'The brain of your computer', type: 'main' },
     Motherboard: { name: 'Motherboard', icon: '🔌', category: 'Motherboard', description: 'Connects all components together', type: 'main' },
@@ -45,10 +43,8 @@ const PCBuilder = () => {
     Mouse: { name: 'Mouse', icon: '�️', category: 'Mouse', description: 'Pointing device for navigation', type: 'peripheral' }
   };
 
-  // Combine all categories
   const componentCategories = { ...mainComponents, ...peripherals };
 
-  // Fetch all component data on mount
   useEffect(() => {
     fetchAllComponents();
   }, []);
@@ -56,7 +52,6 @@ const PCBuilder = () => {
   const fetchAllComponents = async () => {
     setIsLoading(true);
     try {
-      // Get unique categories to fetch
       const uniqueCategories = [...new Set(Object.values(componentCategories).map(cat => cat.category))];
       
       const promises = uniqueCategories.map(async (category) => {
@@ -67,22 +62,17 @@ const PCBuilder = () => {
       const results = await Promise.all(promises);
       const newComponentData = {};
       
-      // Initialize all component categories
       Object.keys(componentCategories).forEach(key => {
         newComponentData[key] = [];
       });
       
-      // Process each result
       results.forEach(({ category, products }) => {
-        // Find all component keys that match this category
         Object.keys(componentCategories).forEach(componentKey => {
           const componentInfo = componentCategories[componentKey];
           
           if (componentInfo.category === category) {
             if (componentInfo.filter) {
-              // Special filtering for subcategories within Accessories
               if (componentInfo.filter === 'graphics') {
-                // Filter for graphics cards - look for GPU/graphics related terms
                 newComponentData[componentKey] = products.filter(product =>
                   product.name.toLowerCase().includes('graphics') ||
                   product.name.toLowerCase().includes('geforce') ||
@@ -93,7 +83,6 @@ const PCBuilder = () => {
                   product.name.toLowerCase().includes('rx ')
                 );
               } else if (componentInfo.filter === 'storage') {
-                // Filter for storage devices - look for SSD/HDD related terms
                 newComponentData[componentKey] = products.filter(product =>
                   product.name.toLowerCase().includes('ssd') ||
                   product.name.toLowerCase().includes('hdd') ||

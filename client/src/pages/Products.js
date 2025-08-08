@@ -20,9 +20,8 @@ const Products = () => {
   const [showFilters, setShowFilters] = useState(false);
 
   const { addToCart } = useCart();
-  const limit = 24; // Show more products per page
+  const limit = 24;
 
-  // Fetch products
   const { data: productsData, isLoading, error } = useQuery({
     queryKey: ['products', filters, currentPage],
     queryFn: async () => {
@@ -32,7 +31,6 @@ const Products = () => {
         ...filters
       });
       
-      // Remove empty values
       Object.keys(filters).forEach(key => {
         if (!filters[key]) {
           params.delete(key);
@@ -44,7 +42,6 @@ const Products = () => {
     }
   });
 
-  // Fetch categories and brands for filters
   const { data: categoriesData } = useQuery({
     queryKey: ['categories'],
     queryFn: async () => {
@@ -60,8 +57,6 @@ const Products = () => {
       return response.data;
     }
   });
-
-  // Update URL when filters change
   useEffect(() => {
     const params = new URLSearchParams();
     Object.keys(filters).forEach(key => {

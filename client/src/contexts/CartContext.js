@@ -43,7 +43,6 @@ export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
   const { isAuthenticated } = useAuth();
 
-  // Load cart when user is authenticated
   useEffect(() => {
     if (isAuthenticated) {
       loadCart();
@@ -140,33 +139,31 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  // Helper function to calculate cart total
   const getCartTotal = () => {
     return state.totalAmount;
   };
 
-  // Helper function to get cart item count
   const getCartItemCount = () => {
     return state.totalItems;
   };
 
-  // Alias for updateCartItem to match Cart component expectations
+  // Alias for components expecting 'updateQuantity' method
   const updateQuantity = async (productId, quantity) => {
     return await updateCartItem(productId, quantity);
   };
 
   const value = {
     ...state,
-    cartItems: state.items, // Alias for compatibility
+    cartItems: state.items,
     addToCart,
     updateCartItem,
-    updateQuantity, // Add this alias
+    updateQuantity,
     removeFromCart,
     addBuildToCart,
     removeBuildFromCart,
     clearCart,
     loadCart,
-    getCartTotal, // Add this function
+    getCartTotal,
     getCartItemCount
   };
 

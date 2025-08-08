@@ -7,7 +7,6 @@ import './Home.css';
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
 
-  // Fetch featured products
   const { data: productsData } = useQuery({
     queryKey: ['featuredProducts'],
     queryFn: async () => {
@@ -24,7 +23,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* Hero Section */}
       <section className="hero">
         <div className="container">
           <div className="hero-content">
@@ -58,7 +56,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="features">
         <div className="container">
           <h2 className="text-center mb-5">Why Choose PC Builder?</h2>
@@ -88,7 +85,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
       <section className="featured-products">
         <div className="container">
           <div className="section-header">
@@ -128,7 +124,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Build Categories */}
       <section className="build-categories">
         <div className="container">
           <h2 className="text-center mb-5">Popular Build Types</h2>
@@ -161,7 +156,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Community Showcase */}
       <section className="community-showcase">
         <div className="container">
           <div className="section-header">
@@ -197,7 +191,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Newsletter */}
       <section className="newsletter">
         <div className="container">
           <div className="newsletter-content">

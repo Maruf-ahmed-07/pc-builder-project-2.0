@@ -5,11 +5,9 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 
-// Components
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 
-// Pages
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,10 +29,8 @@ import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Styles
 import './App.css';
 
-// Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -55,7 +51,6 @@ function App() {
               <Header />
               <main className="main-content">
                 <Routes>
-                  {/* Public Routes */}
                   <Route path="/" element={<Home />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/register" element={<Register />} />
@@ -66,7 +61,6 @@ function App() {
                   <Route path="/builds/:id" element={<BuildDetail />} />
                   <Route path="/contact" element={<Contact />} />
                   
-                  {/* Protected Routes */}
                   <Route path="/profile" element={
                     <ProtectedRoute>
                       <Profile />
@@ -108,7 +102,6 @@ function App() {
                     </ProtectedRoute>
                   } />
                   
-                  {/* Admin Routes */}
                   <Route path="/admin-dashboard" element={
                     <ProtectedRoute adminOnly>
                       <AdminDashboard />

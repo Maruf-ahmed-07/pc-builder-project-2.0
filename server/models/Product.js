@@ -66,9 +66,7 @@ const productSchema = new mongoose.Schema({
     type: Map,
     of: String
   },
-  // Enhanced structured specifications for better comparison
   detailedSpecs: {
-    // CPU specific specs
     cpu: {
       cores: { type: String },
       threads: { type: String },
@@ -87,7 +85,6 @@ const productSchema = new mongoose.Schema({
       coolerIncluded: { type: String },
       maxTemperature: { type: String }
     },
-    // GPU specific specs
     gpu: {
       gpuChip: { type: String },
       architecture: { type: String },
@@ -113,7 +110,6 @@ const productSchema = new mongoose.Schema({
       width: { type: String },
       height: { type: String }
     },
-    // Motherboard specific specs
     motherboard: {
       socket: { type: String },
       chipset: { type: String },
@@ -138,7 +134,6 @@ const productSchema = new mongoose.Schema({
       overclockingSupport: { type: String },
       multiGpuSupport: { type: String }
     },
-    // RAM specific specs
     ram: {
       totalCapacity: { type: String },
       moduleConfiguration: { type: String },
@@ -161,7 +156,6 @@ const productSchema = new mongoose.Schema({
       operatingTemperature: { type: String },
       platformCompatibility: { type: String }
     },
-    // Storage specific specs
     storage: {
       capacity: { type: String },
       formFactor: { type: String },

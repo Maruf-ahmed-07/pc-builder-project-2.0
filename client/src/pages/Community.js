@@ -16,7 +16,6 @@ const Community = () => {
   const [filterCategory, setFilterCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch community builds
   const { data: buildsData, isLoading } = useQuery({
     queryKey: ['community-builds', activeTab, currentPage, filterCategory, searchTerm],
     queryFn: async () => {
@@ -32,7 +31,6 @@ const Community = () => {
     }
   });
 
-  // Like build mutation
   const likeBuildMutation = useMutation({
     mutationFn: async (buildId) => {
       const response = await axios.post(`/api/community/builds/${buildId}/like`);
@@ -50,7 +48,6 @@ const Community = () => {
     }
   });
 
-  // Follow user mutation
   const followUserMutation = useMutation({
     mutationFn: async (userId) => {
       const response = await axios.post(`/api/users/${userId}/follow`);

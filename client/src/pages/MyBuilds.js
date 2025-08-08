@@ -132,12 +132,10 @@ const MyBuilds = () => {
     let addedCount = 0;
     
     components.forEach(component => {
-      // Add the product to cart, not the component wrapper
       if (component?.product) {
         addToCart(component.product);
         addedCount++;
       } else if (component?._id) {
-        // If component has _id, it might be the product itself
         addToCart(component);
         addedCount++;
       }
