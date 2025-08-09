@@ -8,7 +8,7 @@ const BuildDetail = () => {
         <p>View build details</p>
       </div>
       <div className="mt-4">
-        <p>Build detail page - Coming soon!</p>
+        <p>Coming soon!</p>
       </div>
     </div>
   );
