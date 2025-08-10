@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useCart } from '../contexts/CartContext';
+import { useCompare } from '../contexts/CompareContext';
 import toast from 'react-hot-toast';
 import './Products.css';
 
@@ -14,12 +15,13 @@ const Products = () => {
     minPrice: searchParams.get('minPrice') || '',
     maxPrice: searchParams.get('maxPrice') || '',
     search: searchParams.get('search') || '',
-    sort: searchParams.get('sort') || 'name'
+    sort: searchParams.get('sort') || 'newest'
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
   const { addToCart } = useCart();
+  const { addToCompare, removeFromCompare, isCompared, compareItems, max } = useCompare();
   const limit = 24;
 
   const { data: productsData, isLoading, error } = useQuery({
@@ -82,8 +84,12 @@ const Products = () => {
       minPrice: '',
       maxPrice: '',
       search: '',
-      sort: 'name'
+      sort: 'newest'
     });
+  };
+
+  const removeFilter = (key) => {
+    setFilters(prev => ({ ...prev, [key]: '' }));
   };
 
   const handleAddToCart = async (product) => {
@@ -114,9 +120,27 @@ const Products = () => {
     <div className="products-page">
       <div className="container">
         {/* Page Header */}
-        <div className="page-header">
-          <h1>PC Components & Parts</h1>
-          <p>Find the perfect components for your build</p>
+        <div className="page-header products-header-enhanced">
+          <div className="header-text-group">
+            <h1>PC Components & Parts</h1>
+            <p>Find the perfect components for your build</p>
+          </div>
+          <div className="header-actions-inline">
+            <label className="sort-inline-label" htmlFor="sortSelect">Sort</label>
+            <select
+              id="sortSelect"
+              value={filters.sort}
+              onChange={(e) => handleFilterChange('sort', e.target.value)}
+              className="form-control sort-inline-select"
+            >
+                <option value="newest">Newest First</option>
+                <option value="name_asc">Name A-Z</option>
+                <option value="name_desc">Name Z-A</option>
+                <option value="price_asc">Price Low to High</option>
+                <option value="price_desc">Price High to Low</option>
+                <option value="rating">Top Rated</option>
+            </select>
+          </div>
         </div>
 
         <div className="products-layout">
@@ -130,109 +154,140 @@ const Products = () => {
 
           {/* Filters Sidebar */}
           <aside className={`filters-sidebar ${showFilters ? 'show' : ''}`}>
-            <div className="filters-header">
+            <div className="filters-header minimal">
               <h3>Filters</h3>
-              <button onClick={clearFilters} className="btn btn-sm btn-outline">
-                Clear All
-              </button>
-            </div>
-
-            {/* Search */}
-            <div className="filter-group">
-              <label>Search Products</label>
-              <input
-                type="text"
-                value={filters.search}
-                onChange={(e) => handleFilterChange('search', e.target.value)}
-                placeholder="Search by name or keyword..."
-                className="form-control"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <div className="filter-group">
-              <label>Category</label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange('category', e.target.value)}
-                className="form-control"
-              >
-                <option value="">All Categories</option>
-                {categoriesData?.categories?.map(category => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Brand Filter */}
-            <div className="filter-group">
-              <label>Brand</label>
-              <select
-                value={filters.brand}
-                onChange={(e) => handleFilterChange('brand', e.target.value)}
-                className="form-control"
-              >
-                <option value="">All Brands</option>
-                {brandsData?.brands?.map(brand => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Price Range */}
-            <div className="filter-group">
-              <label>Price Range</label>
-              <div className="price-inputs">
-                <input
-                  type="number"
-                  value={filters.minPrice}
-                  onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                  placeholder="Min"
-                  className="form-control"
-                />
-                <span>to</span>
-                <input
-                  type="number"
-                  value={filters.maxPrice}
-                  onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                  placeholder="Max"
-                  className="form-control"
-                />
+              <div className="filters-header-actions">
+                <span className="active-count">
+                  {['category','brand','minPrice','maxPrice','search'].filter(k => filters[k]).length} active
+                </span>
+                <button onClick={clearFilters} className="btn btn-sm btn-outline clear-all-inline">Reset</button>
               </div>
             </div>
 
-            {/* Sort */}
-            <div className="filter-group">
-              <label>Sort By</label>
-              <select
-                value={filters.sort}
-                onChange={(e) => handleFilterChange('sort', e.target.value)}
-                className="form-control"
-              >
-                <option value="name">Name A-Z</option>
-                <option value="-name">Name Z-A</option>
-                <option value="price">Price Low to High</option>
-                <option value="-price">Price High to Low</option>
-                <option value="-createdAt">Newest First</option>
-                <option value="createdAt">Oldest First</option>
-              </select>
+            {(filters.category || filters.brand || filters.search || filters.minPrice || filters.maxPrice) && (
+              <div className="sidebar-active-chips">
+                {filters.search && <button className="filter-chip" onClick={() => removeFilter('search')}>{filters.search} ✕</button>}
+                {filters.category && <button className="filter-chip" onClick={() => removeFilter('category')}>{filters.category} ✕</button>}
+                {filters.brand && <button className="filter-chip" onClick={() => removeFilter('brand')}>{filters.brand} ✕</button>}
+                {filters.minPrice && <button className="filter-chip" onClick={() => removeFilter('minPrice')}>Min {filters.minPrice} ✕</button>}
+                {filters.maxPrice && <button className="filter-chip" onClick={() => removeFilter('maxPrice')}>Max {filters.maxPrice} ✕</button>}
+              </div>
+            )}
+
+            <div className="filters-body compact-grid">
+              {/* Search */}
+              <div className="filter-field span-2">
+                <label className="ff-label" htmlFor="searchInput">Search</label>
+                <div className="ff-control icon-left">
+                  <span className="ff-icon">🔎</span>
+                  <input
+                    id="searchInput"
+                    type="text"
+                    value={filters.search}
+                    onChange={(e) => handleFilterChange('search', e.target.value)}
+                    placeholder="Name or keyword"
+                  />
+                  {filters.search && <button className="inline-clear" onClick={() => removeFilter('search')} title="Clear">✕</button>}
+                </div>
+              </div>
+
+              {/* Category */}
+              <div className="filter-field">
+                <label className="ff-label" htmlFor="categorySelect">Category</label>
+                <div className="ff-control">
+                  <select
+                    id="categorySelect"
+                    value={filters.category}
+                    onChange={(e) => handleFilterChange('category', e.target.value)}
+                  >
+                    <option value="">All</option>
+                    {categoriesData?.categories?.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                  {filters.category && <button className="inline-clear" onClick={() => removeFilter('category')} title="Clear">✕</button>}
+                </div>
+              </div>
+
+              {/* Brand */}
+              <div className="filter-field">
+                <label className="ff-label" htmlFor="brandSelect">Brand</label>
+                <div className="ff-control">
+                  <select
+                    id="brandSelect"
+                    value={filters.brand}
+                    onChange={(e) => handleFilterChange('brand', e.target.value)}
+                  >
+                    <option value="">All</option>
+                    {brandsData?.brands?.map(brand => (
+                      <option key={brand} value={brand}>{brand}</option>
+                    ))}
+                  </select>
+                  {filters.brand && <button className="inline-clear" onClick={() => removeFilter('brand')} title="Clear">✕</button>}
+                </div>
+              </div>
+
+              {/* Price Range (combined) */}
+              <div className="filter-field span-2">
+                <label className="ff-label" htmlFor="minPriceInput">Price Range</label>
+                <div className="price-dual">
+                  <div className="ff-control compact">
+                    <input
+                      id="minPriceInput"
+                      type="number"
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      placeholder="Min"
+                      min="0"
+                    />
+                    {filters.minPrice && <button className="inline-clear" onClick={() => removeFilter('minPrice')} title="Clear">✕</button>}
+                  </div>
+                  <span className="range-sep">-</span>
+                  <div className="ff-control compact">
+                    <input
+                      id="maxPriceInput"
+                      type="number"
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      placeholder="Max"
+                      min="0"
+                    />
+                    {filters.maxPrice && <button className="inline-clear" onClick={() => removeFilter('maxPrice')} title="Clear">✕</button>}
+                  </div>
+                </div>
+              </div>
             </div>
           </aside>
 
           {/* Products Content */}
           <main className="products-content">
             {/* Results Header */}
-            <div className="results-header">
+            <div className="results-header compact">
               <div className="results-info">
                 <span>
-                  {isLoading ? 'Loading...' : 
-                   `Showing ${products.length} of ${totalProducts} products`}
+                  {isLoading ? 'Loading products...' : `Showing ${products.length} of ${totalProducts}`}
                 </span>
               </div>
+              {(filters.category || filters.brand || filters.search || filters.minPrice || filters.maxPrice) && (
+                <div className="active-filters">
+                  {filters.search && (
+                    <button className="filter-chip" onClick={() => removeFilter('search')}>Search: {filters.search} ✕</button>
+                  )}
+                  {filters.category && (
+                    <button className="filter-chip" onClick={() => removeFilter('category')}>Category: {filters.category} ✕</button>
+                  )}
+                  {filters.brand && (
+                    <button className="filter-chip" onClick={() => removeFilter('brand')}>Brand: {filters.brand} ✕</button>
+                  )}
+                  {filters.minPrice && (
+                    <button className="filter-chip" onClick={() => removeFilter('minPrice')}>Min: {filters.minPrice} ✕</button>
+                  )}
+                  {filters.maxPrice && (
+                    <button className="filter-chip" onClick={() => removeFilter('maxPrice')}>Max: {filters.maxPrice} ✕</button>
+                  )}
+                  <button className="filter-chip clear-all" onClick={clearFilters}>Clear All</button>
+                </div>
+              )}
             </div>
 
             {/* Products Grid */}
@@ -258,51 +313,72 @@ const Products = () => {
                 </button>
               </div>
             ) : (
-              <div className="products-grid">
-                {products.map((product) => (
-                  <div key={product._id} className="product-card">
-                    <Link to={`/products/${product._id}`} className="product-link">
-                      <div className="product-image">
-                        {product.images && product.images[0] ? (
-                          <img src={product.images[0].url} alt={product.name} />
-                        ) : (
-                          <div className="no-image">📦</div>
-                        )}
-                        {product.stock === 0 && (
-                          <div className="out-of-stock-badge">Out of Stock</div>
-                        )}
+              <div className="products-grid refined">
+                {products.map((product) => {
+                  const discount = product.originalPrice && product.originalPrice > product.price
+                    ? Math.round(100 - (product.price / product.originalPrice) * 100)
+                    : null;
+                  const avg = product.ratings?.average || 0;
+                  return (
+                    <div key={product._id} className={`product-card modern ${product.stock === 0 ? 'is-out' : ''}`}>
+                      <div className="compare-toggle-wrap">
+                        <button
+                          type="button"
+                          className={`compare-toggle ${isCompared(product._id) ? 'active' : ''}`}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); isCompared(product._id) ? removeFromCompare(product._id) : addToCompare(product); }}
+                          title={isCompared(product._id) ? 'Remove from compare' : (compareItems.length >= max ? 'Compare list full' : 'Add to compare')}
+                          disabled={!isCompared(product._id) && compareItems.length >= max}
+                        >
+                          {isCompared(product._id) ? '✓ Comparing' : 'Compare'}
+                        </button>
                       </div>
-                      <div className="product-info">
-                        <h3 className="product-name">{product.name}</h3>
-                        <div className="product-price">
-                          <span className="price">${product.price}</span>
-                          {product.originalPrice && product.originalPrice > product.price && (
-                            <span className="original-price">${product.originalPrice}</span>
+                      <Link to={`/products/${product._id}`} className="product-link">
+                        <div className="product-image">
+                          {product.images && product.images[0] ? (
+                            <img src={product.images[0].url} alt={product.name} />
+                          ) : (
+                            <div className="no-image">📦</div>
                           )}
+                          {discount && <div className="discount-badge">-{discount}%</div>}
+                          {product.stock === 0 && (
+                            <div className="out-of-stock-badge">Out</div>
+                          )}
+                          {product.brand && <div className="brand-badge">{product.brand}</div>}
                         </div>
-                        <div className="product-stock">
-                          {product.stock > 0 ? `In stock: ${product.stock} units` : 'Out of stock'}
+                        <div className="product-info compact">
+                          <h3 className="product-name" title={product.name}>{product.name}</h3>
+                          <div className="meta-row">
+                            <div className="product-price">
+                              <span className="price">${product.price}</span>
+                              {product.originalPrice && product.originalPrice > product.price && (
+                                <span className="original-price">${product.originalPrice}</span>
+                              )}
+                            </div>
+                            <div className="product-rating mini" title={`Average rating ${avg.toFixed(1)}`}>
+                              <span className="stars">
+                                {'★'.repeat(Math.round(avg))}
+                                {'☆'.repeat(5 - Math.round(avg))}
+                              </span>
+                              <span className="rating-text">{avg.toFixed(1)}</span>
+                            </div>
+                          </div>
+                          <div className={`stock-pill ${product.stock > 0 ? 'in' : 'out'}`}>
+                            {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+                          </div>
                         </div>
-                        <div className="product-rating">
-                          <span className="stars">
-                            {'★'.repeat(Math.round(product.ratings?.average || 0))}
-                            {'☆'.repeat(5 - Math.round(product.ratings?.average || 0))}
-                          </span>
-                          <span className="rating-text">({product.ratings?.average?.toFixed(1) || '0.0'})</span>
-                        </div>
+                      </Link>
+                      <div className="product-actions minimal">
+                        <button
+                          onClick={() => handleAddToCart(product)}
+                          className="btn btn-primary btn-block"
+                          disabled={product.stock === 0}
+                        >
+                          {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                        </button>
                       </div>
-                    </Link>
-                    <div className="product-actions">
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        className="btn btn-primary btn-block"
-                        disabled={product.stock === 0}
-                      >
-                        {product.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                      </button>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 

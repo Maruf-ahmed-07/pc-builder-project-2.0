@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useCart } from '../contexts/CartContext';
 import './Home.css';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const { addToCart } = useCart();
 
-  const { data: productsData } = useQuery({
+  const { data: productsData, isLoading: productsLoading, isError: productsError } = useQuery({
     queryKey: ['featuredProducts'],
     queryFn: async () => {
       const response = await axios.get('/api/products/featured/list?limit=8');
@@ -85,42 +87,114 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="featured-products">
+      <section className="featured-products enhanced">
         <div className="container">
-          <div className="section-header">
-            <h2>Featured Products</h2>
-            <Link to="/products" className="btn btn-outline-primary">View All Products</Link>
+          <div className="section-header fancy">
+            <div className="sh-left">
+              <h2>Featured Products</h2>
+              <p className="subtitle">Hand‑picked components trending this week</p>
+            </div>
+            <div className="sh-actions">
+              <Link to="/products" className="btn btn-outline-primary">View All</Link>
+            </div>
           </div>
-          
-          <div className="products-grid">
-            {featuredProducts.map((product) => (
-              <div key={product._id} className="product-card">
-                <Link to={`/products/${product._id}`}>
-                  <div className="product-image">
-                    {product.images && product.images[0] ? (
-                      <img src={product.images[0].url} alt={product.name} />
-                    ) : (
-                      <div className="no-image">📦</div>
-                    )}
+
+          {productsError && (
+            <div className="products-error">Failed to load products. <Link to="/products">Browse all</Link></div>
+          )}
+
+          {productsLoading && (
+            <div className="products-skeleton">
+              {Array.from({ length: 6 }).map((_,i)=>(
+                <div key={i} className="skeleton-card">
+                  <div className="sk-image" />
+                  <div className="sk-lines">
+                    <span className="sk-line w80" />
+                    <span className="sk-line w60" />
+                    <span className="sk-line w40" />
                   </div>
-                  <div className="product-info">
-                    <h4 className="product-name">{product.name}</h4>
-                    <p className="product-brand">{product.brand}</p>
-                    <div className="product-price">
-                      <span className="price">${product.price}</span>
-                      {product.originalPrice && product.originalPrice > product.price && (
-                        <span className="original-price">${product.originalPrice}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!productsLoading && featuredProducts.length > 0 && (
+            <>
+              {/* Spotlight first product */}
+              <div className="spotlight-wrapper">
+                {featuredProducts[0] && (
+                  <div className="spotlight-card">
+                    <div className="spotlight-media">
+                      {featuredProducts[0].images?.[0]?.url ? (
+                        <img src={featuredProducts[0].images[0].url} alt={featuredProducts[0].name} />
+                      ) : <div className="no-image big">📦</div>}
+                      {featuredProducts[0].originalPrice && featuredProducts[0].originalPrice > featuredProducts[0].price && (
+                        <span className="discount-badge big">-{Math.round(((featuredProducts[0].originalPrice - featuredProducts[0].price)/featuredProducts[0].originalPrice)*100)}%</span>
                       )}
                     </div>
-                    <div className="product-rating">
-                      <span className="stars">⭐⭐⭐⭐⭐</span>
-                      <span className="rating-text">({product.ratings?.count || 0})</span>
+                    <div className="spotlight-info">
+                      <h3 className="spotlight-title">{featuredProducts[0].name}</h3>
+                      <p className="spotlight-brand">{featuredProducts[0].brand}</p>
+                      <div className="spotlight-prices">
+                        <span className="price">${featuredProducts[0].price}</span>
+                        {featuredProducts[0].originalPrice && featuredProducts[0].originalPrice > featuredProducts[0].price && (
+                          <span className="original-price">${featuredProducts[0].originalPrice}</span>
+                        )}
+                      </div>
+                      <div className="spotlight-actions">
+                        <Link to={`/products/${featuredProducts[0]._id}`} className="btn btn-primary">View Details</Link>
+                        <button className="btn btn-outline-primary" onClick={() => addToCart(featuredProducts[0]._id)}>Quick Add</button>
+                      </div>
                     </div>
                   </div>
-                </Link>
+                )}
               </div>
-            ))}
-          </div>
+
+              <div className="products-grid fancy-grid">
+                {featuredProducts.slice(1).map((product) => {
+                  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+                  const discountPct = hasDiscount ? Math.round(((product.originalPrice - product.price)/product.originalPrice)*100) : 0;
+                  return (
+                    <div key={product._id} className="product-card fancy">
+                      <div className="card-inner">
+                        <Link to={`/products/${product._id}`} className="cover-link" aria-label={`View ${product.name}`} />
+                        <div className="product-image">
+                          {product.images && product.images[0] ? (
+                            <img src={product.images[0].url} alt={product.name} />
+                          ) : (
+                            <div className="no-image">📦</div>
+                          )}
+                          {hasDiscount && <span className="discount-badge">-{discountPct}%</span>}
+                        </div>
+                        <div className="product-info">
+                          <h4 className="product-name" title={product.name}>{product.name}</h4>
+                          <p className="product-brand">{product.brand}</p>
+                          <div className="product-price">
+                            <span className="price">${product.price}</span>
+                            {hasDiscount && (
+                              <span className="original-price">${product.originalPrice}</span>
+                            )}
+                          </div>
+                          <div className="product-rating mini">
+                            <span className="stars">⭐⭐⭐⭐⭐</span>
+                            <span className="rating-text">{product.ratings?.count || 0}</span>
+                          </div>
+                        </div>
+                        <div className="hover-actions">
+                          <Link to={`/products/${product._id}`} className="ha-btn view">View</Link>
+                          <button className="ha-btn add" onClick={(e) => { e.stopPropagation(); e.preventDefault(); addToCart(product._id); }}>Add</button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </>
+          )}
+
+          {!productsLoading && featuredProducts.length === 0 && !productsError && (
+            <div className="empty-state">No featured products available right now.</div>
+          )}
         </div>
       </section>
 

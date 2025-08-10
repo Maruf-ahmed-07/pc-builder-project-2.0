@@ -17,6 +17,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState('overview');
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
   const [reviewData, setReviewData] = useState({
     rating: 5,
     comment: ''
@@ -188,27 +189,23 @@ const ProductDetail = () => {
 
   return (
     <div className="container">
-      <div className="product-detail">
+      <div className="product-detail minimal">
         {/* Breadcrumb */}
-        <nav className="breadcrumb">
+        <nav className="breadcrumb minimal-breadcrumb">
           <span onClick={() => navigate('/')}>Home</span>
           <span onClick={() => navigate('/products')}>Products</span>
-          <span onClick={() => navigate(`/products?category=${product.category}`)}>
-            {product.category}
-          </span>
-          <span className="active">{product.name}</span>
+          <span onClick={() => navigate(`/products?category=${product.category}`)}>{product.category}</span>
+          <span className="active" aria-current="page">{product.name}</span>
         </nav>
 
-        <div className="product-detail-content">
-          {/* Product Images */}
-          <div className="product-images">
-            <div className="main-image">
-              <img 
-                src={product.images?.[selectedImage]?.url || product.images?.[selectedImage] || '/placeholder-product.jpg'} 
+        <div className="product-hero-grid">
+          {/* Gallery */}
+          <div className="product-gallery">
+            <div className="gallery-main">
+              <img
+                src={product.images?.[selectedImage]?.url || product.images?.[selectedImage] || '/placeholder-product.jpg'}
                 alt={product.name}
-                onError={(e) => {
-                  e.target.src = '/placeholder-product.jpg';
-                }}
+                onError={(e) => { e.target.src = '/placeholder-product.jpg'; }}
               />
               {product.stock === 0 && (
                 <div className="out-of-stock-overlay">
@@ -217,124 +214,115 @@ const ProductDetail = () => {
               )}
             </div>
             {product.images && product.images.length > 1 && (
-              <div className="thumbnail-images">
+              <div className="gallery-thumbs">
                 {product.images.map((image, index) => (
-                  <img
+                  <button
                     key={index}
-                    src={typeof image === 'string' ? image : image.url}
-                    alt={`${product.name} ${index + 1}`}
-                    className={selectedImage === index ? 'active' : ''}
+                    className={`thumb ${selectedImage === index ? 'active' : ''}`}
                     onClick={() => setSelectedImage(index)}
-                    onError={(e) => {
-                      e.target.src = '/placeholder-product.jpg';
-                    }}
-                  />
+                    aria-label={`Show image ${index + 1}`}
+                  >
+                    <img
+                      src={typeof image === 'string' ? image : image.url}
+                      alt={`${product.name} ${index + 1}`}
+                      onError={(e) => { e.target.src = '/placeholder-product.jpg'; }}
+                    />
+                  </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Product Info */}
-          <div className="product-info">
-            <h1 className="product-title">{product.name}</h1>
-            
-            <div className="product-meta">
-              <span className="brand">Brand: <strong>{product.brand}</strong></span>
-              <span className="category">Category: <strong>{product.category}</strong></span>
-              <span className="model">Model: <strong>{product.model || 'N/A'}</strong></span>
+          {/* Summary / Info Card */}
+          <div className="info-card">
+            <h1 className="product-title clamp-2">{product.name}</h1>
+            <div className="meta-pills">
+              <span className="pill brand" title="Brand">{product.brand}</span>
+              <span className="pill category" title="Category">{product.category}</span>
+              {product.model && <span className="pill model" title="Model">{product.model}</span>}
             </div>
 
-            <div className="product-rating-summary">
+            <div className="rating-line">
               {renderStars(Math.round(product.ratings?.average || 0))}
-              <span className="rating-text">
-                ({product.ratings?.average?.toFixed(1) || '0.0'}) • {product.ratings?.count || 0} reviews
-              </span>
+              <span className="rating-text">{product.ratings?.average?.toFixed(1) || '0.0'} · {product.ratings?.count || 0} reviews</span>
             </div>
 
-            <div className="product-price">
-              {product.originalPrice && product.originalPrice > product.price ? (
-                <>
-                  <span className="current-price">${product.price.toFixed(2)}</span>
-                  <span className="original-price">${product.originalPrice.toFixed(2)}</span>
-                  <span className="discount-badge">
-                    {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
-                  </span>
-                </>
-              ) : (
-                <span className="current-price">${product.price.toFixed(2)}</span>
+            <div className="price-block">
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="original-price">${product.originalPrice.toFixed(2)}</span>
+              )}
+              <span className="current-price">${product.price.toFixed(2)}</span>
+              {product.originalPrice && product.originalPrice > product.price && (
+                <span className="discount-tag">-{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%</span>
               )}
             </div>
 
-            <div className="product-availability">
+            <div className="availability-line">
               {product.stock > 0 ? (
-                <span className="in-stock">✓ In Stock ({product.stock} available)</span>
+                <span className="in-stock">In stock · {product.stock}</span>
               ) : (
-                <span className="out-of-stock">✗ Out of Stock</span>
+                <span className="out-of-stock">Out of stock</span>
               )}
             </div>
 
-            {/* Add to Cart Section */}
-            <div className="product-actions">
-              <div className="quantity-selector">
-                <label>Quantity:</label>
-                <div className="quantity-controls">
-                  <button 
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    disabled={quantity <= 1}
-                  >
-                    -
-                  </button>
-                  <input 
-                    type="number" 
-                    value={quantity} 
-                    onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
-                    min="1"
-                    max={product.stock}
-                  />
-                  <button 
-                    onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                    disabled={quantity >= product.stock}
-                  >
-                    +
-                  </button>
-                </div>
+            <div className="purchase-panel">
+              <div className="qty-inline">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={quantity <= 1}
+                  aria-label="Decrease quantity"
+                >-</button>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Math.min(product.stock, parseInt(e.target.value) || 1)))}
+                  min={1}
+                  max={product.stock}
+                  aria-label="Quantity"
+                />
+                <button
+                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                  disabled={quantity >= product.stock}
+                  aria-label="Increase quantity"
+                >+</button>
               </div>
-
-              <div className="action-buttons">
-                <button 
-                  className="btn btn-primary add-to-cart"
+              <div className="cta-buttons">
+                <button
+                  className="btn primary solid"
                   onClick={handleAddToCart}
                   disabled={product.stock === 0}
-                >
-                  Add to Cart
-                </button>
-                <button 
-                  className="btn btn-secondary buy-now"
+                >Add to Cart</button>
+                <button
+                  className="btn ghost secondary"
                   onClick={handleBuyNow}
                   disabled={product.stock === 0}
-                >
-                  Buy Now
-                </button>
+                >Buy Now</button>
               </div>
             </div>
 
-            {/* Warranty & Features */}
-            {(product.warranty || product.features) && (
-              <div className="product-highlights">
+            {(product.warranty || (product.features && product.features.length)) && (
+              <div className="quick-highlights">
                 {product.warranty && (
-                  <div className="warranty-info">
-                    <h4>Warranty</h4>
-                    <p>{product.warranty.duration} {product.warranty.type || 'years'} warranty</p>
+                  <div className="mini-block">
+                    <span className="label">Warranty</span>
+                    <span className="value">{product.warranty.duration} {product.warranty.type || 'yrs'}</span>
                   </div>
                 )}
                 {product.features && product.features.length > 0 && (
-                  <div className="key-features">
-                    <h4>Key Features</h4>
-                    <ul>
-                      {product.features.slice(0, 3).map((feature, index) => (
-                        <li key={index}>{feature}</li>
+                  <div className="mini-block">
+                    <span className="label">Key Features</span>
+                    <div className="feature-tags">
+                      {(showAllFeatures ? product.features : product.features.slice(0,5)).map((f,i) => (
+                        <span key={i} className="feat-tag">{f}</span>
                       ))}
-                    </ul>
+                      {product.features.length > 5 && (
+                        <button
+                          type="button"
+                          className="toggle-features"
+                          onClick={() => setShowAllFeatures(s => !s)}
+                        >{showAllFeatures ? 'Show less' : `+${product.features.length-5}`}</button>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -343,208 +331,153 @@ const ProductDetail = () => {
         </div>
 
         {/* Product Details Tabs */}
-        <div className="product-tabs">
-          <div className="tab-navigation">
-            <button 
-              className={activeTab === 'overview' ? 'active' : ''}
-              onClick={() => setActiveTab('overview')}
-            >
-              Overview
-            </button>
-            <button 
-              className={activeTab === 'specifications' ? 'active' : ''}
-              onClick={() => setActiveTab('specifications')}
-            >
-              Specifications
-            </button>
-            <button 
-              className={activeTab === 'reviews' ? 'active' : ''}
-              onClick={() => setActiveTab('reviews')}
-            >
-              Reviews ({product.ratings?.count || 0})
-            </button>
+        <div className="product-tabs minimal-tabs">
+          <div className="tab-chip-group">
+            <button className={`tab-chip ${activeTab === 'overview' ? 'active' : ''}`} onClick={() => setActiveTab('overview')}>Overview</button>
+            <button className={`tab-chip ${activeTab === 'specifications' ? 'active' : ''}`} onClick={() => setActiveTab('specifications')}>Specifications</button>
+            <button className={`tab-chip ${activeTab === 'reviews' ? 'active' : ''}`} onClick={() => setActiveTab('reviews')}>Reviews ({product.ratings?.count || 0})</button>
           </div>
-
-          <div className="tab-content">
+          <div className="tab-panels">
             {/* Overview Tab */}
             {activeTab === 'overview' && (
-              <div className="tab-pane overview-pane">
-                <div className="product-description">
-                  <h3>Description</h3>
-                  <p>{product.description}</p>
-                </div>
-
+              <div className="tab-panel overview-panel">
+                {product.description && (
+                  <section className="desc-block">
+                    <h3>Description</h3>
+                    <p>{product.description}</p>
+                  </section>
+                )}
                 {product.features && product.features.length > 0 && (
-                  <div className="product-features">
-                    <h3>Features</h3>
-                    <ul>
+                  <section className="feat-block">
+                    <h3>All Features</h3>
+                    <ul className="clean-list">
                       {product.features.map((feature, index) => (
                         <li key={index}>{feature}</li>
                       ))}
                     </ul>
-                  </div>
+                  </section>
                 )}
-
                 {product.tags && product.tags.length > 0 && (
-                  <div className="product-tags">
+                  <section className="tags-block">
                     <h3>Tags</h3>
-                    <div className="tags-list">
+                    <div className="tags-inline">
                       {product.tags.map((tag, index) => (
-                        <span key={index} className="tag">{tag}</span>
+                        <span key={index} className="tag-pill">{tag}</span>
                       ))}
                     </div>
-                  </div>
+                  </section>
                 )}
               </div>
             )}
 
             {/* Specifications Tab */}
             {activeTab === 'specifications' && (
-              <div className="tab-pane specifications-pane">
+              <div className="tab-panel specs-panel">
                 {hasDetailedSpecs ? (
-                  <div className="detailed-specifications">
+                  <section className="spec-section">
                     <h3>Detailed Specifications</h3>
-                    <div className="specs-grid">
+                    <div className="spec-table">
                       {Object.entries(categorySpecs).map(([key, value]) => {
                         if (!value) return null;
                         return (
-                          <div key={key} className="spec-item">
-                            <span className="spec-label">
-                              {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}:
-                            </span>
-                            <span className="spec-value">{value}</span>
+                          <div key={key} className="spec-row">
+                            <span className="k">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
+                            <span className="v">{value}</span>
                           </div>
                         );
                       })}
                     </div>
-                  </div>
+                  </section>
                 ) : product.specifications && Object.keys(product.specifications).length > 0 ? (
-                  <div className="basic-specifications">
+                  <section className="spec-section">
                     <h3>Specifications</h3>
-                    <div className="specs-grid">
+                    <div className="spec-table">
                       {Object.entries(product.specifications).map(([key, value]) => (
-                        <div key={key} className="spec-item">
-                          <span className="spec-label">{key}:</span>
-                          <span className="spec-value">{value}</span>
+                        <div key={key} className="spec-row">
+                          <span className="k">{key}</span>
+                          <span className="v">{value}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  </section>
                 ) : (
-                  <div className="no-specifications">
-                    <p>No detailed specifications available for this product.</p>
+                  <div className="no-spec small">
+                    <p>No detailed specifications available.</p>
                   </div>
                 )}
-
                 {product.compatibility && (
-                  <div className="compatibility-info">
+                  <section className="spec-section compatibility">
                     <h3>Compatibility</h3>
-                    <div className="compatibility-grid">
+                    <div className="compat-list">
                       {product.compatibility.socket && (
-                        <div className="compatibility-item">
-                          <span className="label">Socket:</span>
-                          <span className="value">{product.compatibility.socket}</span>
-                        </div>
+                        <div className="compat-item"><span className="k">Socket</span><span className="v">{product.compatibility.socket}</span></div>
                       )}
                       {product.compatibility.formFactor && (
-                        <div className="compatibility-item">
-                          <span className="label">Form Factor:</span>
-                          <span className="value">{product.compatibility.formFactor}</span>
-                        </div>
+                        <div className="compat-item"><span className="k">Form Factor</span><span className="v">{product.compatibility.formFactor}</span></div>
                       )}
                       {product.compatibility.memoryType && (
-                        <div className="compatibility-item">
-                          <span className="label">Memory Type:</span>
-                          <span className="value">{product.compatibility.memoryType}</span>
-                        </div>
+                        <div className="compat-item"><span className="k">Memory Type</span><span className="v">{product.compatibility.memoryType}</span></div>
                       )}
                       {product.compatibility.powerRequirement && (
-                        <div className="compatibility-item">
-                          <span className="label">Power Requirement:</span>
-                          <span className="value">{product.compatibility.powerRequirement}W</span>
-                        </div>
+                        <div className="compat-item"><span className="k">Power</span><span className="v">{product.compatibility.powerRequirement}W</span></div>
                       )}
                     </div>
-                  </div>
+                  </section>
                 )}
               </div>
             )}
 
             {/* Reviews Tab */}
             {activeTab === 'reviews' && (
-              <div className="tab-pane reviews-pane">
-                <div className="reviews-summary">
-                  <div className="rating-overview">
-                    <div className="average-rating">
-                      <span className="rating-number">{product.ratings?.average?.toFixed(1) || '0.0'}</span>
-                      <div className="stars-large">
-                        {renderStars(Math.round(product.ratings?.average || 0))}
-                      </div>
-                      <span className="total-reviews">{product.ratings?.count || 0} reviews</span>
-                    </div>
+              <div className="tab-panel reviews-panel">
+                <div className="reviews-header">
+                  <div className="avg-box">
+                    <span className="num">{product.ratings?.average?.toFixed(1) || '0.0'}</span>
+                    <div className="stars-wrap">{renderStars(Math.round(product.ratings?.average || 0))}</div>
+                    <span className="count">{product.ratings?.count || 0} reviews</span>
                   </div>
                 </div>
-
-                {/* Add Review Form */}
                 {user && (
-                  <div className="add-review">
-                    <h4>Write a Review</h4>
+                  <div className="review-form-card">
+                    <h4>Write a review</h4>
                     <form onSubmit={handleSubmitReview}>
-                      <div className="rating-input">
-                        <label>Your Rating:</label>
-                        {renderStars(reviewData.rating, true, (rating) => 
-                          setReviewData({...reviewData, rating})
-                        )}
+                      <div className="row rating-select">
+                        <label>Rating</label>
+                        {renderStars(reviewData.rating, true, (rating) => setReviewData({ ...reviewData, rating }))}
                       </div>
-                      <div className="comment-input">
-                        <label>Your Review:</label>
+                      <div className="row textarea-row">
+                        <label>Your review</label>
                         <textarea
                           value={reviewData.comment}
-                          onChange={(e) => setReviewData({...reviewData, comment: e.target.value})}
-                          placeholder="Share your thoughts about this product..."
+                          onChange={(e) => setReviewData({ ...reviewData, comment: e.target.value })}
+                          placeholder="Share your experience..."
                           maxLength={500}
                           required
                         />
-                        <small>{500 - reviewData.comment.length} characters remaining</small>
+                        <small>{500 - reviewData.comment.length} chars left</small>
                       </div>
-                      <button 
-                        type="submit" 
-                        className="btn btn-primary"
-                        disabled={addReviewMutation.isLoading}
-                      >
-                        {addReviewMutation.isLoading ? 'Submitting...' : 'Submit Review'}
+                      <button type="submit" className="btn primary small" disabled={addReviewMutation.isLoading}>
+                        {addReviewMutation.isLoading ? 'Submitting...' : 'Submit'}
                       </button>
                     </form>
                   </div>
                 )}
-
-                {/* Reviews List */}
-                <div className="reviews-list">
+                <div className="reviews-stream">
                   {product.reviews && product.reviews.length > 0 ? (
                     product.reviews.map((review, index) => (
-                      <div key={index} className="review-item">
-                        <div className="review-header">
-                          <div className="reviewer-info">
-                            <span className="reviewer-name">
-                              {review.user?.name || review.user?.email || 'Anonymous'}
-                            </span>
-                            <span className="review-date">
-                              {new Date(review.createdAt).toLocaleDateString()}
-                            </span>
+                      <div key={index} className="r-item">
+                        <div className="r-head">
+                          <div className="who">
+                            <span className="nm">{review.user?.name || review.user?.email || 'Anonymous'}</span>
+                            <span className="dt">{new Date(review.createdAt).toLocaleDateString()}</span>
                           </div>
-                          <div className="review-rating">
-                            {renderStars(review.rating)}
-                          </div>
+                          <div className="stars-mini">{renderStars(review.rating)}</div>
                         </div>
-                        <div className="review-comment">
-                          <p>{review.comment}</p>
-                        </div>
+                        {review.comment && <p className="txt">{review.comment}</p>}
                       </div>
                     ))
                   ) : (
-                    <div className="no-reviews">
-                      <p>No reviews yet. Be the first to review this product!</p>
-                    </div>
+                    <div className="no-reviews subtle">No reviews yet.</div>
                   )}
                 </div>
               </div>
@@ -554,42 +487,30 @@ const ProductDetail = () => {
 
         {/* Related Products */}
         {relatedProducts && relatedProducts.length > 0 && (
-          <div className="related-products">
-            <h2>Related Products</h2>
-            <div className="products-grid">
+          <div className="related-products minimal-related">
+            <h2 className="section-heading">Related Products</h2>
+            <div className="related-grid">
               {relatedProducts.map(relatedProduct => (
-                <div key={relatedProduct._id} className="product-card">
-                  <img 
-                    src={relatedProduct.images?.[0]?.url || relatedProduct.images?.[0] || '/placeholder-product.jpg'} 
-                    alt={relatedProduct.name}
-                    onClick={() => navigate(`/products/${relatedProduct._id}`)}
-                    onError={(e) => {
-                      e.target.src = '/placeholder-product.jpg';
-                    }}
-                  />
-                  <div className="product-card-content">
-                    <h3>{relatedProduct.name}</h3>
-                    <p className="brand">{relatedProduct.brand}</p>
-                    <div className="rating">
-                      {renderStars(Math.round(relatedProduct.ratings?.average || 0))}
-                      <span>({relatedProduct.ratings?.count || 0})</span>
+                <div key={relatedProduct._id} className="rel-card" onClick={() => navigate(`/products/${relatedProduct._id}`)}>
+                  <div className="img-wrap">
+                    <img
+                      src={relatedProduct.images?.[0]?.url || relatedProduct.images?.[0] || '/placeholder-product.jpg'}
+                      alt={relatedProduct.name}
+                      onError={(e) => { e.target.src = '/placeholder-product.jpg'; }}
+                    />
+                  </div>
+                  <div className="rel-body">
+                    <h3 className="t clamp-2">{relatedProduct.name}</h3>
+                    <div className="rel-meta">
+                      <span className="brand mini">{relatedProduct.brand}</span>
+                      <span className="r">{renderStars(Math.round(relatedProduct.ratings?.average || 0))} <em>({relatedProduct.ratings?.count || 0})</em></span>
                     </div>
-                    <div className="price">
-                      {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price ? (
-                        <>
-                          <span className="current">${relatedProduct.price.toFixed(2)}</span>
-                          <span className="original">${relatedProduct.originalPrice.toFixed(2)}</span>
-                        </>
-                      ) : (
-                        <span className="current">${relatedProduct.price.toFixed(2)}</span>
+                    <div className="rel-price">
+                      <span className="cur">${relatedProduct.price.toFixed(2)}</span>
+                      {relatedProduct.originalPrice && relatedProduct.originalPrice > relatedProduct.price && (
+                        <span className="orig">${relatedProduct.originalPrice.toFixed(2)}</span>
                       )}
                     </div>
-                    <button 
-                      className="btn btn-sm btn-primary"
-                      onClick={() => navigate(`/products/${relatedProduct._id}`)}
-                    >
-                      View Details
-                    </button>
                   </div>
                 </div>
               ))}

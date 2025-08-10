@@ -4,9 +4,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { CompareProvider } from './contexts/CompareContext';
 
 import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
+import FloatingCompareBar from './components/Compare/FloatingCompareBar';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -14,6 +16,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
+import Compare from './pages/Compare';
 import PCBuilder from './pages/PCBuilder';
 import MyBuilds from './pages/MyBuilds';
 import Community from './pages/Community';
@@ -46,6 +49,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <CartProvider>
+          <CompareProvider>
           <Router>
             <div className="App">
               <Header />
@@ -112,8 +116,10 @@ function App() {
                       <Admin />
                     </ProtectedRoute>
                   } />
+                  <Route path="/compare" element={<Compare />} />
                 </Routes>
               </main>
+              <FloatingCompareBar />
               <Footer />
               <Toaster 
                 position="top-right"
@@ -127,6 +133,7 @@ function App() {
               />
             </div>
           </Router>
+          </CompareProvider>
         </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
