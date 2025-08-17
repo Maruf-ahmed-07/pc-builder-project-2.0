@@ -237,8 +237,8 @@
 /* Unified hover transform (removed duplicate to prevent flicker) */
 /* .product-card.modern:hover removed to avoid double transform repaints */
 
-.product-card.modern::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 20%,rgba(52,152,219,0.25),transparent 60%); opacity:0; transition:.35s; }
-.product-card.modern:hover::before { opacity:1; }
+.product-card.modern::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 30% 20%,rgba(52,152,219,0.25),transparent 60%); opacity:0; transition:.35s; pointer-events: none; }
+.product-card.modern:hover::before { opacity:1; pointer-events: none; }
 
 .product-card { will-change: transform; }
 .product-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 22px 44px rgba(0,0,0,0.14), 0 8px 20px rgba(0,0,0,0.10); }
@@ -253,7 +253,7 @@
 
 .product-image { position:relative; height:220px; background:linear-gradient(135deg,#5d6d7e,#2c3e50); display:flex; align-items:center; justify-content:center; overflow:hidden; }
 /* Compare toggle */
-.compare-toggle-wrap { position:absolute; top:8px; right:8px; z-index:5; }
+.compare-toggle-wrap { position:absolute; top:8px; right:8px; z-index:6; }
 .compare-toggle { background:rgba(255,255,255,0.85); backdrop-filter:blur(4px); border:1px solid rgba(0,0,0,0.08); color:#2c3e50; font-size:.55rem; font-weight:700; letter-spacing:.7px; padding:.45rem .6rem; border-radius:999px; cursor:pointer; display:inline-flex; align-items:center; gap:.3rem; text-transform:uppercase; transition:.25s; }
 .compare-toggle:hover:not(:disabled) { background:#3498db; color:#fff; border-color:#3498db; }
 .compare-toggle.active { background:#2ecc71; border-color:#27ae60; color:#fff; box-shadow:0 0 0 3px rgba(46,204,113,0.4); }
@@ -365,7 +365,7 @@
   font-weight: 500;
 }
 
-.product-actions { padding:1rem 1.1rem 1.15rem; border-top:1px solid rgba(0,0,0,0.05); background:rgba(250,251,252,0.85); }
+.product-actions { padding:1rem 1.1rem 1.15rem; border-top:1px solid rgba(0,0,0,0.05); background:rgba(250,251,252,0.85); z-index:5; position:relative; }
 .product-actions.minimal { padding:.85rem 1rem 1rem; }
 
 .product-actions .btn {

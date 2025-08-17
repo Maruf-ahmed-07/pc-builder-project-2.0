@@ -114,7 +114,7 @@ router.get('/me', protect, async (req, res) => {
         email: user.email,
         role: user.role,
         phone: user.phone,
-        address: user.address,
+  address: user.address,
         preferences: user.preferences,
         avatar: user.avatar,
         lastLogin: user.lastLogin,
@@ -132,6 +132,7 @@ router.get('/me', protect, async (req, res) => {
 router.put('/profile', protect, [
   body('name').optional().trim().isLength({ min: 2, max: 50 }).withMessage('Name must be between 2 and 50 characters'),
   body('phone').optional().trim().isMobilePhone().withMessage('Please provide a valid phone number'),
+  body('email').optional().isEmail().withMessage('Please provide a valid email'),
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -142,12 +143,25 @@ router.put('/profile', protect, [
         errors: errors.array()
       });
     }
-    const { name, phone, address, preferences } = req.body;
+    const { name, phone, email, address, preferences, avatar } = req.body;
     const user = await User.findById(req.user.id);
     if (name) user.name = name;
     if (phone) user.phone = phone;
-    if (address) user.address = { ...user.address, ...address };
+    if (email && email !== user.email) {
+      const exists = await User.findOne({ email });
+      if (exists) {
+        return res.status(400).json({ success:false, message:'Email is already in use' });
+      }
+      user.email = email;
+    }
+    if (address) {
+      user.address = {
+        ...(user.address?.toObject ? user.address.toObject() : user.address),
+        ...address
+      };
+    }
     if (preferences) user.preferences = { ...user.preferences, ...preferences };
+    if (avatar !== undefined) user.avatar = avatar;
     await user.save();
     res.json({
       success: true,

@@ -2,18 +2,24 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import toast from 'react-hot-toast';
 import './Cart.css';
 
 const Cart = () => {
-  const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart } = useCart();
+  const { cartItems, updateQuantity, removeFromCart, getCartTotal, clearCart, addToCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleQuantityChange = async (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-    
     try {
+      if (newQuantity < 1) {
+        // if quantity is decreased below 1, remove the item from cart
+        await handleRemoveItem(productId);
+        return;
+      }
+
       await updateQuantity(productId, newQuantity);
     } catch (error) {
       toast.error('Failed to update quantity');
@@ -136,8 +142,8 @@ const Cart = () => {
                     <div className="quantity-controls">
                       <button
                         onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
-                        disabled={item.quantity <= 1}
                         className="quantity-btn"
+                        title={item.quantity <= 1 ? 'Click to remove item' : 'Decrease quantity'}
                       >
                         -
                       </button>
@@ -243,25 +249,7 @@ const Cart = () => {
             </div>
 
             {/* Related Products */}
-            <div className="related-card">
-              <h4>You might also like</h4>
-              <div className="related-items">
-                <div className="related-item">
-                  <div className="related-image">📱</div>
-                  <div className="related-info">
-                    <p>Gaming Mouse</p>
-                    <span>$29.99</span>
-                  </div>
-                </div>
-                <div className="related-item">
-                  <div className="related-image">⌨️</div>
-                  <div className="related-info">
-                    <p>Mechanical Keyboard</p>
-                    <span>$79.99</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <RelatedProductsCard addToCart={addToCart} />
           </div>
         </div>
       </div>
@@ -270,3 +258,52 @@ const Cart = () => {
 };
 
 export default Cart;
+
+// Related products card shown on cart page
+function RelatedProductsCard({ addToCart }) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['recommended-products'],
+    queryFn: async () => {
+      // Simple recommendation: fetch featured or bestselling products
+      const res = await axios.get('/api/products/featured/list?limit=6');
+      return res.data.products || [];
+    }
+  });
+
+  const products = data || [];
+
+  const handleAdd = async (product) => {
+    try {
+      // suppress generic cart toast and show product-specific toast
+      await addToCart(product._id, 1, { silent: true });
+      // show product toast
+      toast.success(`${product.name} added to cart!`);
+    } catch (e) {
+      toast.error('Failed to add item');
+    }
+  };
+
+  return (
+    <div className="related-card">
+      <h4>You might also like</h4>
+      <div className="related-items refined">
+        {isLoading && <div>Loading recommendations…</div>}
+        {isError && <div>Failed to load recommendations</div>}
+        {!isLoading && !isError && products.map(p => (
+          <div key={p._id} className="related-item">
+            <div className="related-image">
+              {p.images && p.images[0] ? <img src={p.images[0].url} alt={p.name} /> : <div className="no-image">📦</div>}
+            </div>
+            <div className="related-info">
+              <p className="r-name">{p.name}</p>
+              <span className="r-price">${p.price.toFixed(2)}</span>
+            </div>
+            <button className="related-add" onClick={() => handleAdd(p)} title={`Add ${p.name} to cart`}>
+              ➕
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

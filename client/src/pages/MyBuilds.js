@@ -133,10 +133,10 @@ const MyBuilds = () => {
     
     components.forEach(component => {
       if (component?.product) {
-        addToCart(component.product);
+        addToCart(component.product, 1, { silent: true });
         addedCount++;
       } else if (component?._id) {
-        addToCart(component);
+        addToCart(component, 1, { silent: true });
         addedCount++;
       }
     });

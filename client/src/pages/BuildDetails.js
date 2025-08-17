@@ -140,10 +140,10 @@ const BuildDetails = () => {
     
     components.forEach(component => {
       if (component?.product) {
-        addToCart(component.product);
+        addToCart(component.product, 1, { silent: true });
         addedCount++;
       } else if (component?._id) {
-        addToCart(component);
+        addToCart(component, 1, { silent: true });
         addedCount++;
       }
     });
@@ -376,7 +376,7 @@ const BuildDetails = () => {
                         )}
                       </div>
                       <div className="component-footer">
-                        <button className="btn btn-sm btn-outline-primary" onClick={() => addToCart(component?.product || component)}>Add to Cart</button>
+                        <button className="btn btn-sm btn-outline-primary" onClick={() => addToCart(component?.product || component, 1, { silent: true })}>Add to Cart</button>
                       </div>
                     </div>
                   );

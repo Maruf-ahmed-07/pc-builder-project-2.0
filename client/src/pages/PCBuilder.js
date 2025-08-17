@@ -208,7 +208,7 @@ const PCBuilder = () => {
   const addBuildToCart = () => {
     const selectedComponents = Object.values(currentBuild);
     selectedComponents.forEach(component => {
-      addToCart(component);
+      addToCart(component, 1, { silent: true });
     });
     toast.success(`${selectedComponents.length} components added to cart!`);
   };

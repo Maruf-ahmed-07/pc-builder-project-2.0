@@ -8,7 +8,7 @@ import './Profile.css';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfile } = useAuth();
   const queryClient = useQueryClient();
   
   const [activeTab, setActiveTab] = useState('profile');
@@ -21,7 +21,12 @@ const Profile = () => {
     city: '',
     state: '',
     zipCode: '',
-    country: 'USA'
+    country: 'USA',
+    avatar: '',
+    preferences: {
+      newsletter: true,
+      notifications: true
+    }
   });
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
@@ -41,20 +46,26 @@ const Profile = () => {
   useQuery({
     queryKey: ['user-profile'],
     queryFn: async () => {
-      const response = await axios.get('/api/auth/profile');
+      const response = await axios.get('/api/auth/me');
       return response.data.user;
     },
     enabled: !!user,
     onSuccess: (data) => {
       setProfileData(prev => ({
         ...prev,
-        ...data,
+        name: data.name || '',
+        email: data.email || '',
         phone: data.phone || '',
-        address: data.address || '',
-        city: data.city || '',
-        state: data.state || '',
-        zipCode: data.zipCode || '',
-        country: data.country || 'USA'
+        address: data.address?.street || '',
+        city: data.address?.city || '',
+        state: data.address?.state || '',
+        zipCode: data.address?.zipCode || '',
+        country: data.address?.country || 'USA',
+        avatar: data.avatar || '',
+        preferences: {
+          newsletter: data.preferences?.newsletter ?? true,
+          notifications: data.preferences?.notifications ?? true
+        }
       }));
     }
   });
@@ -79,21 +90,8 @@ const Profile = () => {
     enabled: !!user
   });
 
-  // Update profile mutation
-  const updateProfileMutation = useMutation({
-    mutationFn: async (data) => {
-      const response = await axios.put('/api/auth/profile', data);
-      return response.data;
-    },
-    onSuccess: () => {
-      toast.success('Profile updated successfully!');
-      setIsEditing(false);
-      queryClient.invalidateQueries(['user-profile']);
-    },
-    onError: (error) => {
-      toast.error(error.response?.data?.message || 'Failed to update profile');
-    }
-  });
+  // Use AuthContext updater to keep header/user in sync
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   // Change password mutation
   const changePasswordMutation = useMutation({
@@ -129,9 +127,37 @@ const Profile = () => {
     }
   });
 
-  const handleProfileSubmit = (e) => {
+  const handleProfileSubmit = async (e) => {
     e.preventDefault();
-    updateProfileMutation.mutate(profileData);
+    try {
+      setIsSavingProfile(true);
+      const payload = {
+        name: profileData.name,
+        email: profileData.email,
+        phone: profileData.phone || undefined,
+        address: {
+          street: profileData.address || '',
+          city: profileData.city || '',
+          state: profileData.state || '',
+          zipCode: profileData.zipCode || '',
+          country: profileData.country || ''
+        },
+        avatar: profileData.avatar || '',
+        preferences: {
+          newsletter: !!profileData.preferences?.newsletter,
+          notifications: !!profileData.preferences?.notifications
+        }
+      };
+      const result = await updateProfile(payload);
+      if (result?.success) {
+        setIsEditing(false);
+        queryClient.invalidateQueries(['user-profile']);
+      }
+    } catch (err) {
+      // toast handled in context
+    } finally {
+      setIsSavingProfile(false);
+    }
   };
 
   const handlePasswordSubmit = (e) => {
@@ -344,6 +370,46 @@ const Profile = () => {
                         <option value="UK">United Kingdom</option>
                       </select>
                     </div>
+
+                    <div className="form-group full-width">
+                      <label>Avatar URL</label>
+                      <input
+                        type="url"
+                        value={profileData.avatar}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, avatar: e.target.value }))}
+                        disabled={!isEditing}
+                        placeholder="https://..."
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={!!profileData.preferences?.newsletter}
+                          onChange={(e) => setProfileData(prev => ({
+                            ...prev,
+                            preferences: { ...prev.preferences, newsletter: e.target.checked }
+                          }))}
+                          disabled={!isEditing}
+                        />
+                        &nbsp;Receive Newsletter
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={!!profileData.preferences?.notifications}
+                          onChange={(e) => setProfileData(prev => ({
+                            ...prev,
+                            preferences: { ...prev.preferences, notifications: e.target.checked }
+                          }))}
+                          disabled={!isEditing}
+                        />
+                        &nbsp;Enable Notifications
+                      </label>
+                    </div>
                   </div>
                   
                   {isEditing && (
@@ -351,9 +417,9 @@ const Profile = () => {
                       <button 
                         type="submit" 
                         className="btn btn-primary"
-                        disabled={updateProfileMutation.isLoading}
+                        disabled={isSavingProfile}
                       >
-                        {updateProfileMutation.isLoading ? 'Saving...' : 'Save Changes'}
+                        {isSavingProfile ? 'Saving...' : 'Save Changes'}
                       </button>
                     </div>
                   )}

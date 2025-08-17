@@ -142,8 +142,8 @@ const Home = () => {
                         )}
                       </div>
                       <div className="spotlight-actions">
-                        <Link to={`/products/${featuredProducts[0]._id}`} className="btn btn-primary">View Details</Link>
-                        <button className="btn btn-outline-primary" onClick={() => addToCart(featuredProducts[0]._id)}>Quick Add</button>
+                                <Link to={`/products/${featuredProducts[0]._id}`} className="btn btn-primary">View Details</Link>
+                                <button className="btn btn-outline-primary" onClick={() => addToCart(featuredProducts[0]._id, 1, { silent: true })}>Quick Add</button>
                       </div>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ const Home = () => {
                         </div>
                         <div className="hover-actions">
                           <Link to={`/products/${product._id}`} className="ha-btn view">View</Link>
-                          <button className="ha-btn add" onClick={(e) => { e.stopPropagation(); e.preventDefault(); addToCart(product._id); }}>Add</button>
+                          <button className="ha-btn add" onClick={(e) => { e.stopPropagation(); e.preventDefault(); addToCart(product._id, 1, { silent: true }); }}>Add</button>
                         </div>
                       </div>
                     </div>

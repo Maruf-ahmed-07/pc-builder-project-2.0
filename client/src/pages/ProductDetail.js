@@ -76,7 +76,7 @@ const ProductDetail = () => {
     }
 
     try {
-      await addToCart(product._id, quantity);
+      await addToCart(product._id, quantity, { silent: true });
       toast.success('Item added to cart!');
     } catch (error) {
       toast.error('Failed to add item to cart');
@@ -96,7 +96,7 @@ const ProductDetail = () => {
     }
 
     try {
-      await addToCart(product._id, quantity);
+      await addToCart(product._id, quantity, { silent: true });
       navigate('/checkout');
     } catch (error) {
       toast.error('Failed to add item to cart');

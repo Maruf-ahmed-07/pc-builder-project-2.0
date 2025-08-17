@@ -94,7 +94,7 @@ const Products = () => {
 
   const handleAddToCart = async (product) => {
     try {
-      await addToCart(product._id, 1);
+      await addToCart(product._id, 1, { silent: true });
       toast.success(`${product.name} added to cart!`);
     } catch (error) {
       toast.error('Failed to add to cart');

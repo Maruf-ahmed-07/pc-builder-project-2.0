@@ -55,8 +55,9 @@ const Wishlist = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      addToCart(data.product, data.quantity);
-      toast.success('Added to cart!');
+  // call context addToCart but suppress the generic toast since we show our own message
+  addToCart(data.product, data.quantity, { silent: true });
+  toast.success('Added to cart!');
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || 'Failed to add to cart');
@@ -74,7 +75,7 @@ const Wishlist = () => {
       toast.error('Product is out of stock');
       return;
     }
-    addToCartMutation.mutate({ productId: product._id, quantity: 1 });
+  addToCartMutation.mutate({ productId: product._id, quantity: 1 });
   };
 
   const handleMoveToCart = (product) => {

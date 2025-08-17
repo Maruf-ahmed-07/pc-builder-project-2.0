@@ -62,11 +62,14 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (productId, quantity = 1) => {
+  const addToCart = async (productId, quantity = 1, options = {}) => {
     try {
       const response = await axios.post('/api/cart/items', { productId, quantity });
       dispatch({ type: 'SET_CART', payload: response.data.cart });
-      toast.success('Item added to cart!');
+      // Only show the generic toast when caller does not request silent mode
+      if (!options.silent) {
+        toast.success('Item added to cart!');
+      }
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to add item to cart';

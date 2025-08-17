@@ -17,21 +17,83 @@ const Admin = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  // Advanced edit UI state
+  const [editForm, setEditForm] = useState(null);
+  const [editTab, setEditTab] = useState('general');
+  const [imageRows, setImageRows] = useState([]);
+  const [specRows, setSpecRows] = useState([]);
 
-  // Product form state
-  const [productForm, setProductForm] = useState({
+  // Advanced create UI state
+  const [createForm, setCreateForm] = useState({
     name: '',
-    description: '',
+    brand: '',
+    category: 'CPU',
+    model: '',
     price: '',
     discountPrice: '',
-    category: 'CPU',
-    brand: '',
-    model: '',
     stock: '',
-    specifications: {},
-    features: [],
-    isActive: true
+    description: '',
+    isActive: true,
+    featured: false,
   });
+  const [createTab, setCreateTab] = useState('general');
+  const [createImageRows, setCreateImageRows] = useState([]);
+  const [createSpecRows, setCreateSpecRows] = useState([]);
+
+  // Category mapping helpers for detailed specs
+  // Detailed specs removed from UI per request
+
+  const objectToRows = (obj) => {
+    if (!obj) return [];
+    return Object.entries(obj).map(([key, value], idx) => ({ id: idx + 1 + '_' + key, key, value }));
+  };
+  const rowsToObject = (rows) => {
+    const result = {};
+    rows.forEach(r => {
+      const k = (r.key || '').trim();
+      if (k) result[k] = (r.value ?? '').toString();
+    });
+    return result;
+  };
+
+  // Initialize advanced editor state when opening edit modal
+  React.useEffect(() => {
+    if (selectedItem && selectedItem.name) {
+      setEditForm({
+        name: selectedItem.name || '',
+        brand: selectedItem.brand || '',
+        category: selectedItem.category || 'CPU',
+        model: selectedItem.model || '',
+        price: selectedItem.price ?? '',
+        discountPrice: selectedItem.discountPrice ?? '',
+        stock: selectedItem.stock ?? 0,
+  description: selectedItem.description || '',
+        isActive: !!selectedItem.isActive,
+        featured: !!selectedItem.featured,
+  specifications: selectedItem.specifications || {},
+      });
+      setImageRows((selectedItem.images || []).map((img, i) => ({ id: 'img_' + i, url: img.url || '', alt: img.alt || '' })));
+      setSpecRows(objectToRows(selectedItem.specifications || {}));
+      setEditTab('general');
+    } else {
+      setEditForm(null);
+      setImageRows([]);
+      setSpecRows([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
+
+  // init create modal state when opened
+  React.useEffect(() => {
+    if (showCreateModal) {
+      setCreateForm({
+        name: '', brand: '', category: 'CPU', model: '', price: '', discountPrice: '', stock: '', description: '', isActive: true, featured: false,
+      });
+      setCreateImageRows([]);
+      setCreateSpecRows([]);
+      setCreateTab('general');
+    }
+  }, [showCreateModal]);
 
   // Redirect if not admin
   React.useEffect(() => {
@@ -168,19 +230,10 @@ const Admin = () => {
       toast.success('Product created successfully!');
       queryClient.invalidateQueries(['admin-products']);
       setShowCreateModal(false);
-      setProductForm({
-        name: '',
-        description: '',
-        price: '',
-        discountPrice: '',
-        category: 'CPU',
-        brand: '',
-        model: '',
-        stock: '',
-        specifications: {},
-        features: [],
-        isActive: true
-      });
+      setCreateForm({ name: '', brand: '', category: 'CPU', model: '', price: '', discountPrice: '', stock: '', description: '', isActive: true, featured: false });
+      setCreateImageRows([]);
+      setCreateSpecRows([]);
+      setCreateTab('general');
     },
     onError: (error) => {
       toast.error(error.response?.data?.message || 'Failed to create product');
@@ -270,51 +323,110 @@ const Admin = () => {
     }
   });
 
-  const handleCreateProduct = (e) => {
-    e.preventDefault();
-    const data = {
-      ...productForm,
-      price: parseFloat(productForm.price),
-      discountPrice: productForm.discountPrice ? parseFloat(productForm.discountPrice) : undefined,
-      stock: parseInt(productForm.stock)
-    };
-    createProductMutation.mutate(data);
-  };
+  // removed legacy handleCreateProduct in favor of advanced create modal submit
 
   const renderDashboard = () => {
     if (!dashboardData) return <div>Loading...</div>;
     
     const { stats, recentOrders, revenueChart, topCategories } = dashboardData;
 
+    // small helper to build a sparkline path from revenueChart
+    const buildSparkline = (data = [], w = 140, h = 40) => {
+      if (!data || data.length === 0) return null;
+      const vals = data.map(d => d.revenue || 0);
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      const range = max - min || 1;
+      const step = w / (vals.length - 1 || 1);
+      const points = vals.map((v, i) => {
+        const x = i * step;
+        const y = h - ((v - min) / range) * h;
+        return `${x},${y}`;
+      }).join(' ');
+      const pathD = vals.map((v, i) => {
+        const x = i * step;
+        const y = h - ((v - min) / range) * h;
+        return (i === 0 ? `M ${x} ${y}` : `L ${x} ${y}`);
+      }).join(' ');
+      return { points, pathD, w, h };
+    };
+
+    const spark = buildSparkline(revenueChart || [], 160, 40);
+    const revenueTotal = (revenueChart || []).reduce((s,d)=> s + (d.revenue||0), 0);
+    const growthPercent = revenueChart && revenueChart.length >= 2 ? ((revenueChart[revenueChart.length-1].revenue - revenueChart[0].revenue) / (revenueChart[0].revenue || 1) * 100).toFixed(1) : '0.0';
+
     return (
       <div className="admin-dashboard">
         <h2>Dashboard Overview</h2>
-        
+
+        <div className="dashboard-hero">
+          <div className="hero-card">
+            <div className="hero-left">
+              <div className="hero-title">Monthly Revenue</div>
+              <div className="hero-value">${(stats.monthlyRevenue || 0).toLocaleString()}</div>
+              <div className="hero-sub">Last 7 days: ${revenueTotal.toLocaleString()}</div>
+              <div className={`trend-badge ${parseFloat(growthPercent) >= 0 ? 'up' : 'down'}`}>
+                {parseFloat(growthPercent) >= 0 ? '▲' : '▼'} {Math.abs(growthPercent)}%
+              </div>
+            </div>
+            <div className="hero-right">
+              {spark && (
+                <svg className="sparkline" width={spark.w} height={spark.h} viewBox={`0 0 ${spark.w} ${spark.h}`}>
+                  <defs>
+                    <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="#7b61ff" stopOpacity="0.6" />
+                      <stop offset="100%" stopColor="#7b61ff" stopOpacity="0.05" />
+                    </linearGradient>
+                  </defs>
+                  <path d={spark.pathD} fill="none" stroke="#5a3ce6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <polyline points={spark.points} fill="url(#g1)" stroke="none" />
+                </svg>
+              )}
+              <div className="hero-actions">
+                <button className="btn btn-sm btn-primary" onClick={()=> setActiveTab('products')}>Manage Products</button>
+                <button className="btn btn-sm btn-outline" onClick={()=> setActiveTab('orders')}>View Orders</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Stats Cards */}
         <div className="stats-grid">
           <div className="stat-card">
+            <div className="stat-icon">👥</div>
             <h3>Total Users</h3>
             <p className="stat-number">{stats.totalUsers}</p>
+            <div className="stat-note">Active users on platform</div>
           </div>
           <div className="stat-card">
+            <div className="stat-icon">🛒</div>
             <h3>Total Products</h3>
             <p className="stat-number">{stats.totalProducts}</p>
+            <div className="stat-note">Available items</div>
           </div>
           <div className="stat-card">
+            <div className="stat-icon">📦</div>
             <h3>Total Orders</h3>
             <p className="stat-number">{stats.totalOrders}</p>
+            <div className="stat-note">Orders placed</div>
           </div>
           <div className="stat-card">
+            <div className="stat-icon">⏳</div>
             <h3>Pending Orders</h3>
             <p className="stat-number">{stats.pendingOrders}</p>
+            <div className="stat-note">Awaiting fulfillment</div>
           </div>
           <div className="stat-card">
+            <div className="stat-icon">💰</div>
             <h3>Monthly Revenue</h3>
             <p className="stat-number">${stats.monthlyRevenue?.toFixed(2) || '0.00'}</p>
+            <div className="stat-note">Revenue this month</div>
           </div>
           <div className="stat-card">
+            <div className="stat-icon">📨</div>
             <h3>Open Contacts</h3>
             <p className="stat-number">{stats.openContacts}</p>
+            <div className="stat-note">Support tickets</div>
           </div>
         </div>
 
@@ -612,7 +724,7 @@ const Admin = () => {
 
   const renderProducts = () => (
     <div className="admin-section">
-      <div className="section-header">
+  <div className="section-header">
         <h2>Products Management</h2>
         <div className="header-actions">
           <input
@@ -623,7 +735,7 @@ const Admin = () => {
             className="search-input"
           />
           <button 
-            onClick={() => setShowCreateModal(true)}
+    onClick={() => setShowCreateModal(true)}
             className="btn btn-primary"
           >
             Add Product
@@ -1107,90 +1219,167 @@ const Admin = () => {
         {activeTab === 'analytics' && renderAnalytics()}
       </div>
 
-      {/* Create Product Modal */}
+      {/* Create Product Modal (Advanced) */}
       {showCreateModal && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal large-modal">
             <div className="modal-header">
               <h3>Create New Product</h3>
               <button onClick={() => setShowCreateModal(false)} className="close-btn">&times;</button>
             </div>
-            <form onSubmit={handleCreateProduct} className="product-form">
-              <div className="form-row">
-                <input
-                  type="text"
-                  placeholder="Product Name"
-                  value={productForm.name}
-                  onChange={(e) => setProductForm({...productForm, name: e.target.value})}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Brand"
-                  value={productForm.brand}
-                  onChange={(e) => setProductForm({...productForm, brand: e.target.value})}
-                  required
-                />
+            <form onSubmit={(e)=>{
+              e.preventDefault();
+              const images = createImageRows
+                .map(r => ({ url: (r.url || '').trim(), alt: (r.alt || '').trim() }))
+                .filter(r => r.url);
+              const specifications = rowsToObject(createSpecRows);
+              const data = {
+                name: createForm.name,
+                brand: createForm.brand,
+                category: createForm.category,
+                model: createForm.model,
+                price: parseFloat(createForm.price),
+                discountPrice: createForm.discountPrice !== '' && createForm.discountPrice !== null && createForm.discountPrice !== undefined
+                  ? parseFloat(createForm.discountPrice) : undefined,
+                stock: parseInt(createForm.stock),
+                description: createForm.description,
+                isActive: !!createForm.isActive,
+                featured: !!createForm.featured,
+                images,
+                specifications,
+              };
+              if (data.discountPrice === undefined || Number.isNaN(data.discountPrice)) delete data.discountPrice;
+              createProductMutation.mutate(data);
+            }} className="product-form advanced">
+              <div className="editor-layout">
+                <aside className="editor-sidebar">
+                  <div className="sidebar-title">Create Sections</div>
+                  <button type="button" className={`tab vtab ${createTab === 'general' ? 'active' : ''}`} onClick={()=>setCreateTab('general')}>General</button>
+                  <button type="button" className={`tab vtab ${createTab === 'images' ? 'active' : ''}`} onClick={()=>setCreateTab('images')}>Images</button>
+                  <button type="button" className={`tab vtab ${createTab === 'specs' ? 'active' : ''}`} onClick={()=>setCreateTab('specs')}>Specifications</button>
+                  <button type="button" className={`tab vtab ${createTab === 'description' ? 'active' : ''}`} onClick={()=>setCreateTab('description')}>Description</button>
+                </aside>
+                <section className="editor-content">
+                  {createTab === 'general' && (
+                    <div className="tab-panel">
+                      <h4 className="section-title">Basic Information</h4>
+                      <div className="form-row">
+                        <input type="text" placeholder="Product Name" value={createForm.name} onChange={(e)=>setCreateForm({...createForm, name: e.target.value})} required />
+                        <input type="text" placeholder="Brand" value={createForm.brand} onChange={(e)=>setCreateForm({...createForm, brand: e.target.value})} required />
+                      </div>
+                      <div className="form-row">
+                        <select value={createForm.category} onChange={(e)=>setCreateForm({...createForm, category: e.target.value})} required>
+                          <option value="CPU">CPU</option>
+                          <option value="GPU">GPU</option>
+                          <option value="Motherboard">Motherboard</option>
+                          <option value="RAM">RAM</option>
+                          <option value="Storage">Storage</option>
+                          <option value="Power Supply">Power Supply</option>
+                          <option value="Case">Case</option>
+                          <option value="Cooling">Cooling</option>
+                          <option value="Accessories">Accessories</option>
+                        </select>
+                        <input type="text" placeholder="Model" value={createForm.model} onChange={(e)=>setCreateForm({...createForm, model: e.target.value})} required />
+                      </div>
+                      <h4 className="section-title">Pricing & Stock</h4>
+                      <div className="form-row">
+                        <input type="number" step="0.01" placeholder="Price" value={createForm.price} onChange={(e)=>setCreateForm({...createForm, price: e.target.value})} required />
+                        <input type="number" step="0.01" placeholder="Discount Price (optional)" value={createForm.discountPrice} onChange={(e)=>setCreateForm({...createForm, discountPrice: e.target.value})} />
+                      </div>
+                      <div className="form-row">
+                        <input type="number" placeholder="Stock Quantity" value={createForm.stock} onChange={(e)=>setCreateForm({...createForm, stock: e.target.value})} required />
+                        <div></div>
+                      </div>
+                      <div className="toggle-row">
+                        <label className="checkbox-label">
+                          <input type="checkbox" checked={!!createForm.isActive} onChange={(e)=>setCreateForm({...createForm, isActive: e.target.checked})} />
+                          Active Product
+                        </label>
+                        <label className="checkbox-label">
+                          <input type="checkbox" checked={!!createForm.featured} onChange={(e)=>setCreateForm({...createForm, featured: e.target.checked})} />
+                          Featured
+                        </label>
+                      </div>
+                    </div>
+                  )}
+
+                  {createTab === 'images' && (
+                    <div className="tab-panel">
+                      <h4 className="section-title">Product Images</h4>
+                      <div className="image-list">
+                        {createImageRows.map((row, idx) => (
+                          <div className="image-row" key={row.id}>
+                            <div className="thumb" title={row.url}>
+                              {row.url ? <img src={row.url} alt={row.alt || 'preview'} onError={(e)=>{e.currentTarget.style.display='none';}} /> : <div className="placeholder">No Image</div>}
+                            </div>
+                            <div className="image-fields">
+                              <input type="text" placeholder="Image URL" value={row.url} onChange={(e)=>{
+                                const next = [...createImageRows]; next[idx] = { ...row, url: e.target.value }; setCreateImageRows(next);
+                              }} />
+                              <input type="text" placeholder="Alt text" value={row.alt} onChange={(e)=>{
+                                const next = [...createImageRows]; next[idx] = { ...row, alt: e.target.value }; setCreateImageRows(next);
+                              }} />
+                            </div>
+                            <div className="image-actions">
+                              <button type="button" className="btn-sm btn-outline" onClick={()=>{
+                                if (idx === 0) return; const next = [...createImageRows]; [next[idx-1], next[idx]] = [next[idx], next[idx-1]]; setCreateImageRows(next);
+                              }}>Up</button>
+                              <button type="button" className="btn-sm btn-outline" onClick={()=>{
+                                if (idx === createImageRows.length - 1) return; const next = [...createImageRows]; [next[idx+1], next[idx]] = [next[idx], next[idx+1]]; setCreateImageRows(next);
+                              }}>Down</button>
+                              <button type="button" className="btn-sm btn-danger" onClick={()=>{
+                                setCreateImageRows(createImageRows.filter((_, i) => i !== idx));
+                              }}>Remove</button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="form-actions left">
+                        <button type="button" className="btn btn-primary" onClick={()=>{
+                          setCreateImageRows([...createImageRows, { id: 'cimg_' + Date.now(), url: '', alt: '' }]);
+                        }}>Add Image</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {createTab === 'specs' && (
+                    <div className="tab-panel">
+                      <h4 className="section-title">Specifications (Key / Value)</h4>
+                      <div className="kv-list">
+                        {createSpecRows.map((row, idx) => (
+                          <div className="kv-row" key={row.id}>
+                            <input type="text" placeholder="Key (e.g., Interface)" value={row.key} onChange={(e)=>{
+                              const next = [...createSpecRows]; next[idx] = { ...row, key: e.target.value }; setCreateSpecRows(next);
+                            }} />
+                            <input type="text" placeholder="Value (e.g., PCIe 4.0)" value={row.value} onChange={(e)=>{
+                              const next = [...createSpecRows]; next[idx] = { ...row, value: e.target.value }; setCreateSpecRows(next);
+                            }} />
+                            <button type="button" className="btn-sm btn-danger" onClick={()=>{
+                              setCreateSpecRows(createSpecRows.filter((_, i) => i !== idx));
+                            }}>Remove</button>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="form-actions left">
+                        <button type="button" className="btn btn-primary" onClick={()=>{
+                          setCreateSpecRows([...createSpecRows, { id: 'cspec_' + Date.now(), key: '', value: '' }]);
+                        }}>Add Row</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {createTab === 'description' && (
+                    <div className="tab-panel">
+                      <h4 className="section-title">Product Description</h4>
+                      <textarea placeholder="Enter a clear, concise description..." rows="8" value={createForm.description}
+                        onChange={(e)=>setCreateForm({...createForm, description: e.target.value})} required />
+                    </div>
+                  )}
+                </section>
               </div>
-              <div className="form-row">
-                <select
-                  value={productForm.category}
-                  onChange={(e) => setProductForm({...productForm, category: e.target.value})}
-                  required
-                >
-                  <option value="CPU">CPU</option>
-                  <option value="GPU">GPU</option>
-                  <option value="Motherboard">Motherboard</option>
-                  <option value="RAM">RAM</option>
-                  <option value="Storage">Storage</option>
-                  <option value="Power Supply">Power Supply</option>
-                  <option value="Case">Case</option>
-                  <option value="Cooling">Cooling</option>
-                  <option value="Accessories">Accessories</option>
-                </select>
-                <input
-                  type="text"
-                  placeholder="Model"
-                  value={productForm.model}
-                  onChange={(e) => setProductForm({...productForm, model: e.target.value})}
-                  required
-                />
-              </div>
-              <div className="form-row">
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Price"
-                  value={productForm.price}
-                  onChange={(e) => setProductForm({...productForm, price: e.target.value})}
-                  required
-                />
-                <input
-                  type="number"
-                  step="0.01"
-                  placeholder="Discount Price (optional)"
-                  value={productForm.discountPrice}
-                  onChange={(e) => setProductForm({...productForm, discountPrice: e.target.value})}
-                />
-              </div>
-              <input
-                type="number"
-                placeholder="Stock Quantity"
-                value={productForm.stock}
-                onChange={(e) => setProductForm({...productForm, stock: e.target.value})}
-                required
-              />
-              <textarea
-                placeholder="Product Description"
-                value={productForm.description}
-                onChange={(e) => setProductForm({...productForm, description: e.target.value})}
-                rows="4"
-                required
-              />
+
               <div className="form-actions">
-                <button type="button" onClick={() => setShowCreateModal(false)} className="btn btn-outline">
-                  Cancel
-                </button>
+                <button type="button" onClick={() => setShowCreateModal(false)} className="btn btn-outline">Cancel</button>
                 <button type="submit" className="btn btn-primary" disabled={createProductMutation.isLoading}>
                   {createProductMutation.isLoading ? 'Creating...' : 'Create Product'}
                 </button>
@@ -1203,111 +1392,214 @@ const Admin = () => {
       {/* Edit Product Modal */}
       {selectedItem && selectedItem.name && (
         <div className="modal-overlay">
-          <div className="modal">
+          <div className="modal large-modal">
             <div className="modal-header">
               <h3>Edit Product</h3>
               <button onClick={() => setSelectedItem(null)} className="close-btn">&times;</button>
             </div>
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              const formData = new FormData(e.target);
-              const data = {
-                name: formData.get('name'),
-                brand: formData.get('brand'),
-                category: formData.get('category'),
-                model: formData.get('model'),
-                price: parseFloat(formData.get('price')),
-                discountPrice: formData.get('discountPrice') ? parseFloat(formData.get('discountPrice')) : undefined,
-                stock: parseInt(formData.get('stock')),
-                description: formData.get('description'),
-                isActive: formData.get('isActive') === 'on'
-              };
-              updateProductMutation.mutate({ productId: selectedItem._id, data });
-            }} className="product-form">
-              <div className="form-row">
-                <input
-                  type="text"
-                  name="name"
-                  defaultValue={selectedItem.name}
-                  placeholder="Product Name"
-                  required
-                />
-                <input
-                  type="text"
-                  name="brand"
-                  defaultValue={selectedItem.brand}
-                  placeholder="Brand"
-                  required
-                />
-              </div>
-              <div className="form-row">
-                <select name="category" defaultValue={selectedItem.category} required>
-                  <option value="CPU">CPU</option>
-                  <option value="GPU">GPU</option>
-                  <option value="Motherboard">Motherboard</option>
-                  <option value="RAM">RAM</option>
-                  <option value="Storage">Storage</option>
-                  <option value="Power Supply">Power Supply</option>
-                  <option value="Case">Case</option>
-                  <option value="Cooling">Cooling</option>
-                  <option value="Accessories">Accessories</option>
-                </select>
-                <input
-                  type="text"
-                  name="model"
-                  defaultValue={selectedItem.model}
-                  placeholder="Model"
-                  required
-                />
-              </div>
-              <div className="form-row">
-                <input
-                  type="number"
-                  step="0.01"
-                  name="price"
-                  defaultValue={selectedItem.price}
-                  placeholder="Price"
-                  required
-                />
-                <input
-                  type="number"
-                  step="0.01"
-                  name="discountPrice"
-                  defaultValue={selectedItem.discountPrice}
-                  placeholder="Discount Price (optional)"
-                />
-              </div>
-              <input
-                type="number"
-                name="stock"
-                defaultValue={selectedItem.stock}
-                placeholder="Stock Quantity"
-                required
-              />
-              <textarea
-                name="description"
-                defaultValue={selectedItem.description}
-                placeholder="Product Description"
-                rows="4"
-                required
-              />
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="isActive"
-                  defaultChecked={selectedItem.isActive}
-                />
-                Active Product
-              </label>
-              <div className="form-actions">
-                <button type="button" onClick={() => setSelectedItem(null)} className="btn btn-outline">
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary" disabled={updateProductMutation.isLoading}>
-                  {updateProductMutation.isLoading ? 'Updating...' : 'Update Product'}
-                </button>
-              </div>
-            </form>
+            {editForm && (
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                // Build payload (no detailed specs)
+                const images = imageRows
+                  .map(r => ({ url: (r.url || '').trim(), alt: (r.alt || '').trim() }))
+                  .filter(r => r.url);
+                const specifications = rowsToObject(specRows);
+                const data = {
+                  name: editForm.name,
+                  brand: editForm.brand,
+                  category: editForm.category,
+                  model: editForm.model,
+                  price: parseFloat(editForm.price),
+                  discountPrice: editForm.discountPrice !== '' && editForm.discountPrice !== null && editForm.discountPrice !== undefined
+                    ? parseFloat(editForm.discountPrice)
+                    : undefined,
+                  stock: parseInt(editForm.stock),
+                  description: editForm.description,
+                  isActive: !!editForm.isActive,
+                  featured: !!editForm.featured,
+                  images,
+                  specifications
+                };
+                // Remove discountPrice if NaN or empty
+                if (data.discountPrice === undefined || Number.isNaN(data.discountPrice)) delete data.discountPrice;
+                updateProductMutation.mutate({ productId: selectedItem._id, data });
+              }} className="product-form advanced">
+                <div className="editor-layout">
+                  <aside className="editor-sidebar">
+                    <div className="sidebar-title">Edit Sections</div>
+                    <button type="button" className={`tab vtab ${editTab === 'general' ? 'active' : ''}`} onClick={() => setEditTab('general')}>General</button>
+                    <button type="button" className={`tab vtab ${editTab === 'images' ? 'active' : ''}`} onClick={() => setEditTab('images')}>Images</button>
+                    <button type="button" className={`tab vtab ${editTab === 'specs' ? 'active' : ''}`} onClick={() => setEditTab('specs')}>Specifications</button>
+                    <button type="button" className={`tab vtab ${editTab === 'description' ? 'active' : ''}`} onClick={() => setEditTab('description')}>Description</button>
+                  </aside>
+                  <section className="editor-content">
+                    {/* General */}
+                    {editTab === 'general' && (
+                      <div className="tab-panel">
+                        <h4 className="section-title">Basic Information</h4>
+                        <div className="form-row">
+                          <input type="text" placeholder="Product Name" value={editForm.name}
+                            onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} required />
+                          <input type="text" placeholder="Brand" value={editForm.brand}
+                            onChange={(e) => setEditForm({ ...editForm, brand: e.target.value })} required />
+                        </div>
+                        <div className="form-row">
+                          <select value={editForm.category}
+                            onChange={(e) => {
+                              const newCategory = e.target.value;
+                              setEditForm({ ...editForm, category: newCategory });
+                            }} required>
+                            <option value="CPU">CPU</option>
+                            <option value="GPU">GPU</option>
+                            <option value="Motherboard">Motherboard</option>
+                            <option value="RAM">RAM</option>
+                            <option value="Storage">Storage</option>
+                            <option value="Power Supply">Power Supply</option>
+                            <option value="Case">Case</option>
+                            <option value="Cooling">Cooling</option>
+                            <option value="Monitor">Monitor</option>
+                            <option value="Keyboard">Keyboard</option>
+                            <option value="Mouse">Mouse</option>
+                            <option value="Headset">Headset</option>
+                            <option value="Speakers">Speakers</option>
+                            <option value="Webcam">Webcam</option>
+                            <option value="Accessories">Accessories</option>
+                          </select>
+                          <input type="text" placeholder="Model" value={editForm.model}
+                            onChange={(e) => setEditForm({ ...editForm, model: e.target.value })} required />
+                        </div>
+                        <h4 className="section-title">Pricing & Stock</h4>
+                        <div className="form-row">
+                          <input type="number" step="0.01" placeholder="Price" value={editForm.price}
+                            onChange={(e) => setEditForm({ ...editForm, price: e.target.value })} required />
+                          <input type="number" step="0.01" placeholder="Discount Price (optional)" value={editForm.discountPrice}
+                            onChange={(e) => setEditForm({ ...editForm, discountPrice: e.target.value })} />
+                        </div>
+                        <div className="form-row">
+                          <input type="number" placeholder="Stock Quantity" value={editForm.stock}
+                            onChange={(e) => setEditForm({ ...editForm, stock: e.target.value })} required />
+                          <div></div>
+                        </div>
+                        <div className="toggle-row">
+                          <label className="checkbox-label">
+                            <input type="checkbox" checked={!!editForm.isActive} onChange={(e) => setEditForm({ ...editForm, isActive: e.target.checked })} />
+                            Active Product
+                          </label>
+                          <label className="checkbox-label">
+                            <input type="checkbox" checked={!!editForm.featured} onChange={(e) => setEditForm({ ...editForm, featured: e.target.checked })} />
+                            Featured
+                          </label>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Images */}
+                    {editTab === 'images' && (
+                      <div className="tab-panel">
+                        <h4 className="section-title">Product Images</h4>
+                        <div className="image-list">
+                          {imageRows.map((row, idx) => (
+                            <div className="image-row" key={row.id}>
+                              <div className="thumb" title={row.url}>
+                                {row.url ? <img src={row.url} alt={row.alt || 'preview'} onError={(e)=>{e.currentTarget.style.display='none';}} /> : <div className="placeholder">No Image</div>}
+                              </div>
+                              <div className="image-fields">
+                                <input type="text" placeholder="Image URL" value={row.url}
+                                  onChange={(e)=>{
+                                    const next = [...imageRows];
+                                    next[idx] = { ...row, url: e.target.value };
+                                    setImageRows(next);
+                                  }} />
+                                <input type="text" placeholder="Alt text" value={row.alt}
+                                  onChange={(e)=>{
+                                    const next = [...imageRows];
+                                    next[idx] = { ...row, alt: e.target.value };
+                                    setImageRows(next);
+                                  }} />
+                              </div>
+                              <div className="image-actions">
+                                <button type="button" className="btn-sm btn-outline" onClick={()=>{
+                                  if (idx === 0) return;
+                                  const next = [...imageRows];
+                                  [next[idx-1], next[idx]] = [next[idx], next[idx-1]];
+                                  setImageRows(next);
+                                }}>Up</button>
+                                <button type="button" className="btn-sm btn-outline" onClick={()=>{
+                                  if (idx === imageRows.length - 1) return;
+                                  const next = [...imageRows];
+                                  [next[idx+1], next[idx]] = [next[idx], next[idx+1]];
+                                  setImageRows(next);
+                                }}>Down</button>
+                                <button type="button" className="btn-sm btn-danger" onClick={()=>{
+                                  setImageRows(imageRows.filter((_, i) => i !== idx));
+                                }}>Remove</button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="form-actions left">
+                          <button type="button" className="btn btn-primary" onClick={()=>{
+                            setImageRows([...imageRows, { id: 'img_' + Date.now(), url: '', alt: '' }]);
+                          }}>Add Image</button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Specifications (key/value) */}
+                    {editTab === 'specs' && (
+                      <div className="tab-panel">
+                        <h4 className="section-title">Specifications (Key / Value)</h4>
+                        <div className="kv-list">
+                          {specRows.map((row, idx) => (
+                            <div className="kv-row" key={row.id}>
+                              <input type="text" placeholder="Key (e.g., Interface)" value={row.key}
+                                onChange={(e)=>{
+                                  const next = [...specRows];
+                                  next[idx] = { ...row, key: e.target.value };
+                                  setSpecRows(next);
+                                }} />
+                              <input type="text" placeholder="Value (e.g., PCIe 4.0)" value={row.value}
+                                onChange={(e)=>{
+                                  const next = [...specRows];
+                                  next[idx] = { ...row, value: e.target.value };
+                                  setSpecRows(next);
+                                }} />
+                              <button type="button" className="btn-sm btn-danger" onClick={()=>{
+                                setSpecRows(specRows.filter((_, i) => i !== idx));
+                              }}>Remove</button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="form-actions left">
+                          <button type="button" className="btn btn-primary" onClick={()=>{
+                            setSpecRows([...specRows, { id: 'spec_' + Date.now(), key: '', value: '' }]);
+                          }}>Add Row</button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Description */}
+                    {editTab === 'description' && (
+                      <div className="tab-panel">
+                        <h4 className="section-title">Product Description</h4>
+                        <textarea placeholder="Enter a clear, concise description..." rows="8" value={editForm.description}
+                          onChange={(e) => setEditForm({ ...editForm, description: e.target.value })} required />
+                      </div>
+                    )}
+                  </section>
+                </div>
+
+                <div className="form-actions">
+                  <button type="button" onClick={() => setSelectedItem(null)} className="btn btn-outline">
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn btn-primary" disabled={updateProductMutation.isLoading}>
+                    {updateProductMutation.isLoading ? 'Updating...' : 'Update Product'}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
