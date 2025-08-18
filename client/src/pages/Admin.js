@@ -17,13 +17,13 @@ const Admin = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  // Advanced edit UI state
+  // Edit UI state
   const [editForm, setEditForm] = useState(null);
   const [editTab, setEditTab] = useState('general');
   const [imageRows, setImageRows] = useState([]);
   const [specRows, setSpecRows] = useState([]);
 
-  // Advanced create UI state
+  // Create UI state
   const [createForm, setCreateForm] = useState({
     name: '',
     brand: '',
@@ -40,8 +40,7 @@ const Admin = () => {
   const [createImageRows, setCreateImageRows] = useState([]);
   const [createSpecRows, setCreateSpecRows] = useState([]);
 
-  // Category mapping helpers for detailed specs
-  // Detailed specs removed from UI per request
+  // Spec helpers
 
   const objectToRows = (obj) => {
     if (!obj) return [];
@@ -56,7 +55,7 @@ const Admin = () => {
     return result;
   };
 
-  // Initialize advanced editor state when opening edit modal
+  // Init edit form when item selected
   React.useEffect(() => {
     if (selectedItem && selectedItem.name) {
       setEditForm({
@@ -83,7 +82,7 @@ const Admin = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
 
-  // init create modal state when opened
+  // Init create form when modal opens
   React.useEffect(() => {
     if (showCreateModal) {
       setCreateForm({
@@ -95,7 +94,7 @@ const Admin = () => {
     }
   }, [showCreateModal]);
 
-  // Redirect if not admin
+  // Only admins - redirect others
   React.useEffect(() => {
     if (!user) {
       toast.error('Please login to access admin panel');
@@ -109,7 +108,7 @@ const Admin = () => {
     }
   }, [user, navigate]);
 
-  // Fetch dashboard statistics
+  // Fetch dashboard data
   const { data: dashboardData } = useQuery({
     queryKey: ['admin-dashboard'],
     queryFn: async () => {
@@ -119,7 +118,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'dashboard'
   });
 
-  // Fetch orders
+  // Fetch orders (paginated)
   const { data: ordersData } = useQuery({
     queryKey: ['admin-orders', currentPage, filterStatus],
     queryFn: async () => {
@@ -129,7 +128,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'orders'
   });
 
-  // Fetch users
+  // Fetch users (paginated)
   const { data: usersData } = useQuery({
     queryKey: ['admin-users', currentPage, searchTerm],
     queryFn: async () => {
@@ -139,7 +138,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'users'
   });
 
-  // Fetch products
+  // Fetch products (paginated)
   const { data: productsData } = useQuery({
     queryKey: ['admin-products', currentPage, searchTerm],
     queryFn: async () => {
@@ -149,7 +148,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'products'
   });
 
-  // Fetch builds
+  // Fetch builds (paginated)
   const { data: buildsData } = useQuery({
     queryKey: ['admin-builds', currentPage],
     queryFn: async () => {
@@ -179,7 +178,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'inventory'
   });
 
-  // Fetch tickets/contacts
+  // Fetch tickets (paginated)
   const { data: ticketsData } = useQuery({
     queryKey: ['admin-tickets', currentPage, filterStatus],
     queryFn: async () => {
@@ -189,7 +188,7 @@ const Admin = () => {
     enabled: user?.role === 'admin' && activeTab === 'tickets'
   });
 
-  // Update order status mutation
+  // Update order status
   const updateOrderStatusMutation = useMutation({
     mutationFn: async ({ orderId, status }) => {
       const response = await axios.put(`/api/admin/orders/${orderId}/status`, { status });
@@ -205,7 +204,7 @@ const Admin = () => {
     }
   });
 
-  // Toggle user status mutation
+  // Toggle user status
   const toggleUserStatusMutation = useMutation({
     mutationFn: async ({ userId, isActive }) => {
       const response = await axios.put(`/api/admin/users/${userId}`, { isActive });
@@ -220,7 +219,7 @@ const Admin = () => {
     }
   });
 
-  // Create product mutation
+  // Create product
   const createProductMutation = useMutation({
     mutationFn: async (productData) => {
       const response = await axios.post('/api/admin/products', productData);
@@ -240,7 +239,7 @@ const Admin = () => {
     }
   });
 
-  // Update product mutation
+  // Update product
   const updateProductMutation = useMutation({
     mutationFn: async ({ productId, data }) => {
       const response = await axios.put(`/api/admin/products/${productId}`, data);
@@ -256,7 +255,7 @@ const Admin = () => {
     }
   });
 
-  // Delete product mutation
+  // Delete product
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => {
       const response = await axios.delete(`/api/admin/products/${productId}`);
@@ -271,7 +270,7 @@ const Admin = () => {
     }
   });
 
-  // Toggle build featured status
+  // Toggle build featured
   const toggleBuildFeaturedMutation = useMutation({
     mutationFn: async (buildId) => {
       const response = await axios.put(`/api/admin/builds/${buildId}/featured`);
@@ -286,7 +285,7 @@ const Admin = () => {
     }
   });
 
-  // Reply to ticket mutation
+  // Reply to ticket
   const replyToTicketMutation = useMutation({
     mutationFn: async ({ ticketId, message, isInternal = false }) => {
       const response = await axios.post(`/api/admin/contacts/${ticketId}/response`, { 
@@ -305,7 +304,7 @@ const Admin = () => {
     }
   });
 
-  // Update ticket status mutation
+  // Update ticket status
   const updateTicketStatusMutation = useMutation({
     mutationFn: async ({ ticketId, status, assignedTo }) => {
       const response = await axios.put(`/api/admin/contacts/${ticketId}/status`, { 
@@ -323,14 +322,14 @@ const Admin = () => {
     }
   });
 
-  // removed legacy handleCreateProduct in favor of advanced create modal submit
+  // Legacy handler removed
 
   const renderDashboard = () => {
     if (!dashboardData) return <div>Loading...</div>;
     
     const { stats, recentOrders, revenueChart, topCategories } = dashboardData;
 
-    // small helper to build a sparkline path from revenueChart
+  // Build sparkline path
     const buildSparkline = (data = [], w = 140, h = 40) => {
       if (!data || data.length === 0) return null;
       const vals = data.map(d => d.revenue || 0);
@@ -390,7 +389,7 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* Stats Cards */}
+  {/* Stats cards */}
         <div className="stats-grid">
           <div className="stat-card">
             <div className="stat-icon">👥</div>
@@ -430,7 +429,7 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* Revenue Chart */}
+  {/* Revenue chart */}
         {revenueChart && (
           <div className="chart-section">
             <h3>Daily Revenue Analytics (Last 7 Days)</h3>
@@ -488,7 +487,7 @@ const Admin = () => {
           </div>
         )}
 
-        {/* Recent Orders */}
+  {/* Recent orders */}
         <div className="recent-section">
           <h3>Recent Orders</h3>
           <div className="table-container">
@@ -521,7 +520,7 @@ const Admin = () => {
           </div>
         </div>
 
-        {/* Top Categories */}
+  {/* Top categories */}
         {topCategories && (
           <div className="categories-section">
             <h3>Top Selling Categories</h3>

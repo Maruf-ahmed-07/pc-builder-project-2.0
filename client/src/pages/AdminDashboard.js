@@ -16,7 +16,7 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
-  // Redirect if not admin
+  // Only admins can access — redirect others.
   React.useEffect(() => {
     if (!user) {
       toast.error('Please login to access admin dashboard');
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
     }
   }, [user, navigate]);
 
-  // Fetch dashboard statistics
+  // Fetch dashboard summary (counts & revenue).
   const { data: stats } = useQuery({
     queryKey: ['admin-stats'],
     queryFn: async () => {
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
     enabled: user?.role === 'admin'
   });
 
-  // Fetch orders
+  // Fetch orders (paginated, filtered).
   const { data: ordersData } = useQuery({
     queryKey: ['admin-orders', currentPage, filterStatus],
     queryFn: async () => {
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
     enabled: user?.role === 'admin' && activeTab === 'orders'
   });
 
-  // Fetch users
+  // Fetch users (paginated, searchable).
   const { data: usersData } = useQuery({
     queryKey: ['admin-users', currentPage, searchTerm],
     queryFn: async () => {
@@ -60,7 +60,7 @@ const AdminDashboard = () => {
     enabled: user?.role === 'admin' && activeTab === 'users'
   });
 
-  // Fetch products
+  // Fetch products (paginated, searchable).
   const { data: productsData } = useQuery({
     queryKey: ['admin-products', currentPage, searchTerm],
     queryFn: async () => {
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
     enabled: user?.role === 'admin' && activeTab === 'products'
   });
 
-  // Update order status mutation
+  // Update order status; refresh data on success.
   const updateOrderStatusMutation = useMutation({
     mutationFn: async ({ orderId, status }) => {
       const response = await axios.put(`/api/admin/orders/${orderId}/status`, { status });
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
     }
   });
 
-  // Toggle user active status mutation
+  // Toggle user active/inactive; refresh on success.
   const toggleUserStatusMutation = useMutation({
     mutationFn: async ({ userId, isActive }) => {
       const response = await axios.put(`/api/admin/users/${userId}/status`, { isActive });
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
     }
   });
 
-  // Delete product mutation
+  // Delete a product; refresh on success.
   const deleteProductMutation = useMutation({
     mutationFn: async (productId) => {
       const response = await axios.delete(`/api/admin/products/${productId}`);
@@ -118,22 +118,26 @@ const AdminDashboard = () => {
     }
   });
 
+  // Call mutation to change order status.
   const handleUpdateOrderStatus = (orderId, status) => {
     updateOrderStatusMutation.mutate({ orderId, status });
   };
 
+  // Confirm then toggle user's active state.
   const handleToggleUserStatus = (userId, currentStatus) => {
     if (window.confirm(`Are you sure you want to ${currentStatus ? 'deactivate' : 'activate'} this user?`)) {
       toggleUserStatusMutation.mutate({ userId, isActive: !currentStatus });
     }
   };
 
+  // Confirm then delete product.
   const handleDeleteProduct = (productId, productName) => {
     if (window.confirm(`Are you sure you want to delete "${productName}"? This action cannot be undone.`)) {
       deleteProductMutation.mutate(productId);
     }
   };
 
+  // Format date/time for display.
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -144,6 +148,7 @@ const AdminDashboard = () => {
     });
   };
 
+  // Format number as USD currency.
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -151,6 +156,7 @@ const AdminDashboard = () => {
     }).format(amount);
   };
 
+  // Pick a color for an order status badge.
   const getOrderStatusColor = (status) => {
     switch (status) {
       case 'pending': return '#ffc107';
@@ -162,8 +168,9 @@ const AdminDashboard = () => {
     }
   };
 
+  // If not admin, render nothing (useEffect redirects).
   if (!user || user.role !== 'admin') {
-    return null; // Will redirect in useEffect
+    return null;
   }
 
   return (
@@ -174,7 +181,7 @@ const AdminDashboard = () => {
           <p>Manage your e-commerce platform</p>
         </div>
 
-        {/* Statistics Overview */}
+  {/* Stats overview */}
         {stats && (
           <div className="stats-grid">
             <div className="stat-card">
@@ -223,7 +230,7 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Navigation Tabs */}
+  {/* Tabs */}
         <div className="admin-tabs">
           <button 
             className={`tab ${activeTab === 'overview' ? 'active' : ''}`}

@@ -11,7 +11,7 @@ const BuildDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addToCart } = useCart();
+  const { addToCart, addBuildToCart, loadCart } = useCart();
   const [build, setBuild] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLiked, setIsLiked] = useState(false);
@@ -129,25 +129,41 @@ const BuildDetails = () => {
     }
   };
 
-  const addBuildToCart = () => {
+  const addAllToCart = async () => {
     if (!build?.components) {
       toast.error('No components found to add to cart');
       return;
     }
 
+    // Try server-side add build endpoint first (preferred)
+    if (typeof addBuildToCart === 'function') {
+      const res = await addBuildToCart(build._id);
+      if (res && res.success) {
+        // If server returned the updated cart, we're done.
+        if (res.cart) return;
+        // Server accepted the request but did not return cart data. Force a reload.
+        try {
+          await loadCart();
+          return;
+        } catch (e) {
+          // fallthrough to client-side add if reload fails
+        }
+      }
+      // fallthrough to client-side add if server endpoint failed
+    }
+
+    // Fallback: add individual components by product id
     const components = Object.values(build.components);
     let addedCount = 0;
-    
-    components.forEach(component => {
-      if (component?.product) {
-        addToCart(component.product, 1, { silent: true });
-        addedCount++;
-      } else if (component?._id) {
-        addToCart(component, 1, { silent: true });
+    for (const component of components) {
+      const productId = component?.product?._id || component?._id;
+      if (productId) {
+        // await each add so server cart stays consistent
+        await addToCart(productId, 1, { silent: true });
         addedCount++;
       }
-    });
-    
+    }
+
     if (addedCount > 0) {
       toast.success(`${addedCount} components from "${build.name}" added to cart!`);
     } else {
@@ -317,9 +333,9 @@ const BuildDetails = () => {
               </div>
             </div>
           </div>
-          <div className="hero-actions">
+            <div className="hero-actions">
             <button className={`btn btn-like hero-like ${isLiked ? 'liked' : ''}`} onClick={handleLike}>{isLiked ? '💖 Liked' : '❤️ Like'} ({likesCount})</button>
-            <button className="btn btn-primary" onClick={addBuildToCart}>Add All to Cart</button>
+            <button className="btn btn-primary" onClick={addAllToCart}>Add All to Cart</button>
             <button className="btn btn-outline" onClick={handleShare}>Share</button>
           </div>
         </div>
@@ -376,7 +392,19 @@ const BuildDetails = () => {
                         )}
                       </div>
                       <div className="component-footer">
-                        <button className="btn btn-sm btn-outline-primary" onClick={() => addToCart(component?.product || component, 1, { silent: true })}>Add to Cart</button>
+                        <button
+                          className="btn btn-sm btn-outline-primary"
+                          onClick={async () => {
+                            const productId = component?.product?._id || component?._id;
+                            if (!productId) {
+                              toast.error('Cannot add this item to cart');
+                              return;
+                            }
+                            await addToCart(productId, 1, { silent: false });
+                          }}
+                        >
+                          Add to Cart
+                        </button>
                       </div>
                     </div>
                   );
@@ -476,7 +504,7 @@ const BuildDetails = () => {
               </ul>
               <div className="summary-actions">
                 <button className={`btn btn-like block ${isLiked ? 'liked' : ''}`} onClick={handleLike}>{isLiked ? '💖 Unlike' : '❤️ Like'} ({likesCount})</button>
-                <button className="btn btn-primary block" onClick={addBuildToCart}>Add All to Cart</button>
+                <button className="btn btn-primary block" onClick={addAllToCart}>Add All to Cart</button>
                 <button className="btn btn-outline block" onClick={handleShare}>Share</button>
               </div>
             </div>
