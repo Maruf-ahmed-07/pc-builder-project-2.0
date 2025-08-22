@@ -1,0 +1,30 @@
+.admin-chat-wrapper { display:flex; height:620px; border:1px solid #e2e8f0; border-radius:22px; overflow:hidden; font-family:'Inter',system-ui,sans-serif; background:#ffffff; box-shadow:0 16px 40px -12px rgba(0,0,0,0.25),0 4px 12px rgba(0,0,0,0.1); }
+.threads { width:280px; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; background:linear-gradient(180deg,#f1f5f9,#e2e8f0); }
+.threads h3 { margin:0; padding:16px 18px; background:linear-gradient(135deg,#2563eb,#7c3aed); color:#fff; font-size:17px; letter-spacing:.5px; font-weight:600; box-shadow:0 2px 8px rgba(0,0,0,0.25); }
+.thread-list { overflow-y:auto; flex:1; padding:6px 6px 12px; }
+.thread-item { padding:10px 12px 10px 46px; border:1px solid transparent; cursor:pointer; position:relative; border-radius:16px; margin:4px 4px; background:rgba(255,255,255,0.65); backdrop-filter:blur(3px); transition:background .18s,border .18s,box-shadow .18s; }
+.thread-item:before { content:'👤'; position:absolute; left:14px; top:12px; font-size:18px; opacity:.75; }
+.thread-item:hover { background:#ffffff; border-color:#cbd5e1; }
+.thread-item.active { background:linear-gradient(135deg,#2563eb,#7c3aed); color:#fff; box-shadow:0 6px 14px -4px rgba(37,99,235,.5); }
+.thread-item.active .last { color:#f1f5f9; }
+.thread-item .title { font-weight:600; font-size:14px; letter-spacing:.3px; }
+.thread-item .last { font-size:12px; color:#64748b; margin-top:4px; line-height:1.25; }
+.thread-item .badge { position:absolute; top:10px; right:10px; background:#ef4444; color:#fff; font-size:11px; padding:3px 7px; border-radius:12px; box-shadow:0 2px 6px rgba(0,0,0,0.3); }
+.conversation { flex:1; display:flex; flex-direction:column; background:linear-gradient(180deg,#f8fafc,#eef2f7); position:relative; }
+.messages { flex:1; overflow-y:auto; padding:18px 16px 12px; }
+.msg { display:flex; margin-bottom:14px; }
+.msg.me { justify-content:flex-end; }
+.msg .bubble { max-width:72%; padding:12px 16px 14px; border-radius:22px; font-size:15px; line-height:1.35; position:relative; word-break:break-word; letter-spacing:.2px; backdrop-filter:blur(4px); }
+.msg.me .bubble { background:linear-gradient(135deg,#2563eb,#5b21b6); color:#fff; border-bottom-right-radius:8px; box-shadow:0 4px 12px -4px rgba(37,99,235,0.5); }
+.msg.user .bubble { background:#ffffff; border:1px solid #e2e8f0; color:#1e293b; border-bottom-left-radius:8px; box-shadow:0 4px 10px -6px rgba(0,0,0,0.2); }
+.msg.system { justify-content:center; }
+.msg .bubble.system { background:#f1f5f9; border:1px dashed #94a3b8; color:#475569; font-size:12px; text-align:center; padding:10px 14px; box-shadow:none; }
+.close-chat-btn { background:linear-gradient(135deg,#ef4444,#b91c1c); color:#fff; border:none; padding:8px 14px; border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; box-shadow:0 4px 12px -4px rgba(185,28,28,0.6); transition:transform .18s, box-shadow .18s; }
+.close-chat-btn:hover { transform:translateY(-2px); box-shadow:0 6px 16px -4px rgba(185,28,28,0.65); }
+.input { display:flex; gap:10px; padding:14px 16px 18px; background:rgba(255,255,255,0.9); border-top:1px solid #e2e8f0; backdrop-filter:blur(10px); }
+.input input { flex:1; border:1px solid #cbd5e1; background:#f8fafc; padding:12px 14px; font-size:14px; outline:none; border-radius:16px; transition:border .2s, background .2s; }
+.input input:focus { border-color:#6366f1; background:#fff; }
+.input button { background:linear-gradient(135deg,#2563eb,#7c3aed); border:none; color:#fff; padding:0 24px; cursor:pointer; border-radius:16px; font-size:16px; font-weight:600; box-shadow:0 4px 12px -4px rgba(67,56,202,0.5); transition:transform .18s, box-shadow .18s; }
+.input button:hover { transform:translateY(-2px); box-shadow:0 6px 16px -4px rgba(67,56,202,0.55); }
+.empty { display:flex; align-items:center; justify-content:center; flex:1; color:#64748b; font-size:15px; letter-spacing:.3px; }
+@media (max-width:900px){ .admin-chat-wrapper { flex-direction:column; height:auto; } .threads { width:100%; border-right:none; border-bottom:1px solid #e2e8f0; } .conversation { height:520px; } }

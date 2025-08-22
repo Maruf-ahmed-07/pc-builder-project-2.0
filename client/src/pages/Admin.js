@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import './AdminPanel.css';
+import AdminChatPanel from '../components/AdminChatPanel';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -1204,6 +1205,12 @@ const Admin = () => {
         >
           Analytics
         </button>
+        <button
+          className={activeTab === 'livechat' ? 'active' : ''}
+          onClick={() => { setActiveTab('livechat'); setCurrentPage(1); }}
+        >
+          Live Chat
+        </button>
       </div>
 
       {/* Content */}
@@ -1216,6 +1223,15 @@ const Admin = () => {
         {activeTab === 'tickets' && renderTickets()}
         {activeTab === 'inventory' && renderInventory()}
         {activeTab === 'analytics' && renderAnalytics()}
+        {activeTab === 'livechat' && (
+          <div className="admin-section">
+            <div className="section-header" style={{marginBottom:'1rem'}}>
+              <h2>Customer Live Chat</h2>
+              <p style={{color:'#64748b', margin:0}}>Real-time conversations with users</p>
+            </div>
+            <AdminChatPanel />
+          </div>
+        )}
       </div>
 
       {/* Create Product Modal (Advanced) */}

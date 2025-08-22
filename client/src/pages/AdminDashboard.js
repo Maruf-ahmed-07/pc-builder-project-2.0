@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import './AdminDashboard.css';
+import AdminChatPanel from '../components/AdminChatPanel';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -255,6 +256,12 @@ const AdminDashboard = () => {
             onClick={() => setActiveTab('products')}
           >
             Products
+          </button>
+          <button
+            className={`tab ${activeTab === 'chat' ? 'active' : ''}`}
+            onClick={() => setActiveTab('chat')}
+          >
+            Live Chat
           </button>
         </div>
 
@@ -630,6 +637,16 @@ const AdminDashboard = () => {
                   </button>
                 </div>
               )}
+            </div>
+          )}
+
+          {activeTab === 'chat' && (
+            <div className="chat-tab">
+              <div className="tab-header" style={{marginBottom:'16px'}}>
+                <h2>Customer Live Chat</h2>
+                <p style={{color:'#64748b', margin:0}}>Respond to real-time customer inquiries</p>
+              </div>
+              <AdminChatPanel />
             </div>
           )}
         </div>
