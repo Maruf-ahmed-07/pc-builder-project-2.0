@@ -9,7 +9,7 @@ const PCBuilder = () => {
   const { addToCart } = useCart();
   const { user, isAuthenticated } = useAuth();
   
-  const [globalSearchTerm, setGlobalSearchTerm] = useState('');
+  // Removed global search (per-category search only now)
   const [activeFilter, setActiveFilter] = useState('all');
   const [categorySearchTerms, setCategorySearchTerms] = useState({});
   const [collapsedCategories, setCollapsedCategories] = useState(new Set());
@@ -123,15 +123,6 @@ const PCBuilder = () => {
     
     let components = [...categoryData];
     
-    // Apply global search
-    if (globalSearchTerm) {
-      const searchLower = globalSearchTerm.toLowerCase();
-      components = components.filter(component =>
-        component.name?.toLowerCase().includes(searchLower) ||
-        component.brand?.toLowerCase().includes(searchLower) ||
-        component.category?.toLowerCase().includes(searchLower)
-      );
-    }
 
     // Apply category-specific search
     const categorySearch = categorySearchTerms[category];
@@ -146,10 +137,7 @@ const PCBuilder = () => {
     return components;
   };
 
-  // Global search functionality
-  const performGlobalSearch = () => {
-    // Already handled by filterComponents
-  };
+  // (Global search removed)
 
   // Category-specific search
   const searchCategory = (category, searchTerm) => {
@@ -177,7 +165,6 @@ const PCBuilder = () => {
 
   // Clear all filters
   const clearAllFilters = () => {
-    setGlobalSearchTerm('');
     setActiveFilter('all');
     setCategorySearchTerms({});
     setCollapsedCategories(new Set());
@@ -411,22 +398,9 @@ const PCBuilder = () => {
         </div>
       </section>
 
-      {/* Search and Filters */}
+      {/* Top Filters (global search removed) */}
       <div className="search-filters">
         <div className="container">
-          <div className="global-search">
-            <input
-              type="text"
-              className="search-input"
-              value={globalSearchTerm}
-              onChange={(e) => setGlobalSearchTerm(e.target.value)}
-              placeholder="Search all components (e.g., 'RTX 4090', 'Intel i9', 'DDR5')..."
-            />
-            <button className="search-icon" onClick={performGlobalSearch}>
-              🔍
-            </button>
-          </div>
-          
           <div className="filter-controls">
             <button 
               className={`filter-btn ${activeFilter === 'all' ? 'active' : ''}`}

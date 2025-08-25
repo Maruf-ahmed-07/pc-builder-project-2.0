@@ -31,8 +31,7 @@
 
 /* Search and Filters */
 .search-filters {
-  padding: 2rem 0;
-  background: rgba(255,255,255,0.05);
+  display:none; /* hidden: global search removed */
 }
 
 .global-search {
@@ -852,6 +851,72 @@
   font-weight: 600;
   margin: 0;
 }
+
+/* ================= Large Two-Column Product Layout Overrides (Appended) ================= */
+/* Force two large cards per row on desktop for clarity */
+.pcb-new .single-category .component-options {grid-template-columns:repeat(2,1fr)!important;max-height:560px!important;overflow-y:auto!important;overflow-x:hidden!important;gap:1.15rem!important;}
+@media (max-width:900px){.pcb-new .single-category .component-options{grid-template-columns:1fr!important;}}
+
+/* Enlarge and beautify product cards */
+.pcb-new .single-category .card-tile {min-height:260px!important;padding:1rem 1.1rem .95rem!important;border-radius:14px!important;background:linear-gradient(145deg,#ffffff,#f1f5f9)!important;border:1px solid #dbe3ea!important;box-shadow:0 4px 12px rgba(0,0,0,.05)!important;}
+.pcb-new .single-category .card-tile:hover {box-shadow:0 8px 22px -4px rgba(0,0,0,.12)!important;transform:translateY(-4px)!important;}
+.pcb-new .single-category .card-tile.selected {background:linear-gradient(145deg,#eef6ff,#d9ecff)!important;box-shadow:0 0 0 2px #3b82f6,0 6px 18px -4px rgba(59,130,246,.35)!important;}
+
+/* Typography scale up */
+.pcb-new .single-category .option-name {font-size:.9rem!important;letter-spacing:.2px;}
+.pcb-new .single-category .option-price {font-size:.9rem!important;}
+.pcb-new .single-category .brand-tag {font-size:.65rem!important;}
+.pcb-new .single-category .spec-pill {font-size:.6rem!important;}
+
+/* Layout tweaks */
+.pcb-new .single-category .tile-head {flex-direction:row;justify-content:space-between;align-items:flex-start;}
+.pcb-new .single-category .tile-meta {margin-top:.5rem!important;}
+.pcb-new .single-category .tile-footer {margin-top:.65rem!important;}
+
+/* Gradient ring effect */
+.pcb-new .single-category .card-tile{position:relative;}
+.pcb-new .single-category .card-tile::after {content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(120deg,#3b82f6,#9333ea,#3b82f6);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.4s;pointer-events:none;}
+.pcb-new .single-category .card-tile:hover::after {opacity:.45;}
+.pcb-new .single-category .card-tile.selected::after {opacity:.9;}
+
+/* Spec pills refinement */
+.pcb-new .single-category .spec-pill {background:#eef2f6!important;color:#475569!important;font-weight:600;padding:.3rem .55rem!important;}
+.pcb-new .single-category .card-tile.selected .spec-pill {background:#e0efff!important;color:#1e3a8a!important;}
+
+/* Stock badge size */
+.pcb-new .single-category .stock-ok,.pcb-new .single-category .stock-bad {font-size:.62rem!important;letter-spacing:.4px;}
+
+/* Selected badge */
+.pcb-new .single-category .selected-badge {font-size:.55rem!important;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+
+/* Remove inner scrollbars */
+.pcb-new .single-category .component-options::-webkit-scrollbar {display:none;}
+/* === Global Large Card Overrides (applies when single-category class not present) === */
+.pc-builder-page.pcb-new .component-category .component-options {grid-template-columns:repeat(2,1fr)!important;max-height:540px!important;overflow-y:auto!important;overflow-x:hidden!important;gap:1.25rem!important;padding-right:.4rem;}
+.pc-builder-page.pcb-new .component-category .component-options::-webkit-scrollbar{width:8px;}
+.pc-builder-page.pcb-new .component-category .component-options::-webkit-scrollbar-track{background:#f1f5f9;border-radius:8px;}
+.pc-builder-page.pcb-new .component-category .component-options::-webkit-scrollbar-thumb{background:linear-gradient(135deg,#3b82f6,#6366f1);border-radius:8px;}
+.pc-builder-page.pcb-new .component-category .component-options::-webkit-scrollbar-thumb:hover{background:linear-gradient(135deg,#2563eb,#4f46e5);} 
+@media (max-width:900px){.pc-builder-page.pcb-new .component-category .component-options{grid-template-columns:1fr!important;}}
+
+.pc-builder-page.pcb-new .component-category .component-option {min-height:260px!important;padding:1.1rem 1.2rem 1rem!important;border-radius:16px!important;background:linear-gradient(140deg,#ffffff,#f2f6fa)!important;border:1px solid #dbe3ea!important;box-shadow:0 6px 18px -6px rgba(0,0,0,.12),0 2px 6px -2px rgba(0,0,0,.08)!important;transition:.35s!important;}
+.pc-builder-page.pcb-new .component-category .component-option:hover {transform:translateY(-5px)!important;box-shadow:0 10px 28px -4px rgba(0,0,0,.18),0 4px 10px -2px rgba(0,0,0,.12)!important;border-color:#3b82f6!important;}
+.pc-builder-page.pcb-new .component-category .component-option.selected {background:linear-gradient(140deg,#eef6ff,#d9ecff)!important;box-shadow:0 0 0 2px #3b82f6,0 8px 24px -4px rgba(59,130,246,.35)!important;}
+
+.pc-builder-page.pcb-new .component-category .component-option .option-name, 
+.pc-builder-page.pcb-new .component-category .component-option .tile-head .option-name {font-size:1rem!important;line-height:1.3!important;}
+.pc-builder-page.pcb-new .component-category .component-option .option-price {font-size:1rem!important;}
+.pc-builder-page.pcb-new .component-category .component-option .brand-tag {font-size:.7rem!important;letter-spacing:.4px!important;}
+.pc-builder-page.pcb-new .component-category .component-option .spec-pill {font-size:.65rem!important;padding:.35rem .6rem!important;border-radius:999px!important;font-weight:600!important;background:#eef2f6!important;color:#475569!important;}
+.pc-builder-page.pcb-new .component-category .component-option.selected .spec-pill {background:#e0efff!important;color:#1e3a8a!important;}
+.pc-builder-page.pcb-new .component-category .component-option .tile-footer {margin-top:.75rem!important;}
+.pc-builder-page.pcb-new .component-category .component-option .stock-ok,.pc-builder-page.pcb-new .component-category .component-option .stock-bad {font-size:.7rem!important;font-weight:600!important;letter-spacing:.4px!important;}
+.pc-builder-page.pcb-new .component-category .component-option .selected-badge {top:.6rem!important;right:.6rem!important;font-size:.6rem!important;padding:.35rem .55rem!important;box-shadow:0 2px 6px rgba(0,0,0,.18)!important;}
+
+.pc-builder-page.pcb-new .component-category .component-option {position:relative;}
+.pc-builder-page.pcb-new .component-category .component-option::after {content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(120deg,#3b82f6,#9333ea,#3b82f6);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:.45s;pointer-events:none;}
+.pc-builder-page.pcb-new .component-category .component-option:hover::after {opacity:.45;}
+.pc-builder-page.pcb-new .component-category .component-option.selected::after {opacity:.9;}
 
 /* Responsive Design */
 @media (max-width: 1200px) {

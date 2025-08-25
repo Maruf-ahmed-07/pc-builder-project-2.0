@@ -25,14 +25,15 @@ body {
 
 /* Container */
 .container {
-  max-width: 1200px;
+  /* Wider global container to reduce empty side space */
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .container-fluid {
   width: 100%;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 /* Typography */
@@ -332,10 +333,13 @@ a:hover {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  /* slightly narrower breakpoint to preserve spacing on medium screens */
+  .container { padding: 0 20px; }
+}
+
 @media (max-width: 768px) {
-  .container {
-    padding: 0 15px;
-  }
+  .container { padding: 0 12px; }
   
   h1 { font-size: 2rem; }
   h2 { font-size: 1.75rem; }
