@@ -183,7 +183,8 @@ const Admin = () => {
   const { data: ticketsData } = useQuery({
     queryKey: ['admin-tickets', currentPage, filterStatus],
     queryFn: async () => {
-      const response = await axios.get(`/api/admin/contacts?page=${currentPage}&status=${filterStatus}&limit=10`);
+  const statusQS = filterStatus === 'all' ? '' : `&status=${encodeURIComponent(filterStatus)}`;
+  const response = await axios.get(`/api/admin/contacts?page=${currentPage}${statusQS}&limit=10`);
       return response.data;
     },
     enabled: user?.role === 'admin' && activeTab === 'tickets'
@@ -1067,60 +1068,68 @@ const Admin = () => {
             </tr>
           </thead>
           <tbody>
-            {ticketsData?.contacts?.map(ticket => (
-              <tr key={ticket._id}>
-                <td>
-                  <div>
-                    <strong>{ticket.subject}</strong>
-                    {ticket.responses?.length > 0 && (
-                      <small className="replies-count">
-                        ({ticket.responses.length} replies)
-                      </small>
-                    )}
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <div>{ticket.name}</div>
-                    <small>{ticket.email}</small>
-                  </div>
-                </td>
-                <td>
-                  <span className="category-badge">{ticket.category}</span>
-                </td>
-                <td>
-                  <span className={`priority-badge priority-${ticket.priority?.toLowerCase()}`}>
-                    {ticket.priority}
-                  </span>
-                </td>
-                <td>
-                  <select
-                    value={ticket.status}
-                    onChange={(e) => updateTicketStatusMutation.mutate({
-                      ticketId: ticket._id,
-                      status: e.target.value
-                    })}
-                    className="status-select"
-                  >
-                    <option value="Open">Open</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Resolved">Resolved</option>
-                    <option value="Closed">Closed</option>
-                  </select>
-                </td>
-                <td>{new Date(ticket.createdAt).toLocaleDateString()}</td>
-                <td>
-                  <div className="action-buttons">
-                    <button 
-                      onClick={() => setSelectedItem(ticket)}
-                      className="btn-sm btn-primary"
+            {ticketsData?.contacts?.length ? (
+              ticketsData.contacts.map(ticket => (
+                <tr key={ticket._id}>
+                  <td>
+                    <div>
+                      <strong>{ticket.subject}</strong>
+                      {ticket.responses?.length > 0 && (
+                        <small className="replies-count">
+                          ({ticket.responses.length} replies)
+                        </small>
+                      )}
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <div>{ticket.name}</div>
+                      <small>{ticket.email}</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span className="category-badge">{ticket.category}</span>
+                  </td>
+                  <td>
+                    <span className={`priority-badge priority-${ticket.priority?.toLowerCase()}`}>
+                      {ticket.priority}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      value={ticket.status}
+                      onChange={(e) => updateTicketStatusMutation.mutate({
+                        ticketId: ticket._id,
+                        status: e.target.value
+                      })}
+                      className="status-select"
                     >
-                      View & Reply
-                    </button>
-                  </div>
+                      <option value="Open">Open</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Resolved">Resolved</option>
+                      <option value="Closed">Closed</option>
+                    </select>
+                  </td>
+                  <td>{new Date(ticket.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button 
+                        onClick={() => setSelectedItem(ticket)}
+                        className="btn-sm btn-primary"
+                      >
+                        View & Reply
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="7" style={{textAlign:'center', padding:'24px 12px', color:'#64748b'}}>
+                  {filterStatus === 'all' ? 'No support tickets found yet.' : `No tickets with status "${filterStatus}".`}
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>
