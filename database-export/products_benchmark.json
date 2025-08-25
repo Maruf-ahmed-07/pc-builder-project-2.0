@@ -1,0 +1,2822 @@
+[
+  {
+    "_id": "688aae48e2edcc24d22668c3",
+    "name": "Intel Core Ultra 5 245K Processor",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Core Ultra 5 245K Processor",
+    "price": 28990,
+    "specs": {
+      "cores": 14,
+      "threads": 4,
+      "baseClock_GHz": 4.2,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 95,
+      "l3Cache_MB": 0.006,
+      "manufacturing_nm": 32,
+      "architecture": "Sandy Bridge",
+      "integratedGraphics": "None",
+      "memorySupport_GB": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668c9",
+    "name": "Intel Core Ultra 9 285K Processor (Series 2, Formerly Arrow Lake) - (Fan Not Included)",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Core Ultra 9 285K Processor (Series 2, Formerly Arrow Lake) - (Fan Not Included)",
+    "price": 28990,
+    "specs": {
+      "cores": 10,
+      "threads": 8,
+      "baseClock_GHz": 3.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 125,
+      "l3Cache_MB": 0.016,
+      "manufacturing_nm": 14,
+      "architecture": "Comet Lake",
+      "integratedGraphics": "Intel UHD Graphics 630",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668bb",
+    "name": "AMD Ryzen 9 9950X Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 9 9950X Gaming Processor",
+    "price": 4890,
+    "specs": {
+      "cores": 16,
+      "threads": 32,
+      "baseClock_GHz": 5.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 120,
+      "l3Cache_MB": 0.125,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668bf",
+    "name": "AMD Ryzen 5 7600X3D Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 5 7600X3D Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 4.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 105,
+      "l3Cache_MB": 0.094,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 3",
+      "integratedGraphics": "None",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668c1",
+    "name": "AMD Ryzen 9 9900X Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 9 9900X Gaming Processor",
+    "price": 4890,
+    "specs": {
+      "cores": 12,
+      "threads": 24,
+      "baseClock_GHz": 4.4,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 170,
+      "l3Cache_MB": 0.063,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668c7",
+    "name": "AMD Ryzen 7 9700X AM5 Desktop Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 7 9700X AM5 Desktop Gaming Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 8,
+      "threads": 16,
+      "baseClock_GHz": 3.8,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 105,
+      "l3Cache_MB": 0.094,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 3",
+      "integratedGraphics": "None",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668cd",
+    "name": "AMD Ryzen 5 9600X Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 5 9600X Gaming Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 3.9,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 105,
+      "l3Cache_MB": 0.031,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668bd",
+    "name": "AMD Athlon PRO 300GE AM4 Socket Desktop Processor with Radeon Vega 3 Graphics",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Athlon PRO 300GE AM4 Socket Desktop Processor with Radeon Vega 3 Graphics",
+    "price": 7490,
+    "specs": {
+      "cores": 64,
+      "threads": 64,
+      "baseClock_GHz": 3.4,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 280,
+      "l3Cache_MB": 0.25,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 2",
+      "integratedGraphics": "None",
+      "memorySupport_GB": 1024
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668c5",
+    "name": "AMD Ryzen 7 9800X3D Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 7 9800X3D Gaming Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 5,
+      "threads": 16,
+      "baseClock_GHz": 4.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 120,
+      "l3Cache_MB": 0.094,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668cb",
+    "name": "AMD Ryzen 9 9900X3D Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 9 9900X3D Gaming Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 12,
+      "threads": 24,
+      "baseClock_GHz": 4.4,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 120,
+      "l3Cache_MB": 0.125,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668d6",
+    "name": "AMD Ryzen 5 5600GT AM4 Processor with Radeon Graphics",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 5 5600GT AM4 Processor with Radeon Graphics",
+    "price": 7490,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 3.6,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 65,
+      "l3Cache_MB": 0.016,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 3",
+      "integratedGraphics": "Radeon Vega 7",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668d0",
+    "name": "Intel Core Ultra 7 265K Processor (Series 2, Formerly Arrow Lake) - (Fan Not Included)",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Core Ultra 7 265K Processor (Series 2, Formerly Arrow Lake) - (Fan Not Included)",
+    "price": 28990,
+    "specs": {
+      "cores": 10,
+      "threads": 8,
+      "baseClock_GHz": 3.9,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 125,
+      "l3Cache_MB": 0.016,
+      "manufacturing_nm": 14,
+      "architecture": "Comet Lake",
+      "integratedGraphics": "Intel UHD Graphics 630",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668d8",
+    "name": "AMD Ryzen 5 7400F Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 5 7400F Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 3.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 65,
+      "l3Cache_MB": 0.031,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "None",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668dc",
+    "name": "AMD Ryzen 3 8300G 4 Cores 8 Threads AM5 Desktop Processor with Radeon Graphics",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 3 8300G 4 Cores 8 Threads AM5 Desktop Processor with Radeon Graphics",
+    "price": 7490,
+    "specs": {
+      "cores": 4,
+      "threads": 8,
+      "baseClock_GHz": 4.9,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 280,
+      "l3Cache_MB": 0.25,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 2",
+      "integratedGraphics": "None",
+      "memorySupport_GB": 1024
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668d2",
+    "name": "AMD RYZEN 5 5600 DESKTOP PROCESSOR",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "RYZEN 5 5600 DESKTOP PROCESSOR",
+    "price": 4890,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 3.5,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 65,
+      "l3Cache_MB": 0.016,
+      "manufacturing_nm": 7,
+      "architecture": "Zen 3",
+      "integratedGraphics": "Radeon Vega 7",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668da",
+    "name": "Intel Core Ultra 5 245KF Processor",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Core Ultra 5 245KF Processor",
+    "price": 28990,
+    "specs": {
+      "cores": 14,
+      "threads": 14,
+      "baseClock_GHz": 4.2,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 95,
+      "l3Cache_MB": 0.006,
+      "manufacturing_nm": 32,
+      "architecture": "Sandy Bridge",
+      "integratedGraphics": "None",
+      "memorySupport_GB": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668d4",
+    "name": "AMD Ryzen 9 9950X3D Gaming Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 9 9950X3D Gaming Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 16,
+      "threads": 32,
+      "baseClock_GHz": 4.3,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 120,
+      "l3Cache_MB": 0.125,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668de",
+    "name": "Intel Pentium Gold G6400 10th gen Coffee Lake Processor",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Pentium Gold G6400 10th gen Coffee Lake Processor",
+    "price": 28990,
+    "specs": {
+      "cores": 2,
+      "threads": 6400,
+      "baseClock_GHz": 4,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 58,
+      "l3Cache_MB": 0.004,
+      "manufacturing_nm": 14,
+      "architecture": "Comet Lake",
+      "integratedGraphics": "Intel UHD Graphics 610",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668e0",
+    "name": "AMD Ryzen 5 7600X Processor",
+    "category": "CPU",
+    "brand": "AMD",
+    "model": "Ryzen 5 7600X Processor",
+    "price": 7490,
+    "specs": {
+      "cores": 6,
+      "threads": 12,
+      "baseClock_GHz": 4.7,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 105,
+      "l3Cache_MB": 0.031,
+      "manufacturing_nm": 5,
+      "architecture": "Zen 4",
+      "integratedGraphics": "Radeon",
+      "memorySupport_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668e2",
+    "name": "Intel Pentium Gold G5420 8th gen Coffee Lake Processor",
+    "category": "CPU",
+    "brand": "Intel",
+    "model": "Pentium Gold G5420 8th gen Coffee Lake Processor",
+    "price": 28990,
+    "specs": {
+      "cores": 2,
+      "threads": 4,
+      "baseClock_GHz": 3.8,
+      "boostClock_GHz": 5.8,
+      "tdp_W": 54,
+      "l3Cache_MB": 0.004,
+      "manufacturing_nm": 14,
+      "architecture": "Coffee Lake",
+      "integratedGraphics": "Intel UHD Graphics 610",
+      "memorySupport_GB": 64
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668f3",
+    "name": "NZXT N7 Z790 LGA1700 ATX Gaming White Motherboard",
+    "category": "Motherboard",
+    "brand": "NZXT",
+    "model": "Motherboard",
+    "price": 26850,
+    "specs": {
+      "socket": null,
+      "chipset": "Intel Z790",
+      "formFactor": null,
+      "memorySlots": null,
+      "maxMemory_GB": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668f7",
+    "name": "MSI B650M Project Zero AM5 Micro-ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "MSI",
+    "model": "Motherboard",
+    "price": 8390,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668e7",
+    "name": "NZXT N7 B650E AM5 ATX Gaming Motherboard  Black",
+    "category": "Motherboard",
+    "brand": "NZXT",
+    "model": "Black",
+    "price": 40000,
+    "specs": {
+      "socket": null,
+      "chipset": "Intel Z790",
+      "formFactor": null,
+      "memorySlots": null,
+      "maxMemory_GB": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668e9",
+    "name": "ASUS TUF GAMING Z890-PRO WIFI LGA 1851 ATX Gaming Motherboard",
+    "category": "Motherboard",
+    "brand": "ASUS",
+    "model": "Motherboard",
+    "price": 20190,
+    "specs": {
+      "socket": "LGA1851",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668eb",
+    "name": "GIGABYTE Z790 D AC DDR5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "GIGABYTE",
+    "model": "Motherboard",
+    "price": 7490,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "formFactor": "EATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668f1",
+    "name": "Asus PRIME X870-P WIFI-CSM AM5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "Asus",
+    "model": "Motherboard",
+    "price": 12590,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668e5",
+    "name": "ASUS Expedition EX-B560M-V5 Intel 10th and 11th Gen M-ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "ASUS",
+    "model": "Motherboard",
+    "price": 20190,
+    "specs": {
+      "socket": "LGA775",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 2,
+      "maxMemory_GB": 4
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668ed",
+    "name": "Asus B650M-AYW Wi-Fi 6 DDR5 AMD Motherboard",
+    "category": "Motherboard",
+    "brand": "Asus",
+    "model": "Motherboard",
+    "price": 12590,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 2,
+      "maxMemory_GB": 64
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668f5",
+    "name": "ASUS ROG MAXIMUS Z890 HERO LGA 1851 WiFi ATX Gaming Motherboard",
+    "category": "Motherboard",
+    "brand": "ASUS",
+    "model": "Motherboard",
+    "price": 20190,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668ef",
+    "name": "MSI PRO Z890-P WIFI LGA 1851 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "MSI",
+    "model": "Motherboard",
+    "price": 10090,
+    "specs": {
+      "socket": "LGA1851",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668fa",
+    "name": "MSI MEG Z890 UNIFY-X LGA 1851 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "MSI",
+    "model": "Motherboard",
+    "price": 10090,
+    "specs": {
+      "socket": "LGA1851",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 2,
+      "maxMemory_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266902",
+    "name": "Unika B450M Pro Blizzards AMD Motherboard",
+    "category": "Motherboard",
+    "brand": "Unika",
+    "model": "Motherboard",
+    "price": 7490,
+    "specs": {
+      "socket": "LGA1155",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 2,
+      "maxMemory_GB": 16
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668fe",
+    "name": "ASRock X870 Steel Legend WiFi 7 AMD Ryzen Socket AM5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "ASRock",
+    "model": "Motherboard",
+    "price": 8390,
+    "specs": {
+      "socket": "AM4",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266908",
+    "name": "MSI MPG Z890 CARBON WIFI LGA 1851 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "MSI",
+    "model": "Motherboard",
+    "price": 10090,
+    "specs": {
+      "socket": "LGA1851",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226690a",
+    "name": "GIGABYTE X870E AORUS PRO ICE DDR5 AM5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "GIGABYTE",
+    "model": "Motherboard",
+    "price": 10800,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226690c",
+    "name": "ASUS Z890 AYW GAMING WIFI W LGA 1851 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "ASUS",
+    "model": "Motherboard",
+    "price": 20190,
+    "specs": {
+      "socket": "LGA1851",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266904",
+    "name": "ASUS ProArt X870E-CREATOR WiFi AM5 DDR5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "ASUS",
+    "model": "Motherboard",
+    "price": 12590,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "Intel Z790",
+      "formFactor": "ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d22668fc",
+    "name": "GIGABYTE X870E AORUS MASTER DDR5 AMD AM5 ATX Motherboard",
+    "category": "Motherboard",
+    "brand": "GIGABYTE",
+    "model": "Motherboard",
+    "price": 10800,
+    "specs": {
+      "socket": "AM5",
+      "chipset": "Intel Z790",
+      "formFactor": "EATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 256
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266900",
+    "name": "GIGABYTE B650M GAMING X AX DDR5 AM5 Motherboard",
+    "category": "Motherboard",
+    "brand": "GIGABYTE",
+    "model": "Motherboard",
+    "price": 10800,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 128
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266906",
+    "name": "ASRock B650M Pro RS WiFi AMD Motherboard",
+    "category": "Motherboard",
+    "brand": "ASRock",
+    "model": "Motherboard",
+    "price": 8390,
+    "specs": {
+      "socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "formFactor": "Micro ATX",
+      "memorySlots": 4,
+      "maxMemory_GB": 192
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266911",
+    "name": "OCPC GeForce RTX 3060 12GB GDDR6 Graphics Card",
+    "category": "Accessories",
+    "brand": "Ocpc",
+    "model": "OCPC GeForce RTX 3060 12GB GDDR6 Graphics Card",
+    "price": 32999,
+    "specs": {
+      "gpuChip": "RTX 3060",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.41,
+      "boostClock_GHz": 1.77,
+      "memorySize_GB": 12,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 220,
+      "recommendedPSU_W": null,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266913",
+    "name": "Maxsun GeForce RTX 4060Ti Terminator 8GB BLACK Graphics Card",
+    "category": "Accessories",
+    "brand": "Maxsun",
+    "model": "Maxsun GeForce RTX 4060Ti Terminator 8GB BLACK Graphics Card",
+    "price": 117490,
+    "specs": {
+      "gpuChip": "RTX 4060",
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 8,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266921",
+    "name": "GUNNIR Intel Arc B570 Tri 10G OC Gaming Black Graphics Card",
+    "category": "Accessories",
+    "brand": "Gunnir",
+    "model": "GUNNIR Intel Arc B570 Tri 10G OC Gaming Black Graphics Card",
+    "price": 28200,
+    "specs": {
+      "gpuChip": null,
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 10,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266917",
+    "name": "MSI GeForce RTX 4070 Ti SUPER 16G GAMING X SLIM GDDR6X Graphics Card",
+    "category": "Accessories",
+    "brand": "MSI",
+    "model": "GeForce RTX 4070 Ti SUPER 16G GAMING X SLIM GDDR6X Graphics Card",
+    "price": 38490,
+    "specs": {
+      "gpuChip": "RTX 4070",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.605,
+      "boostClock_GHz": 1.785,
+      "memorySize_GB": 16,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 235,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226691b",
+    "name": "ASUS TUF Gaming GeForce RTX 4070 Ti SUPER BTF White OC Edition 16GB GDDR6X Graphics Card",
+    "category": "Accessories",
+    "brand": "ASUS",
+    "model": "TUF Gaming GeForce RTX 4070 Ti SUPER BTF White OC Edition 16GB GDDR6X Graphics Card",
+    "price": 265000,
+    "specs": {
+      "gpuChip": "RTX 4070",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.365,
+      "boostClock_GHz": 1.74,
+      "memorySize_GB": 16,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 160,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226691f",
+    "name": "ONIX ODYSSEY Intel Arc B580 Black GDDR6 12GB Graphics Card",
+    "category": "Accessories",
+    "brand": "Onix",
+    "model": "ONIX ODYSSEY Intel Arc B580 Black GDDR6 12GB Graphics Card",
+    "price": 37590,
+    "specs": {
+      "gpuChip": null,
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 12,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266915",
+    "name": "Gigabyte GeForce RTX 5070 Ti WINDFORCE OC SFF 16G GDDR7 Graphics Card",
+    "category": "Accessories",
+    "brand": "Gigabyte",
+    "model": "GeForce RTX 5070 Ti WINDFORCE OC SFF 16G GDDR7 Graphics Card",
+    "price": 36000,
+    "specs": {
+      "gpuChip": "RTX 5070",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.32,
+      "boostClock_GHz": 1.792,
+      "memorySize_GB": 16,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 170,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226690f",
+    "name": "Intel Arc A750 Limited Tiger Gold Edition 8GB GDDR6 Graphics Card",
+    "category": "Accessories",
+    "brand": "Intel",
+    "model": "Arc A750 Limited Tiger Gold Edition 8GB GDDR6 Graphics Card",
+    "price": 28400,
+    "specs": {
+      "gpuChip": "Arc A750",
+      "cudaCores": 8704,
+      "baseClock_GHz": 2.05,
+      "boostClock_GHz": null,
+      "memorySize_GB": 8,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 225,
+      "recommendedPSU_W": null,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266919",
+    "name": "MSI GeForce RTX 5070 12G INSPIRE 3X OC 12GB Graphics Card",
+    "category": "Accessories",
+    "brand": "MSI",
+    "model": "GeForce RTX 5070 12G INSPIRE 3X OC 12GB Graphics Card",
+    "price": 38490,
+    "specs": {
+      "gpuChip": "RTX 5070",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.5,
+      "boostClock_GHz": 1.725,
+      "memorySize_GB": 12,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 220,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226691d",
+    "name": "Yeston Sakura Sugar Radeon RX 7900 XT 20GB GDDR6 Graphics Card",
+    "category": "Accessories",
+    "brand": "Yeston",
+    "model": "Yeston Sakura Sugar Radeon RX 7900 XT 20GB GDDR6 Graphics Card",
+    "price": 19500,
+    "specs": {
+      "gpuChip": "RX 7900",
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 20,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226692e",
+    "name": "PNY GeForce RTX 3050 6GB VERTO Dual Fan Graphics Card",
+    "category": "Accessories",
+    "brand": "Pny",
+    "model": "PNY GeForce RTX 3050 6GB VERTO Dual Fan Graphics Card",
+    "price": 21500,
+    "specs": {
+      "gpuChip": "RTX 3050",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.5,
+      "boostClock_GHz": 1.725,
+      "memorySize_GB": 6,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 220,
+      "recommendedPSU_W": null,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226692c",
+    "name": "MSI GeForce RTX 5060 Ti 8G VENTUS 2X OC PLUS GDDR7 Graphics Card",
+    "category": "Accessories",
+    "brand": "MSI",
+    "model": "GeForce RTX 5060 Ti 8G VENTUS 2X OC PLUS GDDR7 Graphics Card",
+    "price": 38490,
+    "specs": {
+      "gpuChip": "RTX 5060",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.32,
+      "boostClock_GHz": 1.807,
+      "memorySize_GB": 8,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 170,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266936",
+    "name": "GUNNIR B580 Photon 12G OC Black Graphics Card",
+    "category": "Accessories",
+    "brand": "Gunnir",
+    "model": "GUNNIR B580 Photon 12G OC Black Graphics Card",
+    "price": 28200,
+    "specs": {
+      "gpuChip": null,
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 12,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266924",
+    "name": "ASRock Intel Arc A750 Challenger SE 8GB OC GDDR6 Graphics Card",
+    "category": "Accessories",
+    "brand": "ASRock",
+    "model": "Intel Arc A750 Challenger SE 8GB OC GDDR6 Graphics Card",
+    "price": 23999,
+    "specs": {
+      "gpuChip": "Arc A380",
+      "cudaCores": 8704,
+      "baseClock_GHz": 2.25,
+      "boostClock_GHz": null,
+      "memorySize_GB": 8,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 75,
+      "recommendedPSU_W": null,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266926",
+    "name": "Gigabyte GeForce RTX 5080 AERO OC SFF Graphics Card",
+    "category": "Accessories",
+    "brand": "Gigabyte",
+    "model": "GeForce RTX 5080 AERO OC SFF Graphics Card",
+    "price": 36000,
+    "specs": {
+      "gpuChip": "RTX 5080",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.733,
+      "boostClock_GHz": 1.873,
+      "memorySize_GB": 16,
+      "memoryType": "GDDR5X",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 180,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266928",
+    "name": "ASUS TUF Gaming GeForce RTX 4070 12GB GDDR6X OC Edition Graphics Card",
+    "category": "Accessories",
+    "brand": "ASUS",
+    "model": "TUF Gaming GeForce RTX 4070 12GB GDDR6X OC Edition Graphics Card",
+    "price": 265000,
+    "specs": {
+      "gpuChip": "RTX 4070",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.32,
+      "boostClock_GHz": 1.867,
+      "memorySize_GB": 12,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 170,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226692a",
+    "name": "Maxsun GeForce RTX 3060 Terminator 12G S1 12GB GDDR6 Black Graphics Card",
+    "category": "Accessories",
+    "brand": "Maxsun",
+    "model": "Maxsun GeForce RTX 3060 Terminator 12G S1 12GB GDDR6 Black Graphics Card",
+    "price": 117490,
+    "specs": {
+      "gpuChip": "RTX 3060",
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 12,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266930",
+    "name": "MSI GeForce RTX 5090 32G SUPRIM LIQUID SOC 32GB GDDR7 Graphics Card",
+    "category": "Accessories",
+    "brand": "MSI",
+    "model": "GeForce RTX 5090 32G SUPRIM LIQUID SOC 32GB GDDR7 Graphics Card",
+    "price": 38490,
+    "specs": {
+      "gpuChip": "RTX 5090",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.395,
+      "boostClock_GHz": 1.815,
+      "memorySize_GB": 32,
+      "memoryType": "GDDR6X",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 420,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266932",
+    "name": "MSI GeForce RTX 3050 VENTUS 2X XS 8GB OC GDDR6 Graphics Card",
+    "category": "Accessories",
+    "brand": "MSI",
+    "model": "GeForce RTX 3050 VENTUS 2X XS 8GB OC GDDR6 Graphics Card",
+    "price": 38490,
+    "specs": {
+      "gpuChip": "RTX 3050",
+      "cudaCores": 8704,
+      "baseClock_GHz": 1.5,
+      "boostClock_GHz": 1.755,
+      "memorySize_GB": 8,
+      "memoryType": "GDDR6",
+      "memoryBandwidth_GBps": null,
+      "tdp_W": 220,
+      "recommendedPSU_W": null,
+      "rayTracing": null,
+      "tensorCores": null,
+      "maxResolution": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266934",
+    "name": "Yeston Radeon RX 6650 XT 8GB D6 GDDR6 128bit Desktop Graphics Card",
+    "category": "Accessories",
+    "brand": "Yeston",
+    "model": "Yeston Radeon RX 6650 XT 8GB D6 GDDR6 128bit Desktop Graphics Card",
+    "price": 19500,
+    "specs": {
+      "gpuChip": "RX 6650",
+      "cudaCores": 8704,
+      "baseClock_GHz": null,
+      "boostClock_GHz": null,
+      "memorySize_GB": 8,
+      "memoryType": null,
+      "memoryBandwidth_GBps": null,
+      "tdp_W": null,
+      "recommendedPSU_W": 750,
+      "rayTracing": "Yes",
+      "tensorCores": null,
+      "maxResolution": "7680x4320"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226693d",
+    "name": "OCPC PISTA RGB 16GB DDR5 6000MHz Desktop RAM",
+    "category": "RAM",
+    "brand": "Ocpc",
+    "model": "OCPC PISTA RGB 16GB DDR5 6000MHz Desktop RAM",
+    "price": 2600,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266945",
+    "name": "Team T-Force VULCAN 16GB 6000MHz DDR5 CL38 Desktop RAM",
+    "category": "RAM",
+    "brand": "Team",
+    "model": "Team T-Force VULCAN 16GB 6000MHz DDR5 CL38 Desktop RAM",
+    "price": 2645,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": null,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266943",
+    "name": "PNY XLR8 MAKO 16GB DDR5 6000MHz RGB Gaming RAM (Black)",
+    "category": "RAM",
+    "brand": "Pny",
+    "model": "PNY XLR8 MAKO 16GB DDR5 6000MHz RGB Gaming RAM (Black)",
+    "price": 4690,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266949",
+    "name": "Patriot VP4300 Lite 1TB M.2 2280 PCIe Gen4 x4 NVMe SSD",
+    "category": "RAM",
+    "brand": "Patriot",
+    "model": "Patriot VP4300 Lite 1TB M.2 2280 PCIe Gen4 x4 NVMe SSD",
+    "price": 3850,
+    "specs": {
+      "totalCapacity_GB": null,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": null,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266939",
+    "name": "Addlink Spider X4 16GB DDR4 3200MHz RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Addlink",
+    "model": "Addlink Spider X4 16GB DDR4 3200MHz RGB Gaming Desktop RAM",
+    "price": 2899,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 4,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266941",
+    "name": "Patriot Viper Elite 5 RGB 16GB DDR5 5600MHz Gaming Desktop RAM with Heatsink",
+    "category": "RAM",
+    "brand": "Patriot",
+    "model": "Patriot Viper Elite 5 RGB 16GB DDR5 5600MHz Gaming Desktop RAM with Heatsink",
+    "price": 3850,
+    "specs": {
+      "totalCapacity_GB": 48,
+      "moduleConfiguration": null,
+      "memoryType": "DDR5",
+      "speed_MHz": 6000,
+      "casLatency": "CL36"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226693b",
+    "name": "PNY Performance 8GB DDR5 4800MHz Desktop RAM",
+    "category": "RAM",
+    "brand": "Pny",
+    "model": "PNY Performance 8GB DDR5 4800MHz Desktop RAM",
+    "price": 4690,
+    "specs": {
+      "totalCapacity_GB": 8,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226693f",
+    "name": "Adata XPG LANCER 16GB DDR5 5600MHz Heatsink RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Adata",
+    "model": "Adata XPG LANCER 16GB DDR5 5600MHz Heatsink RGB Gaming Desktop RAM",
+    "price": 1500,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266947",
+    "name": "PNY XLR8 8GB RGB DDR4 3200MHz White Desktop RAM",
+    "category": "RAM",
+    "brand": "Pny",
+    "model": "PNY XLR8 8GB RGB DDR4 3200MHz White Desktop RAM",
+    "price": 4690,
+    "specs": {
+      "totalCapacity_GB": 8,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 4,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226694b",
+    "name": "Lexar THOR 16GB 3200Mhz DDR4 Desktop Ram",
+    "category": "RAM",
+    "brand": "Lexar",
+    "model": "Lexar THOR 16GB 3200Mhz DDR4 Desktop Ram",
+    "price": 5490,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": null,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226695c",
+    "name": "Lexar ARES 16GB DDR5 5200Mhz OC Desktop Gaming RAM",
+    "category": "RAM",
+    "brand": "Lexar",
+    "model": "Lexar ARES 16GB DDR5 5200Mhz OC Desktop Gaming RAM",
+    "price": 3850,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266960",
+    "name": "PNY XLR8 MAKO 16GB DDR5 6000MHz RGB Gaming RAM (White)",
+    "category": "RAM",
+    "brand": "Pny",
+    "model": "PNY XLR8 MAKO 16GB DDR5 6000MHz RGB Gaming RAM (White)",
+    "price": 4690,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226694e",
+    "name": "ADDLINK SPIDER X4 RGB 8GB 3200MHZ DDR4 RGB GAMING RAM",
+    "category": "RAM",
+    "brand": "Addlink",
+    "model": "ADDLINK SPIDER X4 RGB 8GB 3200MHZ DDR4 RGB GAMING RAM",
+    "price": 7299,
+    "specs": {
+      "totalCapacity_GB": 32,
+      "moduleConfiguration": null,
+      "memoryType": "DDR4",
+      "speed_MHz": 3200,
+      "casLatency": "CL16"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266950",
+    "name": "Kingston FURY Renegade 16GB DDR5 7200MHz RGB Desktop RAM",
+    "category": "RAM",
+    "brand": "Kingston",
+    "model": "FURY Renegade 16GB DDR5 7200MHz RGB Desktop RAM",
+    "price": 5400,
+    "specs": {
+      "totalCapacity_GB": 32,
+      "moduleConfiguration": null,
+      "memoryType": "DDR5",
+      "speed_MHz": 6400,
+      "casLatency": "CL32"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266956",
+    "name": "Team T-CREATE CLASSIC 8GB DDR4 3200MHz Desktop RAM",
+    "category": "RAM",
+    "brand": "Team",
+    "model": "Team T-CREATE CLASSIC 8GB DDR4 3200MHz Desktop RAM",
+    "price": 2645,
+    "specs": {
+      "totalCapacity_GB": 8,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 4,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226695a",
+    "name": "Corsair VENGEANCE 16GB (2x8GB) DDR5 5200MHz RAM Kit",
+    "category": "RAM",
+    "brand": "Corsair",
+    "model": "VENGEANCE 16GB (2x8GB) DDR5 5200MHz RAM Kit",
+    "price": 8690,
+    "specs": {
+      "totalCapacity_GB": 32,
+      "moduleConfiguration": null,
+      "memoryType": "DDR4",
+      "speed_MHz": 3600,
+      "casLatency": "CL18"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266954",
+    "name": "Addlink Spider X5 16GB DDR5 6000MHz RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Addlink",
+    "model": "Addlink Spider X5 16GB DDR5 6000MHz RGB Gaming Desktop RAM",
+    "price": 2899,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 5,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266958",
+    "name": "Adata XPG LANCER 16GB DDR5 6000MHz RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Adata",
+    "model": "Adata XPG LANCER 16GB DDR5 6000MHz RGB Gaming Desktop RAM",
+    "price": 1500,
+    "specs": {
+      "totalCapacity_GB": 32,
+      "moduleConfiguration": null,
+      "memoryType": "DDR5",
+      "speed_MHz": 6000,
+      "casLatency": "CL30"
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226695e",
+    "name": "Lexar ARES 16GB (8x2) 3600Mhz DDR4 RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Lexar",
+    "model": "Lexar ARES 16GB (8x2) 3600Mhz DDR4 RGB Gaming Desktop RAM",
+    "price": 3850,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": null,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266952",
+    "name": "Adata XPG Spectrix D35G 16GB DDR4 3600MHz Heatsink RGB Gaming Desktop RAM",
+    "category": "RAM",
+    "brand": "Adata",
+    "model": "Adata XPG Spectrix D35G 16GB DDR4 3600MHz Heatsink RGB Gaming Desktop RAM",
+    "price": 1500,
+    "specs": {
+      "totalCapacity_GB": 16,
+      "moduleConfiguration": null,
+      "memoryType": null,
+      "speed_MHz": 4,
+      "casLatency": null
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266965",
+    "name": "ORICO J-10 2TB PCIe M.2 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Orico",
+    "model": "SSD",
+    "price": 7200,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266967",
+    "name": "HP EX900 PLUS 1TB M.2 PCIe NVMe Internal SSD",
+    "category": "Accessories",
+    "brand": "HP",
+    "model": "SSD",
+    "price": 5750,
+    "specs": {
+      "info": {
+        "formFactor": "M.2-2280",
+        "capacity": "1000",
+        "type": "SSD",
+        "interface": "M.2 PCIe 3.0 X4",
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes"
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266971",
+    "name": "HIKVISION E100 128GB 2.5 Inch SATA III SSD",
+    "category": "Accessories",
+    "brand": "Hikvision",
+    "model": "SSD",
+    "price": 1890,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266973",
+    "name": "Colorful CN700 PRO 1TB M.2 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Colorful",
+    "model": "SSD",
+    "price": 3550,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266963",
+    "name": "Colorful SL500 1TB 2.5'' SATA III SSD",
+    "category": "Accessories",
+    "brand": "Colorful",
+    "model": "SSD",
+    "price": 3550,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226696b",
+    "name": "LEXAR NQ100 480GB 2.5″ SATA SSD",
+    "category": "Accessories",
+    "brand": "Lexar",
+    "model": "SSD",
+    "price": 3640,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226696f",
+    "name": "Lexar NM790 512GB PCIe Gen4 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Lexar",
+    "model": "SSD",
+    "price": 3640,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266975",
+    "name": "ORICO J-10 512GB PCIe M.2 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Orico",
+    "model": "SSD",
+    "price": 7200,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d226696d",
+    "name": "OCPC MBL-401 1TB M.2 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Ocpc",
+    "model": "SSD",
+    "price": 5990,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae48e2edcc24d2266969",
+    "name": "Team MP44 2TB M.2 PCIe Gen4 NVMe SSD",
+    "category": "Accessories",
+    "brand": "Team",
+    "model": "SSD",
+    "price": 9100,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226697c",
+    "name": "Lexar NS100 1TB 2.5 Inch Gray Sata III Ssd",
+    "category": "Accessories",
+    "brand": "Lexar",
+    "model": "Ssd",
+    "price": 3640,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266988",
+    "name": "AOC 24G4 23.8\" 200Hz 1ms FHD FAST IPS Gaming Monitor",
+    "category": "Monitor",
+    "brand": "AOC",
+    "model": "AOC 24G4 23.8\" 200Hz 1ms FHD FAST IPS Gaming Monitor",
+    "price": 34890,
+    "specs": {
+      "info": {
+        "model": "AOC 24G4 23.8\" 200Hz 1ms FHD FAST IPS Gaming Monitor",
+        "resolution": "2560 x 1440",
+        "screenSize": "27\"",
+        "refreshRate": "170Hz",
+        "responseTime": "1ms",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "colorGamut": null,
+        "brand": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266982",
+    "name": "Samsung Odyssey G40B 27 Inch 240Hz Gaming Monitor",
+    "category": "Monitor",
+    "brand": "Samsung",
+    "model": "Odyssey G40B 27 Inch 240Hz Gaming Monitor",
+    "price": 12990,
+    "specs": {
+      "info": {
+        "brand": "Samsung",
+        "model": "Odyssey G40B 27 Inch 240Hz Gaming Monitor",
+        "screenSize": "49\"",
+        "resolution": "5120 x 1440",
+        "refreshRate": "240Hz",
+        "responseTime": "1ms",
+        "panelType": "VA",
+        "aspectRatio": "32:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266984",
+    "name": "MSI PRO MP225 21.5\" 100Hz IPS FHD Gaming Monitor",
+    "category": "Monitor",
+    "brand": "MSI",
+    "model": "PRO MP225 21.5\" 100Hz IPS FHD Gaming Monitor",
+    "price": 25850,
+    "specs": {
+      "info": {
+        "brand": "MSI",
+        "model": "PRO MP225 21.5\" 100Hz IPS FHD Gaming Monitor",
+        "resolution": "1920 x 1080",
+        "screenSize": "23.8\"",
+        "refreshRate": "120Hz",
+        "responseTime": "4ms",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226697a",
+    "name": "Addlink A93 2TB M.2 2280 PCIe NVMe SSD",
+    "category": "Accessories",
+    "brand": "Addlink",
+    "model": "SSD",
+    "price": 3500,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226697e",
+    "name": "Team T-FORCE G70 PRO 1TB M.2 PCIe NVMe SSD With DRAM Cache & Aluminum Heatsink",
+    "category": "Accessories",
+    "brand": "Team",
+    "model": "Heatsink",
+    "price": 9100,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266980",
+    "name": "Colorful CN700 PLUS 1TB PCIe Gen 4 NVMe M.2 SSD",
+    "category": "Accessories",
+    "brand": "Colorful",
+    "model": "SSD",
+    "price": 3550,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266986",
+    "name": "LG 24MP60G-B 24 Inch FHD HDMI, VGA, DP & Headphone IPS Borderless Gaming Monitor",
+    "category": "Monitor",
+    "brand": "LG",
+    "model": "24MP60G-B 24 Inch FHD HDMI, VGA, DP & Headphone IPS Borderless Gaming Monitor",
+    "price": 13800,
+    "specs": {
+      "info": {
+        "brand": "LG",
+        "model": "24MP60G-B 24 Inch FHD HDMI, VGA, DP & Headphone IPS Borderless Gaming Monitor",
+        "screenSize": "24\"",
+        "resolution": "1920 x 1080",
+        "refreshRate": "60Hz",
+        "responseTime": "5ms",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226698a",
+    "name": "BenQ MOBIUZ EX270M 27 Inch 240Hz FHD IPS Gaming Monitor",
+    "category": "Monitor",
+    "brand": "BenQ",
+    "model": "BenQ MOBIUZ EX270M 27 Inch 240Hz FHD IPS Gaming Monitor",
+    "price": 184990,
+    "specs": {
+      "info": {
+        "model": "BenQ MOBIUZ EX270M 27 Inch 240Hz FHD IPS Gaming Monitor",
+        "screenSize": "23.8\"",
+        "resolution": "1920 x 1080",
+        "refreshRate": "165Hz",
+        "responseTime": "4ms",
+        "panelType": "VA",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "colorGamut": null,
+        "brand": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266978",
+    "name": "Netac N5M 128GB mSATA SATAIII 2242 SSD",
+    "category": "Accessories",
+    "brand": "Netac",
+    "model": "SSD",
+    "price": 8690,
+    "specs": {
+      "info": {
+        "sequentialRead": "7000 MB/s",
+        "sequentialWrite": "5000 MB/s",
+        "randomReadIOPS": "800K",
+        "randomWriteIOPS": "750K",
+        "nandType": "3D TLC",
+        "controller": "Phison E18",
+        "endurance": "600 TBW",
+        "mtbf": "2 million hours",
+        "trimSupport": "Yes",
+        "smartSupport": "Yes",
+        "interface": null,
+        "type": null,
+        "capacity": null,
+        "formFactor": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226698d",
+    "name": "MSI PRO MP275Q 27 Inch 100Hz IPS WQHD Gaming Monitor",
+    "category": "Monitor",
+    "brand": "MSI",
+    "model": "PRO MP275Q 27 Inch 100Hz IPS WQHD Gaming Monitor",
+    "price": 24690,
+    "specs": {
+      "info": {
+        "brand": "MSI",
+        "model": "PRO MP275Q 27 Inch 100Hz IPS WQHD Gaming Monitor",
+        "screenSize": "24.5\"",
+        "resolution": "1920 x 1080",
+        "refreshRate": "120Hz",
+        "responseTime": "4ms",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266995",
+    "name": "Gigabyte GS32Q 31.5\" 170Hz QHD Gaming Monitor",
+    "category": "Monitor",
+    "brand": "Gigabyte",
+    "model": "GS32Q 31.5\" 170Hz QHD Gaming Monitor",
+    "price": 11800,
+    "specs": {
+      "info": {
+        "brand": "Gigabyte",
+        "model": "GS32Q 31.5\" 170Hz QHD Gaming Monitor",
+        "resolution": "2560 x 1440",
+        "screenSize": "31.5\"",
+        "refreshRate": "170Hz",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "flickerFree": "Yes",
+        "colorGamut": null,
+        "panelType": null,
+        "responseTime": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266997",
+    "name": "Samsung LS22D300GAW 21.5 Inch 100Hz FHD IPS Monitor",
+    "category": "Monitor",
+    "brand": "Samsung",
+    "model": "LS22D300GAW 21.5 Inch 100Hz FHD IPS Monitor",
+    "price": 13700,
+    "specs": {
+      "info": {
+        "brand": "Samsung",
+        "model": "LS22D300GAW 21.5 Inch 100Hz FHD IPS Monitor",
+        "screenSize": "32\"",
+        "resolution": "2560 x 1440",
+        "refreshRate": "240Hz",
+        "responseTime": "1ms",
+        "panelType": "VA",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266999",
+    "name": "MSI MAG 273QP QD-OLED X24 26.5 Inch 2K WQHD 240Hz Gaming Monitor",
+    "category": "Monitor",
+    "brand": "MSI",
+    "model": "MAG 273QP QD-OLED X24 26.5 Inch 2K WQHD 240Hz Gaming Monitor",
+    "price": 24690,
+    "specs": {
+      "info": {
+        "brand": "MSI",
+        "model": "MAG 273QP QD-OLED X24 26.5 Inch 2K WQHD 240Hz Gaming Monitor",
+        "screenSize": "26.5\"",
+        "resolution": "2560 x 1440",
+        "refreshRate": "240Hz",
+        "responseTime": "0.03ms",
+        "panelType": "QD-OLED",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266991",
+    "name": "Xiaomi Redmi G27Q  27inch 180Hz 2K IPS (2025 edition) Gaming monitor",
+    "category": "Monitor",
+    "brand": "Xiaomi",
+    "model": "Xiaomi Redmi G27Q  27inch 180Hz 2K IPS (2025 edition) Gaming monitor",
+    "price": 11800,
+    "specs": {
+      "info": {
+        "model": "Xiaomi Redmi G27Q  27inch 180Hz 2K IPS (2025 edition) Gaming monitor",
+        "screenSize": "27\"",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "flickerFree": "Yes",
+        "colorGamut": "sRGB 99%",
+        "refreshRate": null,
+        "aspectRatio": null,
+        "resolution": null,
+        "panelType": null,
+        "brand": null,
+        "responseTime": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226699b",
+    "name": "MSI MPG 321URX 31.5 inch QD-OLED 4K UHD 240Hz Gaming Monitor",
+    "category": "Monitor",
+    "brand": "MSI",
+    "model": "MPG 321URX 31.5 inch QD-OLED 4K UHD 240Hz Gaming Monitor",
+    "price": 24690,
+    "specs": {
+      "info": {
+        "brand": "MSI",
+        "model": "MPG 321URX 31.5 inch QD-OLED 4K UHD 240Hz Gaming Monitor",
+        "screenSize": "31.5\"",
+        "resolution": "3840 x 2160",
+        "refreshRate": "240Hz",
+        "responseTime": "0.03ms",
+        "panelType": "QD-OLED",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": null,
+        "colorGamut": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226698f",
+    "name": "Dahua DHI-LM32-P301A 31.5 INCH IPS Professional Monitor",
+    "category": "Monitor",
+    "brand": "Dahua",
+    "model": "Dahua DHI-LM32-P301A 31.5 INCH IPS Professional Monitor",
+    "price": 10100,
+    "specs": {
+      "info": {
+        "model": "Dahua DHI-LM32-P301A 31.5 INCH IPS Professional Monitor",
+        "screenSize": "31.5\"",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "flickerFree": "Yes",
+        "colorGamut": "sRGB 99%",
+        "refreshRate": null,
+        "aspectRatio": null,
+        "resolution": null,
+        "panelType": null,
+        "brand": null,
+        "responseTime": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226699d",
+    "name": "AOC 24G11E 23.8 inch 180Hz FAST IPS Gaming Monitor",
+    "category": "Monitor",
+    "brand": "AOC",
+    "model": "AOC 24G11E 23.8 inch 180Hz FAST IPS Gaming Monitor",
+    "price": 12000,
+    "specs": {
+      "info": {
+        "model": "AOC 24G11E 23.8 inch 180Hz FAST IPS Gaming Monitor",
+        "screenSize": "27\"",
+        "resolution": "2560 x 1440",
+        "refreshRate": "170Hz",
+        "responseTime": "1ms",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "colorGamut": null,
+        "brand": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d226699f",
+    "name": "HP E27K G5 27 Inch 4K UHD IPS Monitor",
+    "category": "Monitor",
+    "brand": "HP",
+    "model": "E27K G5 27 Inch 4K UHD IPS Monitor",
+    "price": 15300,
+    "specs": {
+      "info": {
+        "brand": "HP",
+        "model": "E27K G5 27 Inch 4K UHD IPS Monitor",
+        "screenSize": "27\"",
+        "resolution": "2560 x 1440",
+        "refreshRate": "60Hz",
+        "panelType": "IPS",
+        "aspectRatio": "16:9",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "colorGamut": null,
+        "responseTime": null,
+        "flickerFree": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d2266993",
+    "name": "Value-Top S22VFR100 21.5 INCH 100Hz FHD Monitor",
+    "category": "Monitor",
+    "brand": "Valuetop",
+    "model": "Value-Top S22VFR100 21.5 INCH 100Hz FHD Monitor",
+    "price": 14200,
+    "specs": {
+      "info": {
+        "model": "Value-Top S22VFR100 21.5 INCH 100Hz FHD Monitor",
+        "screenSize": "21.5\"",
+        "resolution": "FHD",
+        "brightness": "300 nits",
+        "contrastRatio": "1000:1",
+        "hdr": "HDR10",
+        "viewingAngle": "178°",
+        "mounting": "VESA 100x100",
+        "inputs": "HDMI, DisplayPort",
+        "standAdjustments": "Tilt, Height",
+        "blueLightFilter": "Yes",
+        "flickerFree": "Yes",
+        "colorGamut": "sRGB 99%",
+        "refreshRate": null,
+        "aspectRatio": null,
+        "panelType": null,
+        "brand": null,
+        "responseTime": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669a6",
+    "name": "REDRAGON K608-RAINBOW VALHEIM RED SWITCHES",
+    "category": "Keyboard",
+    "brand": "Redragon",
+    "model": "SWITCHES",
+    "price": 3170,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669a2",
+    "name": "WiWU Combo Touch Keyboard Case for iPad 10.9/11 Inch",
+    "category": "Keyboard",
+    "brand": "Wiwu",
+    "model": "Inch",
+    "price": 3290,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669a4",
+    "name": "A4TECH Fstyler FBX50C Bluetooth & 2.4G Wireless keyboard",
+    "category": "Keyboard",
+    "brand": "A4tech",
+    "model": "keyboard",
+    "price": 1800,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669aa",
+    "name": "Fantech GO K211 Bangla Keyboard",
+    "category": "Keyboard",
+    "brand": "Fantech",
+    "model": "Keyboard",
+    "price": 1080,
+    "specs": {
+      "info": {
+        "tenkeyless": "No",
+        "connection": "Wired",
+        "color": "Black",
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669ac",
+    "name": "Razer BlackWidow V4 RGB Mechanical Gaming Keyboard (Global)",
+    "category": "Keyboard",
+    "brand": "Razer",
+    "model": "(Global)",
+    "price": 9200,
+    "specs": {
+      "info": {
+        "switches": "Cherry MX Blue",
+        "backlit": "Green",
+        "tenkeyless": "Yes",
+        "connection": "Wired",
+        "color": "Black",
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes"
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669ae",
+    "name": "Micropack K-205 Wired Keyboard with Bangla",
+    "category": "Keyboard",
+    "brand": "Micropack",
+    "model": "Bangla",
+    "price": 3790,
+    "specs": {
+      "info": {
+        "backlit": "White",
+        "tenkeyless": "Yes",
+        "connection": "Wireless",
+        "color": "Black",
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669b0",
+    "name": "E-YOOSO Z686 TRI-MODE RGB HOTSWAP WIRELESS MECHANICAL KEYBOARD WHITE BLUE SWITCH",
+    "category": "Keyboard",
+    "brand": "Eyooso",
+    "model": "SWITCH",
+    "price": 3990,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669b4",
+    "name": "A4TECH 3000N V-TRACK 2.4G Wireless BANGLA Keyboard",
+    "category": "Keyboard",
+    "brand": "A4tech",
+    "model": "Keyboard",
+    "price": 4850,
+    "specs": {
+      "info": {
+        "tenkeyless": "No",
+        "connection": "Wired",
+        "color": "Black",
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669a8",
+    "name": "ZIYOULANG FREEWOLF K87 WIRELESS TRI-MODE RGB GAMING MECHANICAL KEYBOARD",
+    "category": "Keyboard",
+    "brand": "Ziyoulang",
+    "model": "KEYBOARD",
+    "price": 3000,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669b2",
+    "name": "WiWU Magic Keyboard for iPad 10.9 / 11 Inch",
+    "category": "Keyboard",
+    "brand": "Wiwu",
+    "model": "Inch",
+    "price": 2350,
+    "specs": {
+      "info": {
+        "layout": "QWERTY",
+        "switchType": "Mechanical",
+        "keyRollover": "N-Key",
+        "macroSupport": "Yes",
+        "mediaKeys": "Dedicated",
+        "wristRest": "No",
+        "material": "ABS Plastic",
+        "pollingRate": "1000Hz",
+        "keyLifespan": "50 million",
+        "softwareSupport": "Yes",
+        "switches": null,
+        "backlit": null,
+        "connection": null,
+        "color": null,
+        "tenkeyless": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669b9",
+    "name": "Marvo M513 RGB Wired Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Marvo",
+    "model": "Mouse",
+    "price": 1100,
+    "specs": {
+      "info": {
+        "connection": "Wired",
+        "trackingMethod": "Optical",
+        "maxDPI": "2000",
+        "handOrientation": "Right",
+        "color": "Black / Blue",
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic"
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669bf",
+    "name": "Logitech M196 Bluetooth Mouse",
+    "category": "Mouse",
+    "brand": "Logitech",
+    "model": "Mouse",
+    "price": 10999,
+    "specs": {
+      "info": {
+        "connection": "Wireless",
+        "trackingMethod": "Laser",
+        "handOrientation": "Both",
+        "color": "Black / Silver",
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669c9",
+    "name": "Apple Magic Mouse Black Multi-Touch Surface",
+    "category": "Mouse",
+    "brand": "Apple",
+    "model": "Surface",
+    "price": 13500,
+    "specs": {
+      "info": {
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null,
+        "connection": null,
+        "trackingMethod": null,
+        "color": null,
+        "handOrientation": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669bb",
+    "name": "Aula F815 Wired Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Aula",
+    "model": "Mouse",
+    "price": 1649,
+    "specs": {
+      "info": {
+        "connection": "Wired",
+        "trackingMethod": "Optical",
+        "maxDPI": "2000",
+        "handOrientation": "Right",
+        "color": "Black / Blue",
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic"
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669b7",
+    "name": "Revenger RKM-24G Wired Gaming Keyboard & Mouse Combo",
+    "category": "Mouse",
+    "brand": "Revenger",
+    "model": "Combo",
+    "price": 2350,
+    "specs": {
+      "info": {
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null,
+        "connection": null,
+        "trackingMethod": null,
+        "color": null,
+        "handOrientation": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669c3",
+    "name": "Fantech Helios Go XD5 USB Type-C Wireless RGB Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Fantech",
+    "model": "Mouse",
+    "price": 500,
+    "specs": {
+      "info": {
+        "connection": "Wireless",
+        "trackingMethod": "Optical",
+        "maxDPI": "8200",
+        "handOrientation": "Right",
+        "color": "Black / Gray",
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic"
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669c7",
+    "name": "Razer Orochi V2 Wireless Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Razer",
+    "model": "Mouse",
+    "price": 7190,
+    "specs": {
+      "info": {
+        "connection": "Wired, Wireless, Bluetooth Wireless",
+        "trackingMethod": "Optical",
+        "maxDPI": "30000",
+        "handOrientation": "Right",
+        "color": "Black",
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic"
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669bd",
+    "name": "Havit MS1036 RGB Wired Programmable Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Havit",
+    "model": "Mouse",
+    "price": 1099,
+    "specs": {
+      "info": {
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null,
+        "connection": null,
+        "trackingMethod": null,
+        "color": null,
+        "handOrientation": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669c1",
+    "name": "Apple Magic Mouse Silver #MK2E3AM/A, MK2E3ZA/A",
+    "category": "Mouse",
+    "brand": "Apple",
+    "model": "MK2E3ZA/A",
+    "price": 13500,
+    "specs": {
+      "info": {
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null,
+        "connection": null,
+        "trackingMethod": null,
+        "color": null,
+        "handOrientation": null
+      }
+    }
+  },
+  {
+    "_id": "688aae49e2edcc24d22669c5",
+    "name": "Havit MS1035 RGB Wired Programmable Gaming Mouse",
+    "category": "Mouse",
+    "brand": "Havit",
+    "model": "Mouse",
+    "price": 1050,
+    "specs": {
+      "info": {
+        "buttons": "6",
+        "switchType": "Omron",
+        "dpiAdjustment": "On-the-fly",
+        "acceleration": "20G",
+        "pollingRate": "1000Hz",
+        "batteryLife": "70 hours",
+        "sensorType": "PMW3360",
+        "scrollType": "Tactile",
+        "liftOffDistance": "2mm",
+        "buildMaterial": "Matte Plastic",
+        "maxDPI": null,
+        "connection": null,
+        "trackingMethod": null,
+        "color": null,
+        "handOrientation": null
+      }
+    }
+  }
+]

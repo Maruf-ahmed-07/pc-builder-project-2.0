@@ -28,6 +28,12 @@ const PCBuilder = () => {
     Mouse: []
   });
   const [isLoading, setIsLoading] = useState(false);
+  // Benchmark state
+  const [benchmarkLoading, setBenchmarkLoading] = useState(false);
+  const [benchmarkResult, setBenchmarkResult] = useState(null);
+  const [benchmarkError, setBenchmarkError] = useState('');
+  const [compatLoading, setCompatLoading] = useState(false);
+  const [compatResult, setCompatResult] = useState(null); // { isCompatible, issues:[], warnings:[] }
 
   const mainComponents = {
     CPU: { name: 'Processor', icon: '⚡', category: 'CPU', description: 'The brain of your computer', type: 'main' },
@@ -183,7 +189,16 @@ const PCBuilder = () => {
       ...prev,
       [category]: component
     }));
-    toast.success(`${component.name} selected!`);
+    toast.success(`${component.name} selected`);
+  };
+
+  // Remove a selected component
+  const removeComponent = (category) => {
+    setCurrentBuild(prev => {
+      const next = { ...prev };
+      delete next[category];
+      return next;
+    });
   };
 
   // Update build summary
@@ -193,15 +208,92 @@ const PCBuilder = () => {
     }, 0);
   };
 
-  // Check component compatibility
-  const checkCompatibility = () => {
-    const selectedCount = Object.keys(currentBuild).length;
+  // Helper parsers for compatibility logic
+  const parseNumber = (val) => {
+    if (val == null) return null;
+    if (typeof val === 'number') return val;
+    const m = ('' + val).match(/([0-9]+(?:\.[0-9]+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  };
+  const parseCapacityGB = (val) => {
+    if (!val) return null;
+    const s = ('' + val).toLowerCase();
+    let m = s.match(/([0-9]+(?:\.[0-9]+)?)\s*tb/); if (m) return parseFloat(m[1]) * 1024;
+    m = s.match(/([0-9]+(?:\.[0-9]+)?)\s*gb/); if (m) return parseFloat(m[1]);
+    m = s.match(/([0-9]+(?:\.[0-9]+)?)\s*mb/); if (m) return parseFloat(m[1]) / 1024;
+    return parseNumber(s);
+  };
+  const extractSocket = (p) => {
+    if (!p) return null;
+    const spec = p.specifications || {};
+    const ds = p.detailedSpecs || {};
+    const cpu = ds.cpu || {}; const mb = ds.motherboard || {};
+    return spec.socket || cpu.socket || mb.socket || null;
+  };
+  const extractMemoryType = (p) => {
+    if (!p) return null;
+    const spec = p.specifications || {};
+    const raw = spec.memoryType || spec.memory || '';
+    if (/ddr5/i.test(raw) || /ddr5/i.test(p.name)) return 'DDR5';
+    if (/ddr4/i.test(raw) || /ddr4/i.test(p.name)) return 'DDR4';
+    if (/ddr3/i.test(raw) || /ddr3/i.test(p.name)) return 'DDR3';
+    return raw || null;
+  };
+  const extractMaxMemory = (p) => {
+    if (!p) return null;
+    const spec = p.specifications || {};
+    return parseCapacityGB(spec.maxMemory || spec.memorySupport || spec.memory_capacity);
+  };
+  const extractRamCapacity = (p) => {
+    if (!p) return null;
+    const spec = p.specifications || {};
+    return parseCapacityGB(spec.totalCapacity || spec.capacity || spec.memorySize || spec.memory);
+  };
+  const computeFrontEndCompatibility = () => {
+    const issues = [];
+    const warnings = [];
+    const cpu = currentBuild['CPU'];
+    const motherboard = currentBuild['Motherboard'];
+    const ram = currentBuild['RAM'];
+    if (cpu && motherboard) {
+      const cpuSocket = extractSocket(cpu);
+      const mbSocket = extractSocket(motherboard);
+      if (cpuSocket && mbSocket && cpuSocket !== mbSocket) {
+        issues.push(`CPU socket (${cpuSocket}) does not match motherboard socket (${mbSocket})`);
+      }
+    }
+    if (ram && motherboard) {
+      const ramType = extractMemoryType(ram);
+      const mbType = extractMemoryType(motherboard);
+      if (ramType && mbType && ramType !== mbType) {
+        issues.push(`RAM type (${ramType}) differs from motherboard type (${mbType})`);
+      }
+      const ramCap = extractRamCapacity(ram);
+      const mbMax = extractMaxMemory(motherboard);
+      if (ramCap && mbMax && ramCap > mbMax) {
+        issues.push(`RAM capacity (${ramCap}GB) exceeds motherboard max (${mbMax}GB)`);
+      }
+    }
+    // Simple warning: missing key components
+    if (!cpu) warnings.push('CPU not selected');
+    if (!motherboard) warnings.push('Motherboard not selected');
+    if (!ram) warnings.push('RAM not selected');
     return {
-      isCompatible: selectedCount > 0,
-      message: selectedCount > 0 ? 
-        "✅ Components look compatible!" : 
-        "⚠️ Select components to check compatibility"
+      isCompatible: issues.length === 0 && Object.keys(currentBuild).length > 0,
+      issues,
+      warnings
     };
+  };
+
+  const runCompatibilityCheck = async () => {
+    // Combine frontend heuristic with backend endpoint (if desired later). For now run frontend only.
+    setCompatLoading(true);
+    try {
+      const local = computeFrontEndCompatibility();
+      setCompatResult(local);
+    } finally {
+      setCompatLoading(false);
+    }
   };
 
   // Add build to cart
@@ -216,6 +308,7 @@ const PCBuilder = () => {
   // Clear current build
   const clearBuild = () => {
     setCurrentBuild({});
+  // previously cleared benchmark state (removed)
     toast.success('Build cleared!');
   };
 
@@ -272,11 +365,44 @@ const PCBuilder = () => {
     setBuildDescription('');
   };
 
-  const compatibility = checkCompatibility();
+  const compatibility = compatResult || { isCompatible: false, issues: [], warnings: [], message: 'Run compatibility check' };
   const categoriesToShow = activeFilter === 'all' ? Object.keys(componentCategories) : [activeFilter];
 
+  const computeBenchmark = async () => {
+    if (Object.keys(currentBuild).length === 0) {
+      toast.error('Select components first');
+      return;
+    }
+    setBenchmarkLoading(true);
+    setBenchmarkError('');
+    setBenchmarkResult(null);
+    try {
+      const compMap = {};
+      const keyMap = { CPU: 'cpu', GPU: 'gpu', Motherboard: 'motherboard', RAM: 'ram', Storage: 'storage' };
+      Object.entries(currentBuild).forEach(([k, v]) => {
+        const mapped = keyMap[k];
+        if (mapped && v?._id) compMap[mapped] = { product: v._id };
+      });
+      if (Object.keys(compMap).length === 0) {
+        toast.error('No benchmark-relevant components (CPU/GPU/RAM/Storage/Motherboard) selected');
+        setBenchmarkLoading(false);
+        return;
+      }
+      const res = await axios.post('/api/benchmark/score', { components: compMap });
+      if (res.data.success) {
+        setBenchmarkResult(res.data);
+      } else {
+        setBenchmarkError(res.data.message || 'Failed to compute score');
+      }
+    } catch (e) {
+      console.error('Benchmark error', e);
+      setBenchmarkError(e.response?.data?.message || 'Error computing benchmark');
+    }
+    setBenchmarkLoading(false);
+  };
+
   return (
-    <div className="pc-builder-page">
+  <div className="pc-builder-page pcb-new">
       {/* Hero Section */}
       <section className="builder-hero">
         <div className="container">
@@ -326,9 +452,9 @@ const PCBuilder = () => {
 
       <div className="builder-container">
         <div className="container">
-          <div className="builder-layout">
+          <div className="builder-layout enhanced-layout">
             {/* Components Section */}
-            <div className="components-section">
+            <div className="components-section component-browser" aria-label="Component selection area">
               {isLoading ? (
                 <div className="loading-components">
                   <div className="loading-spinner">
@@ -354,7 +480,7 @@ const PCBuilder = () => {
                         const selectedComponent = currentBuild[category];
 
                         return (
-                          <div key={category} className={`component-category ${isCollapsed ? 'collapsed' : ''}`}>
+                          <div id={`cat-${category}`} key={category} className={`component-category ${isCollapsed ? 'collapsed' : ''}`}>
                             <div className="category-header">
                               <div className="category-info">
                                 <h3 className="category-title">
@@ -395,32 +521,30 @@ const PCBuilder = () => {
                                     filteredComponents.map(component => (
                                       <div
                                         key={component._id}
-                                        className={`component-option ${selectedComponent?._id === component._id ? 'selected' : ''}`}
+                                        className={`component-option card-tile ${selectedComponent?._id === component._id ? 'selected' : ''}`}
                                         onClick={() => selectComponent(category, component)}
                                       >
-                                        <div className="option-header">
-                                          <h4 className="option-name">{component.name}</h4>
-                                          <span className="option-price">
-                                            ৳{(component.price || 0).toLocaleString()}
-                                          </span>
+                                        <div className="tile-head">
+                                          <h4 className="option-name clamp-2">{component.name}</h4>
+                                          <span className="option-price">৳{(component.price || 0).toLocaleString()}</span>
                                         </div>
-                                        
-                                        <div className="option-details">
-                                          <p className="option-brand">{component.brand}</p>
+                                        <div className="tile-meta">
+                                          <span className="brand-tag">{component.brand}</span>
                                           {component.specifications && (
-                                            <div className="option-specs">
-                                              {Object.entries(component.specifications).slice(0, 2).map(([key, value]) => (
-                                                value && <span key={key}>{key}: {value}</span>
+                                            <div className="spec-tags">
+                                              {Object.entries(component.specifications).slice(0, 3).map(([key, value]) => (
+                                                value && <span className="spec-pill" key={key}>{key}: {String(value).toString().slice(0,30)}</span>
                                               ))}
                                             </div>
                                           )}
-                                          <div className="stock-status">
-                                            {component.stock > 0 ? (
-                                              <span className="in-stock">✓ In Stock ({component.stock})</span>
-                                            ) : (
-                                              <span className="out-of-stock">✗ Out of Stock</span>
-                                            )}
-                                          </div>
+                                        </div>
+                                        <div className="tile-footer">
+                                          {component.stock > 0 ? (
+                                            <span className="stock-ok">In Stock • {component.stock}</span>
+                                          ) : (
+                                            <span className="stock-bad">Out of Stock</span>
+                                          )}
+                                          {selectedComponent?._id === component._id && <span className="selected-badge">Selected</span>}
                                         </div>
                                       </div>
                                     ))
@@ -454,7 +578,7 @@ const PCBuilder = () => {
                         const selectedComponent = currentBuild[category];
 
                         return (
-                          <div key={category} className={`component-category ${isCollapsed ? 'collapsed' : ''}`}>
+                          <div id={`cat-${category}`} key={category} className={`component-category ${isCollapsed ? 'collapsed' : ''}`}>
                             <div className="category-header">
                               <div className="category-info">
                                 <h3 className="category-title">
@@ -495,32 +619,30 @@ const PCBuilder = () => {
                                     filteredComponents.map(component => (
                                       <div
                                         key={component._id}
-                                        className={`component-option ${selectedComponent?._id === component._id ? 'selected' : ''}`}
+                                        className={`component-option card-tile ${selectedComponent?._id === component._id ? 'selected' : ''}`}
                                         onClick={() => selectComponent(category, component)}
                                       >
-                                        <div className="option-header">
-                                          <h4 className="option-name">{component.name}</h4>
-                                          <span className="option-price">
-                                            ৳{(component.price || 0).toLocaleString()}
-                                          </span>
+                                        <div className="tile-head">
+                                          <h4 className="option-name clamp-2">{component.name}</h4>
+                                          <span className="option-price">৳{(component.price || 0).toLocaleString()}</span>
                                         </div>
-                                        
-                                        <div className="option-details">
-                                          <p className="option-brand">{component.brand}</p>
+                                        <div className="tile-meta">
+                                          <span className="brand-tag">{component.brand}</span>
                                           {component.specifications && (
-                                            <div className="option-specs">
-                                              {Object.entries(component.specifications).slice(0, 2).map(([key, value]) => (
-                                                value && <span key={key}>{key}: {value}</span>
+                                            <div className="spec-tags">
+                                              {Object.entries(component.specifications).slice(0, 3).map(([key, value]) => (
+                                                value && <span className="spec-pill" key={key}>{key}: {String(value).toString().slice(0,30)}</span>
                                               ))}
                                             </div>
                                           )}
-                                          <div className="stock-status">
-                                            {component.stock > 0 ? (
-                                              <span className="in-stock">✓ In Stock ({component.stock})</span>
-                                            ) : (
-                                              <span className="out-of-stock">✗ Out of Stock</span>
-                                            )}
-                                          </div>
+                                        </div>
+                                        <div className="tile-footer">
+                                          {component.stock > 0 ? (
+                                            <span className="stock-ok">In Stock • {component.stock}</span>
+                                          ) : (
+                                            <span className="stock-bad">Out of Stock</span>
+                                          )}
+                                          {selectedComponent?._id === component._id && <span className="selected-badge">Selected</span>}
                                         </div>
                                       </div>
                                     ))
@@ -541,35 +663,59 @@ const PCBuilder = () => {
             </div>
 
             {/* Build Summary */}
-            <div className="build-summary">
+            <div className="build-summary build-summary-panel" aria-label="Current build summary">
               <div className="summary-header">Your Build</div>
               
-              <div className="build-items">
+              <div className="build-items build-items-list">
                 {Object.entries(componentCategories).map(([category, info]) => {
                   const component = currentBuild[category];
                   return (
-                    <div key={category} className="build-item">
-                      <div className="item-info">
-                        <div className="item-category">{info.name}</div>
-                        {component ? (
-                          <>
-                            <div className="item-name">{component.name}</div>
-                            <div className="item-price">
-                              ৳{(component.price || 0).toLocaleString()}
-                            </div>
-                          </>
-                        ) : (
-                          <div className="item-name not-selected">Not selected</div>
-                        )}
+                    <div key={category} className={`build-item row-line ${component ? 'has-component' : 'empty'}`}>
+                      <div className="item-left">
+                        <a href={`#cat-${category}`} className="item-category-link">{info.icon || ''}</a>
+                      </div>
+                      <div className="item-mid">
+                        <div className="item-category-label">{info.name}</div>
+                        {component ? <div className="item-name clamp-1" title={component.name}>{component.name}</div> : <div className="item-name not-selected">Not selected</div>}
+                      </div>
+                      <div className="item-right">
+                        {component && <div className="item-price">৳{(component.price || 0).toLocaleString()}</div>}
+                        {component && <button className="remove-mini" onClick={() => removeComponent(category)} aria-label={`Remove ${info.name}`}>✕</button>}
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              <div className={`compatibility-check ${compatibility.isCompatible ? 'compatible' : 'incompatible'}`}>
-                {compatibility.message}
+              <div className={`compatibility-check ${compatibility.isCompatible ? 'compatible' : 'incompatible'}`} style={{marginBottom:'8px'}}>
+                {compatibility.isCompatible ? '✅ Compatible' : '⚠️ Compatibility issues/warnings'}
               </div>
+              <div style={{marginBottom:'10px'}}>
+                <button className="btn btn-outline" onClick={runCompatibilityCheck} disabled={compatLoading || Object.keys(currentBuild).length===0}>
+                  {compatLoading ? 'Checking...' : 'Check Compatibility 🔍'}
+                </button>
+              </div>
+              {compatResult && (
+                <div className="compat-details" style={{background:'#1c2430', padding:'8px 10px', borderRadius:'6px', fontSize:'0.75rem'}}>
+                  {compatResult.issues.length === 0 && <div style={{color:'#4caf50'}}>No critical issues detected.</div>}
+                  {compatResult.issues.length > 0 && (
+                    <div style={{marginBottom:'6px'}}>
+                      <strong>Issues:</strong>
+                      <ul style={{margin:'4px 0 0 16px'}}>
+                        {compatResult.issues.map(i => <li key={i} style={{color:'#ff5252'}}>{i}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  {compatResult.warnings.length > 0 && (
+                    <div>
+                      <strong>Warnings:</strong>
+                      <ul style={{margin:'4px 0 0 16px'}}>
+                        {compatResult.warnings.map(w => <li key={w} style={{color:'#ffc107'}}>{w}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
 
               <div className="build-total">
                 <div className="total-row">
@@ -607,6 +753,38 @@ const PCBuilder = () => {
                 >
                   Clear Build
                 </button>
+              </div>
+
+              {/* Benchmark moved below buttons */}
+              <div className="benchmark-panel" style={{marginTop:'12px'}}>
+                <button className="btn btn-warning" style={{width:'100%', marginBottom:'8px'}} onClick={computeBenchmark} disabled={benchmarkLoading || Object.keys(currentBuild).length===0}>
+                  {benchmarkLoading ? 'Scoring...' : 'Compute Benchmark ⚙️'}
+                </button>
+                {benchmarkError && (
+                  <div className="benchmark-error" style={{color:'#c00', marginTop:'4px', fontSize:'0.75rem'}}>{benchmarkError}</div>
+                )}
+                {benchmarkResult && (
+                  <div className="benchmark-result" style={{marginTop:'6px', background:'#101820', padding:'10px', borderRadius:'6px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                      <strong style={{fontSize:'0.9rem'}}>Benchmark Score</strong>
+                      <span style={{fontSize:'1rem'}}>💯 {benchmarkResult.totalScore}</span>
+                    </div>
+                    <div style={{marginTop:'6px', fontSize:'0.65rem', opacity:0.8}}>Composite: {(benchmarkResult.normalizedComposite*100).toFixed(1)}%</div>
+                    <div className="benchmark-breakdown" style={{marginTop:'6px', fontSize:'0.65rem', lineHeight:1.4}}>
+                      {Object.entries(benchmarkResult.breakdown).map(([part, data]) => (
+                        <div key={part} style={{display:'flex', justifyContent:'space-between'}}>
+                          <span style={{textTransform:'capitalize'}}>{part}:</span>
+                          <span>{(data.score*100).toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    {benchmarkResult.notes && benchmarkResult.notes.length>0 && (
+                      <ul style={{marginTop:'6px', paddingLeft:'16px', fontSize:'0.55rem', opacity:0.7}}>
+                        {benchmarkResult.notes.map(n => <li key={n}>{n}</li>)}
+                      </ul>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
