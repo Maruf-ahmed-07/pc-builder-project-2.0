@@ -27,6 +27,8 @@ import Checkout from './pages/Checkout';
 import Orders from './pages/Orders';
 import OrderDetail from './pages/OrderDetail';
 import Contact from './pages/Contact';
+import MyTickets from './pages/MyTickets';
+import TicketDetail from './pages/TicketDetail';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -50,6 +52,16 @@ function App() {
                   <Route path="/community/builds/:id" element={<BuildDetails />} />
                   <Route path="/builds/:id" element={<BuildDetail />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/support/tickets" element={
+                    <ProtectedRoute>
+                      <MyTickets />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/support/tickets/:id" element={
+                    <ProtectedRoute>
+                      <TicketDetail />
+                    </ProtectedRoute>
+                  } />
                   
                   <Route path="/profile" element={
                     <ProtectedRoute>

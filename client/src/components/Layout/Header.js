@@ -51,6 +51,7 @@ const Header = () => {
                   <div className="user-dropdown">
                     <Link to="/profile">Profile</Link>
                     <Link to="/orders">My Orders</Link>
+                    <Link to="/support/tickets">My Tickets</Link>
                     {user?.role === 'admin' && <Link to="/admin">Admin Panel</Link>}
                     <button onClick={handleLogout} className="logout-btn">Logout</button>
                   </div>
