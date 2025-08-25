@@ -34,14 +34,16 @@ router.post('/', optionalAuth, [
       contactData.user = req.user.id;
     }
     const contact = await Contact.create(contactData);
+    // Return minimal ticket info for client (treat as support ticket)
     res.status(201).json({
       success: true,
-      message: 'Contact form submitted successfully. We will get back to you soon.',
-      contact: {
+      message: 'Support ticket created successfully.',
+      ticket: {
         id: contact._id,
         subject: contact.subject,
         category: contact.category,
         status: contact.status,
+        priority: contact.priority,
         createdAt: contact.createdAt
       }
     });

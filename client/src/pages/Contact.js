@@ -10,8 +10,10 @@ const Contact = () => {
     email: '',
     subject: '',
     message: '',
-    category: 'General Inquiry'
+    category: 'General Inquiry',
+    priority: 'Medium'
   });
+  const [ticketInfo, setTicketInfo] = useState(null);
 
   // Contact form submission mutation
   const contactMutation = useMutation({
@@ -19,18 +21,20 @@ const Contact = () => {
       const response = await axios.post('/api/contact', data);
       return response.data;
     },
-    onSuccess: () => {
-      toast.success('Message sent successfully! We\'ll get back to you soon.');
+    onSuccess: (data) => {
+      toast.success('Support ticket created!');
+      setTicketInfo(data.ticket);
       setFormData({
         name: '',
         email: '',
         subject: '',
         message: '',
-        category: 'General Inquiry'
+        category: 'General Inquiry',
+        priority: 'Medium'
       });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || 'Failed to send message. Please try again.');
+      toast.error(error.response?.data?.message || 'Failed to submit ticket. Please try again.');
     }
   });
 
@@ -46,7 +50,7 @@ const Contact = () => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
+  if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -155,19 +159,33 @@ const Contact = () => {
                     <option value="Other">Other</option>
                   </select>
                 </div>
-
                 <div className="form-group">
-                  <label htmlFor="subject">Subject *</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
+                  <label htmlFor="priority">Priority</label>
+                  <select
+                    id="priority"
+                    name="priority"
+                    value={formData.priority}
                     onChange={handleChange}
-                    placeholder="Brief description of your inquiry"
-                    required
-                  />
+                  >
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Urgent">Urgent</option>
+                  </select>
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subject">Subject *</label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Brief description of your inquiry"
+                  required
+                />
               </div>
 
               <div className="form-group">
@@ -183,6 +201,11 @@ const Contact = () => {
                 ></textarea>
               </div>
 
+              {ticketInfo && (
+                <div className="ticket-confirmation">
+                  <strong>Ticket ID:</strong> {ticketInfo.id} &nbsp;|&nbsp; Status: {ticketInfo.status} &nbsp;|&nbsp; Priority: {ticketInfo.priority}
+                </div>
+              )}
               <div className="form-footer">
                 <p className="privacy-note">
                   By submitting this form, you agree to our privacy policy and terms of service.
