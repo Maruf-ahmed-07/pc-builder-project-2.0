@@ -15,14 +15,13 @@ export const ChatProvider = ({ children }) => {
   const [typing, setTyping] = useState({}); // { userId|self: timestamp }
   const audioRef = useRef(null);
 
-  // Load existing thread for user or admin selected thread handled in admin panel
+  // Load existing thread 
   const loadUserThread = useCallback(async () => {
     if (!isAuthenticated || !user) return;
     try {
       const res = await axios.get('/api/chat/thread');
       setMessages(res.data.messages || []);
     } catch (e) {
-      // ignore
     }
   }, [isAuthenticated, user]);
 
@@ -76,7 +75,7 @@ export const ChatProvider = ({ children }) => {
     s.on('chat:deleted', (info) => {
       if (!info?.user) return;
       setMessages(prev => prev.filter(m => m.user !== info.user));
-  // Also remove the thread from admin thread list so deleted chats disappear immediately
+  // Also remove the thread from admin 
   setThreads(prev => prev.filter(t => t?.user?._id !== info.user));
     });
 
@@ -88,7 +87,7 @@ export const ChatProvider = ({ children }) => {
     };
   }, [isAuthenticated, isLoading, user, loadUserThread, loadAdminThreads]);
 
-  // Listen for custom browser event to optimistically remove thread (triggered from AdminChatPanel)
+
   useEffect(() => {
     const handler = (e) => {
       if (!e?.detail?.user) return;
@@ -101,7 +100,7 @@ export const ChatProvider = ({ children }) => {
   const sendMessage = (text, targetUserId) => {
     if (!socketRef.current || !text) return;
     if (user?.role === 'admin' && targetUserId) {
-      // For admin, we need to include userId; we'll send standard event then adjust local state via optimistic update
+      // For admin, we need to include userId
       socketRef.current.emit('chat:message', { text, userId: targetUserId });
     } else {
       socketRef.current.emit('chat:message', { text });
