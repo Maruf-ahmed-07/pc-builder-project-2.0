@@ -34,7 +34,15 @@ const Contact = () => {
       });
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || 'Failed to submit ticket. Please try again.');
+      // Prefer detailed validation errors from server if present
+      const apiErrors = error.response?.data?.errors;
+      if (Array.isArray(apiErrors) && apiErrors.length) {
+        // Show first 1-2 errors to user
+        const messages = apiErrors.slice(0, 2).map(e => e.msg || e.message).filter(Boolean);
+        toast.error(messages.join('\n'));
+      } else {
+        toast.error(error.response?.data?.message || 'Failed to submit ticket. Please try again.');
+      }
     }
   });
 
@@ -48,20 +56,27 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Basic validation
-  if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
-      toast.error('Please fill in all required fields');
-      return;
-    }
-    
-    // Email validation
+
+    // Mirror server-side constraints for better UX
+    const { name, email, subject, message, category } = formData;
+    const errors = [];
+    if (!name.trim()) errors.push('Name is required');
+    if (name.trim().length < 2) errors.push('Name must be at least 2 characters');
+    if (!email.trim()) errors.push('Email is required');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+    if (email && !emailRegex.test(email)) errors.push('Please enter a valid email address');
+    if (!subject.trim()) errors.push('Subject is required');
+    if (subject.trim().length < 5) errors.push('Subject must be at least 5 characters');
+    if (!message.trim()) errors.push('Message is required');
+    if (message.trim().length < 10) errors.push('Message must be at least 10 characters');
+    const allowedCategories = ['General Inquiry','Technical Support','Order Support','Product Question','Feedback','Complaint','Other'];
+    if (!allowedCategories.includes(category)) errors.push('Please select a valid category');
+
+    if (errors.length) {
+      toast.error(errors[0]);
       return;
     }
-    
+
     contactMutation.mutate(formData);
   };
 
@@ -123,6 +138,8 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Enter your full name"
+                    minLength={2}
+                    maxLength={50}
                     required
                   />
                 </div>
@@ -177,15 +194,17 @@ const Contact = () => {
 
               <div className="form-group">
                 <label htmlFor="subject">Subject *</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="Brief description of your inquiry"
-                  required
-                />
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    placeholder="Brief description of your inquiry"
+                    minLength={5}
+                    maxLength={100}
+                    required
+                  />
               </div>
 
               <div className="form-group">
@@ -197,6 +216,8 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder="Please provide details about your inquiry..."
                   rows="6"
+                  minLength={10}
+                  maxLength={1000}
                   required
                 ></textarea>
               </div>
