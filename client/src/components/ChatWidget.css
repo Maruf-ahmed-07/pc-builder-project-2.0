@@ -7,6 +7,7 @@
 .chat-window { width:380px; max-width:90vw; height:520px; background:linear-gradient(180deg,#ffffff,#f1f5f9); border-radius:24px; box-shadow:0 20px 48px -12px rgba(0,0,0,0.35), 0 4px 12px rgba(0,0,0,0.15); display:flex; flex-direction:column; overflow:hidden; animation:popIn .35s cubic-bezier(.16,.8,.43,1); border:1px solid #e2e8f0; backdrop-filter:blur(6px); }
 @keyframes popIn { from { opacity:0; transform:translateY(16px) scale(.96);} to { opacity:1; transform:translateY(0) scale(1);} }
 .chat-header { background:linear-gradient(135deg,#2563eb,#7c3aed); color:#fff; padding:14px 18px; display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:16px; letter-spacing:.5px; box-shadow:0 2px 8px rgba(0,0,0,0.25); }
+.chat-header.ai-mode { background:linear-gradient(135deg,#0f766e,#115e59); }
 .chat-header button { background:rgba(255,255,255,0.15); border:none; color:#fff; font-size:22px; cursor:pointer; width:34px; height:34px; line-height:34px; border-radius:12px; display:flex; align-items:center; justify-content:center; transition:background .2s; }
 .chat-header button:hover { background:rgba(255,255,255,0.3); }
 .chat-header .dot { width:10px; height:10px; display:inline-block; border-radius:50%; margin-left:8px; box-shadow:0 0 0 3px rgba(255,255,255,0.2); }

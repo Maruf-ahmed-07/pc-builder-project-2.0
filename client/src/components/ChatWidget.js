@@ -44,7 +44,12 @@ const ChatWidget = () => {
     setText('');
     try {
       const history = messages.map(m => ({ role: m.sender === 'user' ? 'user' : 'ai', content: m.message })).slice(-10);
-      const res = await fetch('/api/ai/chat', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ message: content, history }) });
+      const res = await fetch('/api/ai/chat', { 
+        method:'POST', 
+        headers:{ 'Content-Type':'application/json' }, 
+        credentials: 'include',
+        body: JSON.stringify({ message: content, history }) 
+      });
       const data = await res.json();
       const reply = data.success ? data.reply : (data.message || 'AI error');
       setMessages(prev => prev.concat({ _id: 'ai-'+Date.now(), sender: 'ai',
@@ -62,8 +67,8 @@ const ChatWidget = () => {
     <div className={`chat-widget ${open ? 'open' : ''}`}> 
       {open && (
         <div className="chat-window">
-          <div className="chat-header">
-            <span>💬 Live Support {connected ? <span className="dot online" /> : <span className="dot offline" />}</span>
+          <div className={`chat-header ${useAI ? 'ai-mode' : ''}`}>
+            <span>{useAI ? '🤖 AI Chatbot' : '💬 Live Support'} {connected ? <span className="dot online" /> : <span className="dot offline" />}</span>
             <button onClick={() => setOpen(false)}>×</button>
           </div>
           <div className="chat-messages">
