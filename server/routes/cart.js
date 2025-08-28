@@ -215,18 +215,20 @@ router.post('/builds', protect, [
     }
     const unavailableComponents = [];
     for (const [componentType, component] of Object.entries(build.components)) {
-      if (component && component.product) {
-        if (Array.isArray(component)) {
-          for (const item of component) {
-            if (item.product && (!item.product.isActive || item.product.stock < (item.quantity || 1))) {
-              unavailableComponents.push(`${componentType}: ${item.product.name}`);
-            }
-          }
-        } else {
-          if (!component.product.isActive || component.product.stock < (component.quantity || 1)) {
-            unavailableComponents.push(`${componentType}: ${component.product.name}`);
-          }
+      if (!component) continue;
+      const processUnit = (unit) => {
+        if (!unit) return;
+        const prod = unit.product || unit; // support snapshot stored directly
+        if (!prod || !prod._id) return;
+        // If we have stock/isActive info, validate it
+        if ((prod.isActive === false) || (typeof prod.stock === 'number' && prod.stock < (unit.quantity || 1))) {
+          unavailableComponents.push(`${componentType}: ${prod.name || prod.model || prod._id}`);
         }
+      };
+      if (Array.isArray(component)) {
+        component.forEach(processUnit);
+      } else {
+        processUnit(component);
       }
     }
     if (unavailableComponents.length > 0) {
@@ -251,38 +253,26 @@ router.post('/builds', protect, [
     }
     cart.builds.push({ build: buildId });
     for (const [componentType, component] of Object.entries(build.components)) {
-      if (component && component.product) {
-        if (Array.isArray(component)) {
-          for (const item of component) {
-            if (item.product) {
-              const existingItem = cart.items.find(
-                cartItem => cartItem.product.toString() === item.product._id.toString()
-              );
-              if (existingItem) {
-                existingItem.quantity += item.quantity || 1;
-              } else {
-                cart.items.push({
-                  product: item.product._id,
-                  quantity: item.quantity || 1,
-                  price: item.product.price
-                });
-              }
-            }
-          }
+      if (!component) continue;
+      const addUnit = (unit) => {
+        if (!unit) return;
+        const prod = unit.product || unit; // unified
+        if (!prod || !prod._id) return;
+        const existingItem = cart.items.find(ci => ci.product.toString() === prod._id.toString());
+        if (existingItem) {
+          existingItem.quantity += unit.quantity || 1;
         } else {
-          const existingItem = cart.items.find(
-            cartItem => cartItem.product.toString() === component.product._id.toString()
-          );
-          if (existingItem) {
-            existingItem.quantity += component.quantity || 1;
-          } else {
-            cart.items.push({
-              product: component.product._id,
-              quantity: component.quantity || 1,
-              price: component.product.price
-            });
-          }
+          cart.items.push({
+            product: prod._id,
+            quantity: unit.quantity || 1,
+            price: prod.price || prod.discountPrice || 0
+          });
         }
+      };
+      if (Array.isArray(component)) {
+        component.forEach(addUnit);
+      } else {
+        addUnit(component);
       }
     }
     await cart.save();
