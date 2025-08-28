@@ -135,39 +135,73 @@ const BuildDetails = () => {
       return;
     }
 
-    // Try server-side add build endpoint first (preferred)
-    if (typeof addBuildToCart === 'function') {
-      const res = await addBuildToCart(build._id);
-      if (res && res.success) {
-        // If server returned the updated cart, we're done.
-        if (res.cart) return;
-        // Server accepted the request but did not return cart data. Force a reload.
-        try {
-          await loadCart();
-          return;
-        } catch (e) {
-          // fallthrough to client-side add if reload fails
+    console.log('Build components:', build.components);
+    
+    try {
+      // Try server-side add build endpoint first (preferred)
+      if (typeof addBuildToCart === 'function') {
+        console.log('Trying server-side build add for build ID:', build._id);
+        const res = await addBuildToCart(build._id);
+        console.log('Server build add result:', res);
+        if (res && res.success) {
+          // If server returned the updated cart, we're done.
+          if (res.cart) {
+            toast.success(`Build "${build.name}" added to cart!`);
+            return;
+          }
+          // Server accepted the request but did not return cart data. Force a reload.
+          try {
+            await loadCart();
+            toast.success(`Build "${build.name}" added to cart!`);
+            return;
+          } catch (e) {
+            console.error('Failed to reload cart after build add:', e);
+            // fallthrough to client-side add if reload fails
+          }
+        } else {
+          console.warn('Server build add failed, falling back to individual adds:', res);
         }
       }
-      // fallthrough to client-side add if server endpoint failed
-    }
 
-    // Fallback: add individual components by product id
-    const components = Object.values(build.components);
-    let addedCount = 0;
-    for (const component of components) {
-      const productId = component?.product?._id || component?._id;
-      if (productId) {
-        // await each add so server cart stays consistent
-        await addToCart(productId, 1, { silent: true });
-        addedCount++;
+      // Fallback: add individual components by product id
+      const components = Object.values(build.components);
+      console.log('Components to add individually:', components);
+      let addedCount = 0;
+      let failedCount = 0;
+      
+      for (const component of components) {
+        const productId = component?.product?._id || component?._id;
+        console.log('Processing component:', component, 'Product ID:', productId);
+        if (productId) {
+          try {
+            // await each add so server cart stays consistent
+            const result = await addToCart(productId, 1, { silent: true });
+            console.log('Add to cart result for', productId, ':', result);
+            addedCount++;
+          } catch (error) {
+            console.error(`Failed to add component ${productId}:`, error);
+            failedCount++;
+          }
+        } else {
+          console.warn('No product ID found for component:', component);
+        }
       }
-    }
 
-    if (addedCount > 0) {
-      toast.success(`${addedCount} components from "${build.name}" added to cart!`);
-    } else {
-      toast.error('No components found to add to cart');
+      console.log(`Added: ${addedCount}, Failed: ${failedCount}`);
+      
+      if (addedCount > 0) {
+        // Force cart reload to ensure UI updates
+        await loadCart();
+        toast.success(`${addedCount} components from "${build.name}" added to cart!`);
+        if (failedCount > 0) {
+          toast.error(`${failedCount} components failed to add`);
+        }
+      } else {
+        toast.error('No components found to add to cart');
+      }
+    } catch (error) {
+      console.error('Add all to cart error:', error);
+      toast.error('Failed to add components to cart');
     }
   };
 
