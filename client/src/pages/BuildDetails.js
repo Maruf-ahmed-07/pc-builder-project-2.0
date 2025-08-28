@@ -135,74 +135,39 @@ const BuildDetails = () => {
       return;
     }
 
-    console.log('Build components:', build.components);
-    
-    try {
-      // Try server-side add build endpoint first (preferred)
-      if (typeof addBuildToCart === 'function') {
-        console.log('Trying server-side build add for build ID:', build._id);
-        const res = await addBuildToCart(build._id);
-        console.log('Server build add result:', res);
-        if (res && res.success) {
-          // If server returned the updated cart, we're done.
-          if (res.cart) {
-            toast.success(`Build "${build.name}" added to cart!`);
-            return;
-          }
-          // Server accepted the request but did not return cart data. Force a reload.
-          try {
-            await loadCart();
-            toast.success(`Build "${build.name}" added to cart!`);
-            return;
-          } catch (e) {
-            console.error('Failed to reload cart after build add:', e);
-            // fallthrough to client-side add if reload fails
-          }
-        } else {
-          console.warn('Server build add failed, falling back to individual adds:', res);
-        }
-      }
+    // Optimistic: show toast immediately; final sync handled after response
+    let optimisticShown = false;
 
-      // Fallback: add individual components by product id
-      const components = Object.values(build.components);
-      console.log('Components to add individually:', components);
-      let addedCount = 0;
-      let failedCount = 0;
-      
-      for (const component of components) {
-        const productId = component?.product?._id || component?._id;
-        console.log('Processing component:', component, 'Product ID:', productId);
-        if (productId) {
-          try {
-            // await each add so server cart stays consistent
-            const result = await addToCart(productId, 1, { silent: true });
-            console.log('Add to cart result for', productId, ':', result);
-            addedCount++;
-          } catch (error) {
-            console.error(`Failed to add component ${productId}:`, error);
-            failedCount++;
-          }
-        } else {
-          console.warn('No product ID found for component:', component);
+    // Attempt server build add first (silent to avoid duplicate toast)
+    if (typeof addBuildToCart === 'function') {
+      const res = await addBuildToCart(build._id, { silent: true });
+      if (res && res.success) {
+        optimisticShown = true;
+        toast.success(`Build "${build.name}" added to cart!`);
+        // If cart missing (server didn't return), force reload
+        if (!res.cart) {
+          try { await loadCart(); } catch (_) {}
         }
+        return;
       }
-
-      console.log(`Added: ${addedCount}, Failed: ${failedCount}`);
-      
-      if (addedCount > 0) {
-        // Force cart reload to ensure UI updates
-        await loadCart();
-        toast.success(`${addedCount} components from "${build.name}" added to cart!`);
-        if (failedCount > 0) {
-          toast.error(`${failedCount} components failed to add`);
-        }
-      } else {
-        toast.error('No components found to add to cart');
-      }
-    } catch (error) {
-      console.error('Add all to cart error:', error);
-      toast.error('Failed to add components to cart');
     }
+
+    // Fallback: add individual components
+    const components = Object.values(build.components);
+    const uniqueProductIds = [];
+    for (const component of components) {
+      const productId = component?.product?._id || component?._id;
+      if (productId && !uniqueProductIds.includes(productId)) uniqueProductIds.push(productId);
+    }
+    if (uniqueProductIds.length === 0) {
+      toast.error('No components found to add to cart');
+      return;
+    }
+    for (const pid of uniqueProductIds) {
+      await addToCart(pid, 1, { silent: true });
+    }
+    if (!optimisticShown) toast.success(`${uniqueProductIds.length} components from "${build.name}" added to cart!`);
+    try { await loadCart(); } catch (_) {}
   };
 
   const formatPrice = (price) => {

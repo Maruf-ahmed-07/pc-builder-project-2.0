@@ -107,14 +107,14 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addBuildToCart = async (buildId) => {
+  const addBuildToCart = async (buildId, options = {}) => {
     try {
       const response = await axios.post('/api/cart/builds', { buildId });
       // Server may not return the updated cart or may apply the change asynchronously.
       // Try to read the cart from the server a few times before giving up.
       if (response.data && response.data.cart) {
         dispatch({ type: 'SET_CART', payload: response.data.cart });
-        toast.success('Build added to cart!');
+        if (!options.silent) toast.success('Build added to cart!');
         return { success: true, cart: response.data.cart };
       }
 
@@ -130,7 +130,7 @@ export const CartProvider = ({ children }) => {
             (lastCart?.items || []).some(i => i.buildId === buildId);
           if (hasBuild) {
             dispatch({ type: 'SET_CART', payload: lastCart });
-            toast.success('Build added to cart!');
+            if (!options.silent) toast.success('Build added to cart!');
             return { success: true, cart: lastCart };
           }
         } catch (e) {
@@ -147,8 +147,8 @@ export const CartProvider = ({ children }) => {
       } else {
         await loadCart();
       }
-      toast.success('Build added to cart!');
-      return { success: true, cart: lastCart };
+  if (!options.silent) toast.success('Build added to cart!');
+  return { success: true, cart: lastCart };
     } catch (error) {
       const message = error.response?.data?.message || 'Failed to add build to cart';
       toast.error(message);
