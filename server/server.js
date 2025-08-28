@@ -80,6 +80,7 @@ app.use('/api/admin', require('./routes/admin'));
 app.use('/api/wishlist', require('./routes/wishlist'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/benchmark', require('./routes/benchmark'));
+app.use('/api/ai', require('./routes/ai'));
 
 app.get('/api/health', (req, res) => {
   res.json({ 

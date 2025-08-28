@@ -6,10 +6,12 @@ import './ChatWidget.css';
 
 const ChatWidget = () => {
   const { isAuthenticated, user } = useAuth();
-  const { messages, sendMessage, connected, markReadUser, typing, emitTyping } = useChat();
+  const { messages, sendMessage, connected, markReadUser, typing, emitTyping, setMessages } = useChat();
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const [useAI, setUseAI] = useState(false);
+  const [aiLoading, setAiLoading] = useState(false);
   const endRef = useRef();
 
   useEffect(() => {
@@ -27,11 +29,31 @@ const ChatWidget = () => {
 
   if (!isAuthenticated || user?.role === 'admin') return null;
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    if (!text.trim()) return;
-    sendMessage(text.trim());
+    const content = text.trim();
+    if (!content) return;
+    if (!useAI) {
+      sendMessage(content);
+      setText('');
+      return;
+    }
+    // AI mode
+    setAiLoading(true);
+    setMessages(prev => prev.concat({ _id: 'temp-'+Date.now(), sender: 'user', message: content, createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true }));
     setText('');
+    try {
+      const history = messages.map(m => ({ role: m.sender === 'user' ? 'user' : 'ai', content: m.message })).slice(-10);
+      const res = await fetch('/api/ai/chat', { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify({ message: content, history }) });
+      const data = await res.json();
+      const reply = data.success ? data.reply : (data.message || 'AI error');
+      setMessages(prev => prev.concat({ _id: 'ai-'+Date.now(), sender: 'ai',
+        message: reply, createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true, meta:{ ai:true } }));
+    } catch (err) {
+      setMessages(prev => prev.concat({ _id: 'aierr-'+Date.now(), sender: 'system', message: 'AI failed to respond.', createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true }));
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const unread = messages.filter(m => m.sender === 'admin' && !m.readByUser).length;
@@ -45,11 +67,14 @@ const ChatWidget = () => {
             <button onClick={() => setOpen(false)}>×</button>
           </div>
           <div className="chat-messages">
-            {messages.map(m => (
-              <div key={m._id} className={`chat-msg ${m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : 'admin'}`}> 
-                <div className={`bubble ${m.sender === 'system' ? 'system' : ''}`}>{m.message}</div>
-              </div>
-            ))}
+            {messages.map(m => {
+              const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : m.meta?.ai || m.sender === 'ai' ? 'ai' : 'admin';
+              return (
+                <div key={m._id} className={`chat-msg ${roleClass}`}>
+                  <div className={`bubble ${m.sender === 'system' ? 'system' : roleClass === 'ai' ? 'ai' : ''}`}>{m.message}</div>
+                </div>
+              );
+            })}
             {deleted && messages.length === 0 && (
               <div className="chat-msg system"><div className="bubble system">Chat history was cleared. Start a new conversation!</div></div>
             )}
@@ -61,8 +86,9 @@ const ChatWidget = () => {
             <div ref={endRef} />
           </div>
           <form className="chat-input" onSubmit={handleSend}>
-            <input value={text} onChange={e => { setText(e.target.value); emitTyping(); }} placeholder="Type your message..." />
-            <button type="submit" disabled={!text.trim()}>➤</button>
+            <input value={text} onChange={e => { setText(e.target.value); emitTyping(); }} placeholder={useAI ? 'Ask AI anything about PCs...' : 'Type your message...'} />
+            <button type="button" onClick={() => setUseAI(v => !v)} className={`mode-btn ${useAI ? 'on' : ''}`} title={useAI ? 'AI mode on' : 'Switch to AI'}>{useAI ? 'AI' : 'LIVE'}</button>
+            <button type="submit" disabled={!text.trim() || aiLoading}>{aiLoading ? '…' : '➤'}</button>
           </form>
         </div>
       )}
