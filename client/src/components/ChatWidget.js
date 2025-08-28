@@ -12,6 +12,8 @@ const ChatWidget = () => {
   const [deleted, setDeleted] = useState(false);
   const [useAI, setUseAI] = useState(false);
   const [aiLoading, setAiLoading] = useState(false);
+  // Separate in-memory AI-only thread so live messages never include AI ones
+  const [aiThread, setAiThread] = useState([]);
   const endRef = useRef();
 
   useEffect(() => {
@@ -19,6 +21,20 @@ const ChatWidget = () => {
   }, [open, messages, markReadUser]);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages, open]);
+
+  // Inject a welcome message when first entering AI mode with empty AI thread
+  useEffect(() => {
+    if (useAI && aiThread.length === 0) {
+      setAiThread([
+        {
+          _id: 'aiwelcome',
+            sender: 'system',
+            message: 'Welcome to our custom AI PC Assistant! Ask me anything about components, compatibility, performance, or recommendations. 🔧💻',
+            createdAt: new Date().toISOString()
+        }
+      ]);
+    }
+  }, [useAI, aiThread, setAiThread]);
 
   // Watch for thread deletion (messages empties while open)
   useEffect(() => {
@@ -34,34 +50,42 @@ const ChatWidget = () => {
     const content = text.trim();
     if (!content) return;
     if (!useAI) {
+      // Live support path via socket
       sendMessage(content);
       setText('');
       return;
     }
-    // AI mode
+    // AI mode path (do NOT mutate live messages state)
     setAiLoading(true);
-    setMessages(prev => prev.concat({ _id: 'temp-'+Date.now(), sender: 'user', message: content, createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true }));
+    const userMsg = { _id: 'aiu-' + Date.now(), sender: 'user', message: content, createdAt: new Date().toISOString() };
+    setAiThread(prev => prev.concat(userMsg));
     setText('');
     try {
-      const history = messages.map(m => ({ role: m.sender === 'user' ? 'user' : 'ai', content: m.message })).slice(-10);
-      const res = await fetch('/api/ai/chat', { 
-        method:'POST', 
-        headers:{ 'Content-Type':'application/json' }, 
+      // Build history from AI thread only (last 10 turns)
+      const history = aiThread.concat(userMsg).slice(-10).map(m => ({ role: m.sender === 'user' ? 'user' : 'ai', content: m.message }));
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
-        body: JSON.stringify({ message: content, history }) 
+        body: JSON.stringify({ message: content, history })
       });
       const data = await res.json();
       const reply = data.success ? data.reply : (data.message || 'AI error');
-      setMessages(prev => prev.concat({ _id: 'ai-'+Date.now(), sender: 'admin',
-        message: reply, createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true, meta:{ ai:true } }));
+      const aiMsg = { _id: 'aib-' + Date.now(), sender: 'admin', message: reply, createdAt: new Date().toISOString(), meta: { ai: true } };
+      setAiThread(prev => prev.concat(aiMsg));
     } catch (err) {
-      setMessages(prev => prev.concat({ _id: 'aierr-'+Date.now(), sender: 'system', message: 'AI failed to respond.', createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true }));
+      setAiThread(prev => prev.concat({ _id: 'aie-' + Date.now(), sender: 'system', message: 'AI failed to respond.', createdAt: new Date().toISOString() }));
     } finally {
       setAiLoading(false);
     }
   };
 
-  const unread = useAI ? 0 : messages.filter(m => m.sender === 'admin' && !m.readByUser).length;
+  // Unread only matters in live mode
+  const unread = !useAI ? messages.filter(m => m.sender === 'admin' && !m.readByUser).length : 0;
+
+  // Filter messages based on mode
+  const liveMessages = messages.filter(m => !m.meta?.ai && m.sender !== 'ai');
+  const filteredMessages = useAI ? aiThread : liveMessages;
 
   return (
     <div className={`chat-widget ${open ? 'open' : ''}`}> 
@@ -72,28 +96,17 @@ const ChatWidget = () => {
             <button onClick={() => setOpen(false)}>×</button>
           </div>
           <div className="chat-messages">
-            {messages
-              .filter(m => {
-                if (useAI) {
-                  // In AI mode, only show system, user, and AI messages
-                  return m.sender === 'system' || m.sender === 'user' || m.meta?.ai;
-                }
-                // In live mode, show all messages except AI messages
-                return !m.meta?.ai;
-              })
-              .map(m => {
-              const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : m.meta?.ai ? 'ai' : 'admin';
+            {filteredMessages.map(m => {
+              const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : (m.meta?.ai) ? 'ai' : 'admin';
               return (
                 <div key={m._id} className={`chat-msg ${roleClass}`}>
-                  <div className={`bubble ${m.sender === 'system' ? 'system' : roleClass === 'ai' ? 'ai' : ''}`}>{m.message}</div>
+                  <div className={`bubble ${roleClass === 'system' ? 'system' : roleClass === 'ai' ? 'ai' : ''}`}>{m.message}</div>
                 </div>
               );
             })}
-            {deleted && messages.filter(m => useAI ? (m.sender === 'system' || m.sender === 'user' || m.meta?.ai) : (!m.meta?.ai)).length === 0 && (
+            {deleted && filteredMessages.length === 0 && (
               <div className="chat-msg system"><div className="bubble system">Chat history was cleared. Start a new conversation!</div></div>
             )}
-            {Object.keys(typing).some(k => k === user?.id && false) && null}
-            {Object.keys(typing).some(k => k === user?.id) && null}
             {!useAI && Object.keys(typing).some(k => k !== user?.id) && (
               <div className="chat-msg admin"><div className="bubble typing"><span className="dot1"/><span className="dot2"/><span className="dot3"/></div></div>
             )}
