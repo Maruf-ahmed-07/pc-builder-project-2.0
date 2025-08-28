@@ -213,22 +213,48 @@ router.post('/builds', protect, [
         message: 'Access denied'
       });
     }
-    const unavailableComponents = [];
-    for (const [componentType, component] of Object.entries(build.components)) {
+    // Normalize components: each entry may be
+    // 1) { product: populatedProduct, quantity? }
+    // 2) Array of such objects
+    // 3) Direct product snapshot { _id, price, stock, isActive }
+    // 4) Plain product ref object with limited fields
+    const rawComponents = build.components || {};
+    const componentUnits = []; // { productId, quantity }
+    for (const [componentType, component] of Object.entries(rawComponents)) {
       if (!component) continue;
-      const processUnit = (unit) => {
+      const pushUnit = (unit) => {
         if (!unit) return;
-        const prod = unit.product || unit; // support snapshot stored directly
-        if (!prod || !prod._id) return;
-        // If we have stock/isActive info, validate it
-        if ((prod.isActive === false) || (typeof prod.stock === 'number' && prod.stock < (unit.quantity || 1))) {
-          unavailableComponents.push(`${componentType}: ${prod.name || prod.model || prod._id}`);
-        }
+        const prodObj = unit.product || unit; // support direct
+        const productId = prodObj && (prodObj._id || prodObj.id);
+        if (!productId) return;
+        componentUnits.push({
+          componentType,
+          productId: productId.toString(),
+          quantity: unit.quantity || 1,
+          prodSnapshot: prodObj
+        });
       };
       if (Array.isArray(component)) {
-        component.forEach(processUnit);
+        component.forEach(pushUnit);
       } else {
-        processUnit(component);
+        pushUnit(component);
+      }
+    }
+
+    // Fetch any products that lack full info (price, stock, isActive) in one query
+    const uniqueProductIds = [...new Set(componentUnits.map(u => u.productId))];
+    const productsFromDb = await Product.find({ _id: { $in: uniqueProductIds }, isActive: true });
+    const productMap = new Map(productsFromDb.map(p => [p._id.toString(), p]));
+
+    const unavailableComponents = [];
+    for (const unit of componentUnits) {
+      const dbProd = productMap.get(unit.productId);
+      const snap = unit.prodSnapshot;
+      const stock = dbProd ? dbProd.stock : snap?.stock; // prefer DB
+      const isActive = dbProd ? dbProd.isActive : (snap?.isActive !== false);
+      if (!dbProd && !snap) continue;
+      if (!isActive || (typeof stock === 'number' && stock < unit.quantity)) {
+        unavailableComponents.push(`${unit.componentType}: ${dbProd?.name || snap?.name || unit.productId}`);
       }
     }
     if (unavailableComponents.length > 0) {
@@ -252,27 +278,18 @@ router.post('/builds', protect, [
       });
     }
     cart.builds.push({ build: buildId });
-    for (const [componentType, component] of Object.entries(build.components)) {
-      if (!component) continue;
-      const addUnit = (unit) => {
-        if (!unit) return;
-        const prod = unit.product || unit; // unified
-        if (!prod || !prod._id) return;
-        const existingItem = cart.items.find(ci => ci.product.toString() === prod._id.toString());
-        if (existingItem) {
-          existingItem.quantity += unit.quantity || 1;
-        } else {
-          cart.items.push({
-            product: prod._id,
-            quantity: unit.quantity || 1,
-            price: prod.price || prod.discountPrice || 0
-          });
-        }
-      };
-      if (Array.isArray(component)) {
-        component.forEach(addUnit);
+    for (const unit of componentUnits) {
+      const dbProd = productMap.get(unit.productId);
+      if (!dbProd) continue; // skip missing or inactive
+      const existingItem = cart.items.find(ci => ci.product.toString() === unit.productId);
+      if (existingItem) {
+        existingItem.quantity += unit.quantity;
       } else {
-        addUnit(component);
+        cart.items.push({
+          product: unit.productId,
+          quantity: unit.quantity,
+          price: dbProd.price
+        });
       }
     }
     await cart.save();
