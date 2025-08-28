@@ -52,7 +52,7 @@ const ChatWidget = () => {
       });
       const data = await res.json();
       const reply = data.success ? data.reply : (data.message || 'AI error');
-      setMessages(prev => prev.concat({ _id: 'ai-'+Date.now(), sender: 'ai',
+      setMessages(prev => prev.concat({ _id: 'ai-'+Date.now(), sender: 'admin',
         message: reply, createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true, meta:{ ai:true } }));
     } catch (err) {
       setMessages(prev => prev.concat({ _id: 'aierr-'+Date.now(), sender: 'system', message: 'AI failed to respond.', createdAt: new Date().toISOString(), readByUser: true, readByAdmin: true }));
@@ -76,20 +76,20 @@ const ChatWidget = () => {
               .filter(m => {
                 if (useAI) {
                   // In AI mode, only show system, user, and AI messages
-                  return m.sender === 'system' || m.sender === 'user' || m.sender === 'ai' || m.meta?.ai;
+                  return m.sender === 'system' || m.sender === 'user' || m.meta?.ai;
                 }
                 // In live mode, show all messages except AI messages
-                return m.sender !== 'ai' && !m.meta?.ai;
+                return !m.meta?.ai;
               })
               .map(m => {
-              const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : m.meta?.ai || m.sender === 'ai' ? 'ai' : 'admin';
+              const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : m.meta?.ai ? 'ai' : 'admin';
               return (
                 <div key={m._id} className={`chat-msg ${roleClass}`}>
                   <div className={`bubble ${m.sender === 'system' ? 'system' : roleClass === 'ai' ? 'ai' : ''}`}>{m.message}</div>
                 </div>
               );
             })}
-            {deleted && messages.filter(m => useAI ? (m.sender === 'system' || m.sender === 'user' || m.sender === 'ai' || m.meta?.ai) : (m.sender !== 'ai' && !m.meta?.ai)).length === 0 && (
+            {deleted && messages.filter(m => useAI ? (m.sender === 'system' || m.sender === 'user' || m.meta?.ai) : (!m.meta?.ai)).length === 0 && (
               <div className="chat-msg system"><div className="bubble system">Chat history was cleared. Start a new conversation!</div></div>
             )}
             {Object.keys(typing).some(k => k === user?.id && false) && null}
