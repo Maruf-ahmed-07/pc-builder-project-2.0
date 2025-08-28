@@ -81,6 +81,8 @@ app.use('/api/wishlist', require('./routes/wishlist'));
 app.use('/api/chat', require('./routes/chat'));
 app.use('/api/benchmark', require('./routes/benchmark'));
 app.use('/api/ai', require('./routes/ai'));
+// Handle proxy-stripped AI route
+app.use('/ai', require('./routes/ai'));
 
 app.get('/api/health', (req, res) => {
   res.json({ 

@@ -2,6 +2,11 @@ const express = require('express');
 const { protect } = require('../middleware/auth');
 const router = express.Router();
 
+// Test route to verify mounting
+router.get('/test', (req, res) => {
+  res.json({ success: true, message: 'AI route is working!' });
+});
+
 // POST /api/ai/chat
 // Body: { message: string, history?: [{ role: 'user'|'ai', content: string }] }
 // Uses Gemini 1.5 Flash (free tier compatible)

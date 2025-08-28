@@ -23,3 +23,8 @@ yarn-error.log*
 
 # System files
 .DS_Store
+
+# Cookie files
+client/cookies.txt
+server/cookies.txt
+nul
