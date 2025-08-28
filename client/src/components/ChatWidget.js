@@ -61,7 +61,7 @@ const ChatWidget = () => {
     }
   };
 
-  const unread = messages.filter(m => m.sender === 'admin' && !m.readByUser).length;
+  const unread = useAI ? 0 : messages.filter(m => m.sender === 'admin' && !m.readByUser).length;
 
   return (
     <div className={`chat-widget ${open ? 'open' : ''}`}> 
@@ -72,7 +72,16 @@ const ChatWidget = () => {
             <button onClick={() => setOpen(false)}>×</button>
           </div>
           <div className="chat-messages">
-            {messages.map(m => {
+            {messages
+              .filter(m => {
+                if (useAI) {
+                  // In AI mode, only show system, user, and AI messages
+                  return m.sender === 'system' || m.sender === 'user' || m.sender === 'ai' || m.meta?.ai;
+                }
+                // In live mode, show all messages except AI messages
+                return m.sender !== 'ai' && !m.meta?.ai;
+              })
+              .map(m => {
               const roleClass = m.sender === 'user' ? 'me' : m.sender === 'system' ? 'system' : m.meta?.ai || m.sender === 'ai' ? 'ai' : 'admin';
               return (
                 <div key={m._id} className={`chat-msg ${roleClass}`}>
@@ -80,12 +89,12 @@ const ChatWidget = () => {
                 </div>
               );
             })}
-            {deleted && messages.length === 0 && (
+            {deleted && messages.filter(m => useAI ? (m.sender === 'system' || m.sender === 'user' || m.sender === 'ai' || m.meta?.ai) : (m.sender !== 'ai' && !m.meta?.ai)).length === 0 && (
               <div className="chat-msg system"><div className="bubble system">Chat history was cleared. Start a new conversation!</div></div>
             )}
             {Object.keys(typing).some(k => k === user?.id && false) && null}
             {Object.keys(typing).some(k => k === user?.id) && null}
-            {Object.keys(typing).some(k => k !== user?.id) && (
+            {!useAI && Object.keys(typing).some(k => k !== user?.id) && (
               <div className="chat-msg admin"><div className="bubble typing"><span className="dot1"/><span className="dot2"/><span className="dot3"/></div></div>
             )}
             <div ref={endRef} />
