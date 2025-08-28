@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 //for module 2
@@ -26,13 +26,8 @@ const BuildDetails = () => {
   const [expandedComments, setExpandedComments] = useState({}); // commentId => bool
   const [lastAddedId, setLastAddedId] = useState(null);
 
-  useEffect(() => {
-    fetchBuildDetails();
-  // initial comments load
-  fetchComments(1);
-  }, [id]);
-
-  const fetchBuildDetails = async () => {
+  // Fetch build details
+  const fetchBuildDetails = useCallback(async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(`/api/community/builds/${id}`);
@@ -50,7 +45,40 @@ const BuildDetails = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id, navigate]);
+
+  const fetchComments = useCallback(async (page = 1) => {
+    try {
+      let res;
+      try {
+        res = await axios.get(`/api/community/builds/${id}/comments?page=${page}&limit=15`);
+      } catch (err) {
+        if (err.response?.status === 404) {
+          try {
+            res = await axios.get(`/api/community/builds/${id}/comment?page=${page}&limit=15`);
+          } catch (aliasErr) {
+            throw aliasErr;
+          }
+        } else {
+          throw err;
+        }
+      }
+      setComments(res.data.comments || []);
+      setCommentPage(res.data.pagination.currentPage);
+      setCommentTotalPages(res.data.pagination.totalPages);
+    } catch (e) {
+      console.error('Error loading comments', e);
+      if (e.response?.status === 404) {
+        toast.error('Comments route not found. Please refresh after server restart.');
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchBuildDetails();
+    fetchComments(1);
+  }, [fetchBuildDetails, fetchComments]);
+  // (moved fetchBuildDetails & fetchComments into useCallback above to satisfy exhaustive-deps)
 
   const handleLike = async () => {
     if (!user) {
@@ -69,33 +97,6 @@ const BuildDetails = () => {
     }
   };
 
-  const fetchComments = async (page = 1) => {
-    try {
-      let res;
-      try {
-        res = await axios.get(`/api/community/builds/${id}/comments?page=${page}&limit=15`);
-      } catch (err) {
-        if (err.response?.status === 404) {
-          // Try alias
-            try {
-              res = await axios.get(`/api/community/builds/${id}/comment?page=${page}&limit=15`);
-            } catch (aliasErr) {
-              throw aliasErr;
-            }
-        } else {
-          throw err;
-        }
-      }
-      setComments(res.data.comments || []);
-      setCommentPage(res.data.pagination.currentPage);
-      setCommentTotalPages(res.data.pagination.totalPages);
-    } catch (e) {
-      console.error('Error loading comments', e);
-      if (e.response?.status === 404) {
-        toast.error('Comments route not found. Please refresh after server restart.');
-      }
-    }
-  };
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
