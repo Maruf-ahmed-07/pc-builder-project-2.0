@@ -7,6 +7,7 @@ import './MyBuilds.css';
 
 const MyBuilds = () => {
   const { user, isAuthenticated } = useAuth();
+  // Pull in addToCart from cart context
   const { addToCart } = useCart();
   const [builds, setBuilds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -127,24 +128,49 @@ const MyBuilds = () => {
     }
   };
 
-  const addBuildToCart = (build) => {
-    const components = Object.values(build.components || {});
-    let addedCount = 0;
-    
-    components.forEach(component => {
-      if (component?.product) {
-        addToCart(component.product, 1, { silent: true });
-        addedCount++;
-      } else if (component?._id) {
-        addToCart(component, 1, { silent: true });
-        addedCount++;
+  const addBuildToCart = async (build) => {
+    if (!build) {
+      toast.error('Build not found');
+      return;
+    }
+    const rawComponents = Object.values(build.components || {});
+    if (rawComponents.length === 0) {
+      toast.error('No components to add');
+      return;
+    }
+
+    // Collect unique product IDs (handles various stored shapes)
+    const productIds = [];
+    for (const comp of rawComponents) {
+      if (!comp) continue;
+      // Possible shapes: { product: {_id,...} } | { product: 'id' } | direct product obj {_id,...}
+      let pid = null;
+      if (comp.product) {
+        if (typeof comp.product === 'string') pid = comp.product; else pid = comp.product._id;
+      } else if (comp._id) {
+        pid = comp._id;
       }
-    });
-    
-    if (addedCount > 0) {
-      toast.success(`${addedCount} components from "${build.name}" added to cart!`);
+      if (pid && !productIds.includes(pid)) productIds.push(pid);
+    }
+
+    if (productIds.length === 0) {
+      toast.error('No valid products found in build');
+      return;
+    }
+
+    let successCount = 0;
+    let failCount = 0;
+    for (const pid of productIds) {
+      // Ensure it looks like a Mongo ObjectId (24 hex) before calling API
+      if (!/^[a-fA-F0-9]{24}$/.test(pid)) { failCount++; continue; }
+      const res = await addToCart(pid, 1, { silent: true });
+      if (res.success) successCount++; else failCount++;
+    }
+
+    if (successCount > 0) {
+      toast.success(`${successCount} component${successCount>1?'s':''} from "${build.name}" added to cart` + (failCount ? ` (${failCount} skipped)` : '')); 
     } else {
-      toast.error('No components found to add to cart');
+      toast.error('Could not add components to cart');
     }
   };
 
