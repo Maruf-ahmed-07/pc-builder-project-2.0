@@ -137,6 +137,10 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Index to speed up lookups determining if a user purchased a specific product
+// (Used for validating review creation eligibility.)
+orderSchema.index({ user: 1, 'items.product': 1 });
+
 // Populate items with product details when querying
 orderSchema.pre(/^find/, function() {
   this.populate({

@@ -7,7 +7,10 @@
 
 .compare-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.25rem; margin-bottom:2.5rem; }
 .compare-slot { position:relative; min-height:320px; }
-.compare-slot.empty .placeholder { height:100%; border:2px dashed #cfd8e3; border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:.8rem; letter-spacing:.5px; color:#6c7a89; background:#fafbfc; }
+.compare-slot.empty .placeholder { height:100%; border:2px dashed #cfd8e3; border-radius:18px; display:flex; flex-direction:column; gap:6px; align-items:center; justify-content:center; font-size:.8rem; letter-spacing:.5px; color:#6c7a89; background:#fafbfc; }
+.compare-slot.empty .add-placeholder { cursor:pointer; transition:.25s; }
+.compare-slot.empty .add-placeholder:hover { background:#f0f6ff; border-color:#90caf9; color:#1e567a; }
+.compare-slot.empty .add-placeholder .hint { font-size:.55rem; text-transform:uppercase; letter-spacing:1px; opacity:.6; }
 
 .compare-card { height:100%; background:linear-gradient(145deg,#ffffff,#f2f5f9); border:1px solid rgba(0,0,0,0.06); border-radius:18px; padding:1rem .95rem 1.1rem; display:flex; flex-direction:column; gap:.65rem; box-shadow:0 6px 18px rgba(0,0,0,.06); position:relative; transition:.3s; }
 .compare-card:hover { transform:translateY(-4px); box-shadow:0 14px 32px rgba(0,0,0,.12); }

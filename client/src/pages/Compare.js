@@ -106,8 +106,16 @@ const Compare = () => {
                   <Link to={`/products/${p._id}`} className="view-link">Details →</Link>
                 </div>
               ) : (
-                <div className="placeholder">
+                <div
+                  className="placeholder add-placeholder"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => navigate('/products')}
+                  onKeyDown={(e) => { if (e.key === 'Enter') navigate('/products'); }}
+                  title="Click to browse products to compare"
+                >
                   <span>Add product</span>
+                  <small className="hint">Click to browse</small>
                 </div>
               )}
             </div>

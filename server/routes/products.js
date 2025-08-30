@@ -153,11 +153,25 @@ router.post('/:id/reviews', protect, [
       });
     }
     const { rating, comment } = req.body;
-    const product = await Product.findOne({ _id: req.params.id, isActive: true });
+    const productId = req.params.id;
+    const product = await Product.findOne({ _id: productId, isActive: true });
     if (!product) {
       return res.status(404).json({
         success: false,
         message: 'Product not found'
+      });
+    }
+    // Ensure user has purchased (and ideally received) the product before reviewing
+    const Order = require('../models/Order');
+    const purchased = await Order.exists({
+      user: req.user.id,
+      status: { $in: ['delivered', 'shipped', 'processing'] }, // adjust statuses if you only want delivered
+      'items.product': productId
+    });
+    if (!purchased) {
+      return res.status(403).json({
+        success: false,
+        message: 'You can only review products you have purchased'
       });
     }
     const existingReview = product.reviews.find(

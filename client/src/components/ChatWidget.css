@@ -1,4 +1,4 @@
-.chat-widget { position: fixed; bottom: 28px; right: 28px; z-index: 1200; font-family: 'Inter', system-ui, sans-serif; }
+.chat-widget { position: fixed; bottom: 28px; right: 28px; z-index: 1220; font-family: 'Inter', system-ui, sans-serif; }
 .chat-toggle { position:relative; background:linear-gradient(135deg,#2563eb,#7c3aed); color:#fff; border:none; padding:18px 26px; border-radius:38px; cursor:pointer; box-shadow:0 8px 22px -6px rgba(0,0,0,0.35); font-size:18px; display:flex; align-items:center; gap:10px; font-weight:600; letter-spacing:0.5px; transition:transform .2s, box-shadow .2s; }
 .chat-toggle:hover { transform:translateY(-3px); box-shadow:0 12px 28px -6px rgba(0,0,0,0.45); }
 .chat-toggle .icon { font-size:24px; }

@@ -1,4 +1,4 @@
-.floating-compare { position:fixed; bottom:18px; right:18px; z-index:1200; font-family:inherit; }
+.floating-compare { position:fixed; bottom:120px; right:18px; z-index:1250; font-family:inherit; /* raised above chat widget */ }
 .floating-compare .toggle { position:absolute; top:-12px; right:-12px; width:38px; height:38px; border-radius:50%; border:none; background:linear-gradient(135deg,#3498db,#1d6fa5); color:#fff; font-weight:700; font-size:.9rem; cursor:pointer; box-shadow:0 6px 18px rgba(0,0,0,.25); display:flex; align-items:center; justify-content:center; transition:.3s; }
 .floating-compare .toggle:hover { transform:scale(1.05); }
 .floating-compare .content { display:flex; align-items:center; gap:14px; padding:14px 16px 14px 14px; background:rgba(255,255,255,0.92); backdrop-filter:blur(14px); border:1px solid rgba(0,0,0,0.08); box-shadow:0 10px 28px rgba(0,0,0,0.15); border-radius:26px; max-width:520px; transform:translateY(8px); opacity:0; pointer-events:none; transition:.4s cubic-bezier(.19,1,.22,1); }
@@ -21,6 +21,8 @@
 @keyframes pulse { 0% { box-shadow:0 0 0 0 rgba(52,152,219,0.6); } 70% { box-shadow:0 0 0 14px rgba(52,152,219,0); } 100% { box-shadow:0 0 0 0 rgba(52,152,219,0); } }
 
 @media (max-width:640px){
+  /* On small screens reduce vertical offset so it stays visible */
+  .floating-compare { bottom:100px; }
   .floating-compare .content { flex-direction:column; align-items:stretch; padding:16px 14px; }
   .floating-compare .thumbs { width:100%; justify-content:flex-start; }
   .floating-compare .actions { width:100%; justify-content:space-between; }
