@@ -324,6 +324,13 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+  .checkout-content {
+    grid-template-columns: 1.8fr 1fr;
+    gap: 35px;
+  }
+}
+
 @media (max-width: 968px) {
   .checkout-content {
     grid-template-columns: 1fr;
@@ -333,6 +340,10 @@
   .order-summary {
     position: static;
     order: -1;
+  }
+  
+  .checkout-page h1 {
+    font-size: 30px;
   }
 }
 
@@ -350,6 +361,10 @@
     padding: 20px;
   }
   
+  .checkout-section h2 {
+    font-size: 19px;
+  }
+  
   .form-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -357,6 +372,13 @@
   
   .form-group.full-width {
     grid-column: 1;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 14px;
+    font-size: 16px; /* Prevent zoom on iOS */
   }
   
   .checkout-content {
@@ -369,6 +391,7 @@
   
   .cart-item {
     padding: 12px 0;
+    gap: 10px;
   }
   
   .cart-item img {
@@ -388,11 +411,106 @@
   .item-price {
     font-size: 13px;
   }
+  
+  .payment-option {
+    padding: 14px 12px;
+  }
+  
+  .card-details {
+    padding: 18px;
+  }
+  
+  .place-order-btn {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 50px;
+  }
+  
+  .total-row {
+    padding: 10px 0;
+  }
+  
+  .total-row.total {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 640px) {
+  .checkout-page h1 {
+    font-size: 26px;
+  }
+  
+  .checkout-section {
+    padding: 18px;
+  }
+  
+  .checkout-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 13px;
+  }
+  
+  .payment-option {
+    padding: 12px;
+    gap: 8px;
+  }
+  
+  .payment-option span {
+    font-size: 14px;
+  }
+  
+  .card-details {
+    padding: 16px;
+    margin-top: 12px;
+  }
+  
+  .order-summary {
+    padding: 18px;
+  }
+  
+  .order-summary h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .cart-item {
+    gap: 8px;
+    padding: 10px 0;
+  }
+  
+  .cart-item img {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .total-row {
+    font-size: 13px;
+    padding: 8px 0;
+  }
+  
+  .total-row.total {
+    font-size: 16px;
+  }
+  
+  .free-shipping-notice {
+    padding: 8px;
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 480px) {
+  .checkout-page {
+    padding: 12px 0;
+  }
+  
   .checkout-page h1 {
     font-size: 24px;
+    margin-bottom: 16px;
   }
   
   .checkout-section {
@@ -400,15 +518,25 @@
   }
   
   .checkout-section h2 {
-    font-size: 18px;
+    font-size: 17px;
+    margin-bottom: 15px;
   }
   
-  .order-summary {
-    padding: 15px;
+  .form-group label {
+    font-size: 13px;
+    margin-bottom: 4px;
   }
   
-  .order-summary h2 {
-    font-size: 18px;
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .checkbox-label {
+    gap: 6px;
+    margin-bottom: 12px;
   }
   
   .payment-methods {
@@ -417,27 +545,207 @@
   
   .payment-option {
     padding: 10px;
+    gap: 6px;
+  }
+  
+  .payment-option span {
+    font-size: 13px;
+  }
+  
+  .card-details {
+    padding: 14px;
+    margin-top: 10px;
   }
   
   .place-order-btn {
-    padding: 12px;
+    padding: 14px;
     font-size: 15px;
+    min-height: 48px;
+  }
+  
+  .order-summary {
+    padding: 15px;
+  }
+  
+  .order-summary h2 {
+    font-size: 17px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+  
+  .cart-item {
+    padding: 8px 0;
+    gap: 8px;
+  }
+  
+  .cart-item img {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .item-details h4 {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  
+  .item-brand,
+  .item-quantity {
+    font-size: 10px;
+  }
+  
+  .item-price {
+    font-size: 12px;
+  }
+  
+  .total-row {
+    font-size: 12px;
+    padding: 6px 0;
   }
   
   .total-row.total {
-    font-size: 16px;
+    font-size: 15px;
+    padding-top: 12px;
+  }
+  
+  .free-shipping-notice {
+    padding: 8px;
+    font-size: 12px;
+    margin-top: 12px;
   }
   
   .order-success {
-    padding: 40px 15px;
+    padding: 30px 15px;
+    margin: 0 10px;
   }
   
   .success-icon {
     font-size: 48px;
+    margin-bottom: 16px;
   }
   
   .order-success h1 {
-    font-size: 24px;
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  
+  .order-success p {
+    font-size: 15px;
+  }
+}
+
+/* Touch improvements */
+@media (hover: none) and (pointer: coarse) {
+  .payment-option:hover {
+    border-color: #ddd;
+    background: white;
+  }
+  
+  .place-order-btn:hover {
+    background: #28a745;
+  }
+  
+  /* Ensure touch targets are large enough */
+  .form-group input,
+  .form-group select,
+  .form-group textarea,
+  .payment-option,
+  .place-order-btn {
+    min-height: 44px;
+  }
+  
+  .checkbox-label input[type="checkbox"],
+  .payment-option input[type="radio"] {
+    min-width: 20px;
+    min-height: 20px;
+    transform: scale(1.2);
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .checkout-page h1 {
+    font-size: 22px;
+  }
+  
+  .checkout-section {
+    padding: 12px;
+  }
+  
+  .checkout-section h2 {
+    font-size: 16px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 11px;
+    font-size: 15px;
+  }
+  
+  .payment-option {
+    padding: 9px;
+  }
+  
+  .place-order-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .order-summary {
+    padding: 12px;
+  }
+  
+  .cart-item img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .total-row.total {
+    font-size: 14px;
+  }
+  
+  .order-success {
+    padding: 25px 12px;
+  }
+  
+  .success-icon {
+    font-size: 40px;
+  }
+  
+  .order-success h1 {
+    font-size: 20px;
+  }
+  
+  .order-success p {
+    font-size: 14px;
+  }
+}
+
+/* Landscape phone adjustments */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .checkout-page {
+    padding: 8px 0;
+  }
+  
+  .checkout-page h1 {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+  
+  .checkout-section {
+    padding: 12px;
+  }
+  
+  .order-summary {
+    padding: 12px;
+  }
+  
+  .cart-item {
+    padding: 6px 0;
+  }
+  
+  .place-order-btn {
+    padding: 10px;
   }
 }
 

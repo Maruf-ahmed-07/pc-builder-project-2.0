@@ -663,104 +663,139 @@
   right: 0;
 }
 
-/* Responsive Design */
+/* =============================================================
+   Enhanced Responsive Overrides (Unified Breakpoint Ladder)
+   Comprehensive mobile optimization replacing scattered responsive rules
+   Breakpoints: 1400 / 1200 / 1000 / 992 / 768 / 640 / 520 / 480 / 430 / 390 / 360
+   ============================================================= */
+
+@media (max-width: 1400px) {
+  .my-builds-page { max-width: 1180px; }
+  .builds-grid { gap: 1.8rem; }
+}
+
+@media (max-width: 1200px) {
+  .my-builds-page { padding: 1.8rem 0; }
+  .builds-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.6rem; }
+  .page-header h1 { font-size: 2.1rem; }
+}
+
+@media (max-width: 1000px) {
+  .builds-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .build-card { border-radius: 16px; }
+  .modal { margin: 1.5rem; border-radius: 16px; }
+}
+
 @media (max-width: 992px) {
-  .builds-grid {
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .page-header h1 {
-    font-size: 2.2rem;
-  }
+  .builds-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+  .page-header h1 { font-size: 2rem; }
+  .build-card { padding: 1.6rem; }
 }
 
 @media (max-width: 768px) {
-  .my-builds-page {
-    padding: 1rem 0;
-  }
-  
-  .page-header {
-    margin-bottom: 2rem;
-    padding: 1rem 0;
-  }
-  
-  .page-header h1 {
-    font-size: 1.9rem;
-  }
-  
-  .page-header p {
-    font-size: 1rem;
-  }
-  
-  .builds-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-  
-  .build-card {
-    padding: 1.5rem;
-    border-radius: 15px;
-  }
-  
-  .build-actions {
-    flex-direction: column;
-  }
-  
-  .btn-sm {
-    flex: none;
-    width: 100%;
-  }
-  
-  .modal {
-    margin: 1rem;
-    border-radius: 15px;
-  }
-  
-  .modal-header,
-  .modal-body,
-  .modal-actions {
-    padding: 1.5rem;
-  }
-  
-  .modal-actions {
-    flex-direction: column;
-  }
-  
-  .modal-actions .btn {
-    width: 100%;
-  }
-  
-  .component-header {
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-  }
+  .my-builds-page { padding: 1.25rem 0; }
+  .page-header { margin-bottom: 2rem; padding: 1rem 0; }
+  .page-header h1 { font-size: 1.8rem; }
+  .page-header p { font-size: 1rem; }
+  .builds-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .build-card { padding: 1.5rem; border-radius: 15px; }
+  .build-actions { flex-direction: column; gap: 0.8rem; }
+  .btn-sm { flex: none; width: 100%; }
+  .modal { margin: 1rem; border-radius: 15px; }
+  .modal-header, .modal-body, .modal-actions { padding: 1.5rem; }
+  .modal-actions { flex-direction: column; gap: 1rem; }
+  .modal-actions .btn { width: 100%; }
+  .component-header { flex-direction: column; gap: 0.6rem; align-items: flex-start; }
+}
+
+@media (max-width: 640px) {
+  .page-header h1 { font-size: 1.6rem; }
+  .build-card { padding: 1.3rem; }
+  .build-name { font-size: 1.3rem; }
+  .component-item { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+  .component-name { text-align: left; font-size: 0.85rem; }
+  .real-pc { max-width: 300px; }
+  .mini-pc-case { width: 90%; }
+}
+
+@media (max-width: 520px) {
+  .my-builds-page { padding: 1rem 0; }
+  .page-header { margin-bottom: 1.5rem; }
+  .build-card { padding: 1.2rem; margin: 0 -0.25rem; }
+  .build-actions { gap: 0.6rem; }
+  .btn-sm { min-height: 44px; }
+  .modal { margin: 0.8rem; }
+  .component-item { gap: 0.3rem; }
 }
 
 @media (max-width: 480px) {
-  .build-card {
-    padding: 1.25rem;
-    border-radius: 12px;
-  }
-  
-  .page-header h1 {
-    font-size: 1.6rem;
-  }
-  
-  .build-name {
-    font-size: 1.2rem;
-  }
-  
-  .component-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  
-  .component-name {
-    text-align: left;
-  }
+  .build-card { padding: 1.1rem; border-radius: 12px; }
+  .page-header h1 { font-size: 1.5rem; }
+  .build-name { font-size: 1.2rem; }
+  .component-item { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  .component-name { text-align: left; font-size: 0.8rem; }
+  .mini-pc-case { width: 100%; font-size: 8px; }
+  .real-pc { max-width: 280px; }
+  .modal-header, .modal-body, .modal-actions { padding: 1.25rem; }
+  .share-options { flex-direction: column; gap: 0.6rem; }
+}
+
+@media (max-width: 430px) {
+  .build-card { padding: 1rem; }
+  .page-header h1 { font-size: 1.4rem; }
+  .build-name { font-size: 1.1rem; }
+  .btn-sm { padding: 0.6rem 1rem; font-size: 0.8rem; }
+  .real-pc { max-width: 260px; }
+  .mini-pc-case { font-size: 7px; }
+  .component-item { gap: 0.2rem; }
+}
+
+@media (max-width: 390px) {
+  .my-builds-page { padding: 0.9rem 0; }
+  .build-card { padding: 0.9rem; }
+  .page-header { margin-bottom: 1.25rem; }
+  .modal { margin: 0.6rem; }
+  .modal-header, .modal-body, .modal-actions { padding: 1rem; }
+  .real-pc { max-width: 240px; }
+  .component-name { font-size: 0.75rem; }
+}
+
+@media (max-width: 360px) {
+  .build-card { padding: 0.8rem; }
+  .page-header h1 { font-size: 1.3rem; }
+  .build-name { font-size: 1rem; }
+  .btn-sm { padding: 0.55rem 0.9rem; font-size: 0.75rem; }
+  .real-pc { max-width: 220px; }
+  .mini-pc-case { font-size: 6px; }
+  .modal-actions { gap: 0.8rem; }
+  .component-item { gap: 0.15rem; }
+}
+
+/* Additional responsive rules for PC visualization components */
+@media (max-width: 600px) {
+  .real-pc { max-width: 100%; }
+  .gpu-fan { width: 34px; height: 34px; }
+  .gpu-slot { padding-left: 14%; }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .my-builds-page { padding: 0.75rem 0; }
+  .page-header { margin-bottom: 1rem; padding: 0.5rem 0; }
+  .build-card { padding: 0.9rem; }
+  .modal { margin: 0.5rem; }
+  .modal-header, .modal-body, .modal-actions { padding: 0.9rem; }
+  .real-pc { max-width: 200px; }
+}
+
+/* Touch/coarse pointer optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-sm { min-height: 44px; }
+  .modal-actions .btn { min-height: 44px; }
+  .pc-slot:hover { transform: none; }
+  /* Remove hover states that don't work on touch */
+  .build-card:hover { transform: none; box-shadow: 0 8px 32px -8px rgba(15,23,42,0.15); }
+  .share-option:hover { transform: none; }
 }
 
 /* ---------------- Mini PC Visualization ---------------- */

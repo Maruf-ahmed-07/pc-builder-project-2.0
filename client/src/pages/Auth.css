@@ -411,16 +411,104 @@
   }
 }
 
+/* =============================================================
+   Enhanced Responsive Overrides (Unified Breakpoint Ladder)
+   Comprehensive mobile optimization replacing basic responsive rules
+   Breakpoints: 1400 / 1200 / 1000 / 992 / 768 / 640 / 520 / 480 / 430 / 390 / 360
+   ============================================================= */
+
+@media (max-width: 1400px) {
+  .auth-container { max-width: 1180px; }
+  .auth-wrapper { gap: 2.5rem; }
+}
+
+@media (max-width: 1200px) {
+  .auth-wrapper { gap: 2rem; }
+  .auth-card { padding: 2.5rem 2rem; }
+}
+
+@media (max-width: 1000px) {
+  .auth-wrapper { flex-direction: column; gap: 1.8rem; }
+  .auth-card { max-width: 500px; margin: 0 auto; }
+  .auth-illustration { max-width: 500px; margin: 0 auto; }
+}
+
+@media (max-width: 992px) {
+  .auth-container { padding: 1.5rem; }
+  .auth-card { padding: 2.2rem 1.8rem; }
+  .auth-illustration { padding: 2rem 1.5rem; }
+  .auth-card h2 { font-size: 1.6rem; }
+}
+
+@media (max-width: 768px) {
+  .auth-container { padding: 1.25rem; }
+  .auth-wrapper { gap: 1.5rem; }
+  .auth-card { padding: 2rem 1.5rem; }
+  .auth-illustration { padding: 1.8rem 1.25rem; }
+  .auth-card h2 { font-size: 1.5rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .btn-primary { min-height: 44px; }
+}
+
+@media (max-width: 640px) {
+  .auth-container { padding: 1rem; }
+  .auth-card { padding: 1.8rem 1.25rem; }
+  .auth-illustration { padding: 1.5rem 1rem; }
+  .form-control { padding: 0.8rem; font-size: 0.9rem; }
+  .btn-primary { padding: 0.8rem 1.5rem; font-size: 0.9rem; }
+}
+
+@media (max-width: 520px) {
+  .auth-wrapper { margin: 0 0.75rem; gap: 1.25rem; }
+  .auth-card { padding: 1.6rem 1.1rem; }
+  .auth-illustration { padding: 1.3rem 0.9rem; }
+  .form-group { margin-bottom: 1rem; }
+}
+
 @media (max-width: 480px) {
-  .auth-wrapper {
-    margin: 0 0.5rem;
-  }
-  
-  .auth-card {
-    padding: 1.5rem 1rem;
-  }
-  
-  .auth-illustration {
-    padding: 1.5rem 1rem;
-  }
+  .auth-wrapper { margin: 0 0.5rem; }
+  .auth-card { padding: 1.5rem 1rem; }
+  .auth-illustration { padding: 1.5rem 1rem; }
+  .auth-card h2 { font-size: 1.4rem; }
+  .form-control { font-size: 16px; /* Prevent iOS zoom */ }
+}
+
+@media (max-width: 430px) {
+  .auth-card { padding: 1.3rem 0.9rem; }
+  .auth-illustration { padding: 1.25rem 0.8rem; }
+  .auth-card h2 { font-size: 1.3rem; }
+  .btn-primary { padding: 0.75rem 1.3rem; font-size: 0.85rem; }
+  .form-control { padding: 0.75rem; }
+}
+
+@media (max-width: 390px) {
+  .auth-wrapper { gap: 1rem; }
+  .auth-card { padding: 1.2rem 0.8rem; }
+  .auth-illustration { padding: 1.1rem 0.7rem; }
+  .form-group { margin-bottom: 0.9rem; }
+}
+
+@media (max-width: 360px) {
+  .auth-wrapper { margin: 0 0.25rem; }
+  .auth-card { padding: 1.1rem 0.75rem; }
+  .auth-illustration { padding: 1rem 0.6rem; }
+  .auth-card h2 { font-size: 1.2rem; }
+  .btn-primary { padding: 0.7rem 1.2rem; font-size: 0.8rem; }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .auth-container { padding: 0.75rem; }
+  .auth-wrapper { flex-direction: row; gap: 1.5rem; }
+  .auth-card { padding: 1.25rem 1rem; }
+  .auth-illustration { padding: 1.25rem 1rem; }
+}
+
+/* Touch/coarse pointer optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary { min-height: 44px; }
+  .form-control { min-height: 44px; }
+  .auth-card { -webkit-tap-highlight-color: transparent; }
+  /* Remove hover states that don't work on touch */
+  .btn-primary:hover { background: #007bff; }
 }

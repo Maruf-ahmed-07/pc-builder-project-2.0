@@ -64,8 +64,10 @@ const Header = () => {
               </div>
             )}
 
-            <button className="mobile-menu-toggle" onClick={toggleMenu}>
-              ☰
+            <button className={`mobile-menu-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
             </button>
           </div>
         </div>

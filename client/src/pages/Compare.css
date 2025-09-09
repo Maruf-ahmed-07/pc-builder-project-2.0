@@ -39,8 +39,139 @@
 .spec-compare td.k { font-weight:600; color:#2c3e50; width:160px; }
 .spec-compare td.v { color:#4a5568; }
 
-@media (max-width:800px){
-  .compare-grid { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
-  .spec-compare td.k { width:120px; }
-  .compare-header h1 { font-size:1.5rem; }
+/* =============================================================
+   Enhanced Responsive Overrides (Unified Breakpoint Ladder)
+   Comprehensive mobile optimization replacing basic 800px rule
+   Breakpoints: 1400 / 1200 / 1000 / 992 / 768 / 640 / 520 / 480 / 430 / 390 / 360
+   ============================================================= */
+
+@media (max-width: 1400px) {
+  .compare-page { padding: 1.8rem 0 3.8rem; }
+  .compare-grid { gap: 1.1rem; }
+}
+
+@media (max-width: 1200px) {
+  .compare-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .spec-compare { border-radius: 18px; }
+}
+
+@media (max-width: 1000px) {
+  .compare-header { flex-direction: column; align-items: stretch; text-align: center; }
+  .compare-header .actions { justify-content: center; }
+  .compare-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+}
+
+@media (max-width: 992px) {
+  .compare-page { padding: 1.5rem 0 3.5rem; }
+  .compare-header h1 { font-size: 1.7rem; }
+  .compare-card { padding: 0.9rem 0.85rem 1rem; }
+  .spec-compare thead th { padding: 0.75rem 0.8rem; font-size: 0.6rem; }
+  .spec-compare tbody td { padding: 0.65rem 0.8rem; }
+}
+
+@media (max-width: 800px) {
+  .compare-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+  .spec-compare td.k { width: 120px; }
+  .compare-header h1 { font-size: 1.5rem; }
+  .compare-card { gap: 0.6rem; }
+  .img-wrap { aspect-ratio: 3/2; }
+}
+
+@media (max-width: 768px) {
+  .compare-page { padding: 1.25rem 0 3rem; }
+  .compare-header { gap: 0.75rem; margin-bottom: 1.5rem; }
+  .compare-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+  .empty-state { padding: 2.5rem 1.5rem; border-radius: 16px; }
+  .empty-state p { font-size: 1rem; }
+  .compare-card .remove { width: 24px; height: 24px; font-size: 0.75rem; }
+  .spec-compare { overflow-x: scroll; }
+}
+
+@media (max-width: 640px) {
+  .compare-header h1 { font-size: 1.4rem; }
+  .compare-header .actions { flex-wrap: wrap; }
+  .compare-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .compare-card { padding: 0.8rem 0.75rem 0.9rem; }
+  .name { font-size: 0.8rem; }
+  .price-line .price { font-size: 0.9rem; }
+  .view-link { font-size: 0.65rem; }
+  .spec-compare thead th { padding: 0.65rem 0.7rem; }
+  .spec-compare tbody td { padding: 0.6rem 0.7rem; font-size: 0.7rem; }
+  .spec-compare td.k { width: 110px; }
+}
+
+@media (max-width: 520px) {
+  .compare-page { padding: 1rem 0 2.5rem; }
+  .compare-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.9rem; }
+  .compare-slot { min-height: 280px; }
+  .compare-card { border-radius: 14px; }
+  .img-wrap { border-radius: 12px; }
+  .compare-card .remove { top: 6px; right: 6px; }
+  .stock { font-size: 0.55rem; padding: 0.25rem 0.4rem; }
+}
+
+@media (max-width: 480px) {
+  .compare-header h1 { font-size: 1.3rem; }
+  .compare-header .actions { gap: 0.5rem; }
+  .compare-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .compare-slot { min-height: 260px; }
+  .empty-state { padding: 2rem 1.25rem; }
+  .compare-slot.empty .placeholder { border-radius: 14px; }
+  .compare-slot.empty .add-placeholder .hint { font-size: 0.5rem; }
+  .spec-compare table { font-size: 0.7rem; }
+  .spec-compare thead th { font-size: 0.55rem; padding: 0.6rem 0.6rem; }
+  .spec-compare tbody td { padding: 0.55rem 0.6rem; }
+  .spec-compare td.k { width: 100px; font-size: 0.65rem; }
+}
+
+@media (max-width: 430px) {
+  .compare-grid { gap: 0.7rem; }
+  .compare-card { padding: 0.7rem 0.65rem 0.8rem; }
+  .name { font-size: 0.75rem; }
+  .price-line .price { font-size: 0.85rem; }
+  .price-line .orig { font-size: 0.7rem; }
+  .no-img { font-size: 2rem; }
+  .view-link { font-size: 0.6rem; }
+}
+
+@media (max-width: 390px) {
+  .compare-header h1 { font-size: 1.2rem; }
+  .compare-slot { min-height: 240px; }
+  .compare-card { gap: 0.5rem; }
+  .img-wrap { aspect-ratio: 1; }
+  .spec-compare { border-radius: 14px; }
+  .spec-compare thead th { padding: 0.5rem 0.55rem; }
+  .spec-compare tbody td { padding: 0.5rem 0.55rem; }
+  .spec-compare td.k { width: 90px; }
+}
+
+@media (max-width: 360px) {
+  .compare-page { padding: 0.9rem 0 2.25rem; }
+  .compare-header { margin-bottom: 1.25rem; }
+  .compare-grid { gap: 0.6rem; }
+  .compare-slot { min-height: 220px; }
+  .compare-card .remove { width: 22px; height: 22px; font-size: 0.7rem; }
+  .empty-state { padding: 1.75rem 1rem; }
+  .empty-state p { font-size: 0.9rem; }
+  .name { font-size: 0.7rem; }
+  .price-line .price { font-size: 0.8rem; }
+  .stock { font-size: 0.5rem; padding: 0.2rem 0.35rem; }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .compare-page { padding: 0.75rem 0 2rem; }
+  .compare-header { margin-bottom: 1rem; }
+  .compare-slot { min-height: 200px; }
+  .empty-state { padding: 1.5rem 1rem; }
+}
+
+/* Touch/coarse pointer optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .compare-card:hover { transform: none; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
+  .compare-card .remove { min-height: 44px; min-width: 44px; }
+  .view-link { min-height: 44px; display: flex; align-items: center; }
+  .compare-slot.empty .add-placeholder { min-height: 100px; }
+  /* Remove hover states that don't work on touch */
+  .spec-compare tbody tr:hover td { background: inherit; }
 }

@@ -314,55 +314,108 @@
   color: white;
 }
 
-/* Responsive Design */
+/* =============================================================
+   Enhanced Responsive Overrides (Unified Breakpoint Ladder)
+   Comprehensive mobile optimization replacing basic 768px/480px rules
+   Breakpoints: 1400 / 1200 / 1000 / 992 / 768 / 640 / 520 / 480 / 430 / 390 / 360
+   ============================================================= */
+
+@media (max-width: 1400px) {
+  .contact-page { max-width: 1180px; }
+  .contact-content { gap: 2.5rem; }
+}
+
+@media (max-width: 1200px) {
+  .contact-page { padding: 1.8rem; }
+  .faq-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .support-options { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+}
+
+@media (max-width: 1000px) {
+  .contact-content { grid-template-columns: 1fr; gap: 2.2rem; }
+  .form-row { grid-template-columns: 1fr; gap: 1.2rem; }
+  .page-header { text-align: center; }
+}
+
+@media (max-width: 992px) {
+  .contact-page { padding: 1.5rem; }
+  .contact-form-section { padding: 1.8rem; }
+  .page-header h1 { font-size: 2.2rem; }
+  .info-card, .faq-item, .support-option { padding: 1.5rem; }
+}
+
 @media (max-width: 768px) {
-  .contact-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
+  .contact-content { gap: 2rem; }
+  .faq-grid { grid-template-columns: 1fr; }
+  .support-options { grid-template-columns: 1fr; }
+  .page-header h1 { font-size: 2rem; }
+  .contact-form-section { padding: 1.5rem; }
+  .contact-page { padding: 1.25rem; }
+  .btn { min-height: 44px; }
+}
 
-  .form-row {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 640px) {
+  .contact-page { padding: 1rem; }
+  .contact-form-section { padding: 1.25rem; }
+  .page-header h1 { font-size: 1.8rem; }
+  .page-header p { font-size: 1rem; }
+  .info-card, .faq-item, .support-option { padding: 1.25rem; }
+  .btn { padding: 0.7rem 1.3rem; font-size: 0.9rem; }
+}
 
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .support-options {
-    grid-template-columns: 1fr;
-  }
-
-  .page-header h1 {
-    font-size: 2rem;
-  }
-
-  .contact-form-section {
-    padding: 1.5rem;
-  }
-
-  .contact-page {
-    padding: 1rem;
-  }
+@media (max-width: 520px) {
+  .contact-content { gap: 1.8rem; }
+  .contact-form-section { padding: 1.1rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-control { padding: 0.8rem; font-size: 0.9rem; }
+  .btn { padding: 0.65rem 1.2rem; }
 }
 
 @media (max-width: 480px) {
-  .page-header h1 {
-    font-size: 1.75rem;
-  }
+  .page-header h1 { font-size: 1.6rem; }
+  .contact-form-section { padding: 1rem; }
+  .info-card, .faq-item, .support-option { padding: 1rem; }
+  .btn { padding: 0.65rem 1.1rem; font-size: 0.85rem; }
+  .form-control { padding: 0.75rem; }
+  .contact-page { padding: 0.9rem; }
+}
 
-  .contact-form-section {
-    padding: 1rem;
-  }
+@media (max-width: 430px) {
+  .page-header h1 { font-size: 1.5rem; }
+  .contact-form-section { padding: 0.9rem; }
+  .info-card, .faq-item, .support-option { padding: 0.9rem; }
+  .form-control { font-size: 16px; /* Prevent iOS zoom */ }
+  .btn { padding: 0.6rem 1rem; font-size: 0.8rem; }
+}
 
-  .info-card,
-  .faq-item,
-  .support-option {
-    padding: 1rem;
-  }
+@media (max-width: 390px) {
+  .contact-page { padding: 0.8rem; }
+  .contact-content { gap: 1.5rem; }
+  .page-header h1 { font-size: 1.4rem; }
+  .form-group { margin-bottom: 1rem; }
+}
 
-  .btn {
-    padding: 0.65rem 1.25rem;
-    font-size: 0.9rem;
-  }
+@media (max-width: 360px) {
+  .contact-page { padding: 0.75rem; }
+  .contact-form-section { padding: 0.8rem; }
+  .page-header h1 { font-size: 1.3rem; }
+  .info-card, .faq-item, .support-option { padding: 0.8rem; }
+  .btn { padding: 0.55rem 0.9rem; font-size: 0.75rem; }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 896px) and (orientation: landscape) and (max-height: 500px) {
+  .contact-page { padding: 0.75rem; }
+  .contact-form-section { padding: 0.8rem; }
+  .page-header { margin-bottom: 1rem; }
+  .contact-content { gap: 1.5rem; }
+}
+
+/* Touch/coarse pointer optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn { min-height: 44px; }
+  .form-control { min-height: 44px; }
+  .info-card, .faq-item, .support-option { -webkit-tap-highlight-color: transparent; }
+  /* Ensure adequate touch targets */
+  .faq-item summary { min-height: 44px; display: flex; align-items: center; }
 }
