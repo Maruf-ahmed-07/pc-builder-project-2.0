@@ -4,7 +4,7 @@ import './index.css';
 import App from './App.jsx';
 import API_BASE_URL from './config/api.js';
 import axios from 'axios';
-import { AuthProvider } from './contexts/AuthContext.js';
+import { AuthProvider } from './contexts/AuthContext.jsx';
 // Optional: add other providers when their content restored (Compare, Cart, Chat)
 
 if (API_BASE_URL) {
