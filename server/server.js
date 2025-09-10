@@ -8,10 +8,11 @@ const { app, sessionMiddleware } = require('./app');
 
 const PORT = process.env.PORT || 5000;
 
-console.log('Environment loaded:', {
+console.log('[startup] Environment loaded', {
   NODE_ENV: process.env.NODE_ENV,
-  PORT: PORT,
-  MONGODB_URI: process.env.MONGODB_URI ? 'Set' : 'Not set'
+  PORT,
+  MONGO: !!process.env.MONGODB_URI,
+  CHAT_MODE: process.env.CHAT_MODE
 });
 
 const server = http.createServer(app);
@@ -36,6 +37,7 @@ if (process.env.CHAT_MODE !== 'rest') {
 }
 
 server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`[startup] HTTP server listening on :${PORT}`);
+  console.log('[startup] Health endpoint: /api/health');
 });
 
