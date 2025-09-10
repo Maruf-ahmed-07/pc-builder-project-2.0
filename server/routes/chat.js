@@ -25,6 +25,33 @@ router.get('/thread', protect, async (req, res) => {
   }
 });
 
+// Send a message (user or admin). Admin must provide userId.
+router.post('/send', protect, async (req, res) => {
+  try {
+    const { text, userId } = req.body || {};
+    if (!text || typeof text !== 'string' || !text.trim()) {
+      return res.status(400).json({ success: false, message: 'Message text required' });
+    }
+    let targetUserId = req.user._id;
+    let sender = 'user';
+    if (req.user.role === 'admin') {
+      if (!userId) return res.status(400).json({ success: false, message: 'userId required for admin message' });
+      targetUserId = userId;
+      sender = 'admin';
+    }
+    const msg = await ChatMessage.create({
+      user: targetUserId,
+      sender,
+      message: text.trim(),
+      readByUser: sender === 'admin' ? false : true,
+      readByAdmin: sender === 'admin' ? true : false
+    });
+    res.json({ success: true, message: msg });
+  } catch (e) {
+    res.status(500).json({ success: false, message: 'Failed to send message' });
+  }
+});
+
 // Admin: list user threads with last message + unread counts
 router.get('/threads', protect, adminOnly, async (req, res) => {
   try {
@@ -80,6 +107,21 @@ router.get('/thread/:userId', protect, adminOnly, async (req, res) => {
     res.json({ success: true, messages });
   } catch (e) {
     res.status(500).json({ success: false, message: 'Failed to load messages' });
+  }
+});
+
+// Presence approximation (users active in last 5 minutes)
+router.get('/presence', protect, async (req, res) => {
+  try {
+    const since = new Date(Date.now() - 5 * 60 * 1000);
+    const active = await ChatMessage.aggregate([
+      { $match: { createdAt: { $gte: since } } },
+      { $group: { _id: '$user', lastAt: { $max: '$createdAt' } } },
+      { $limit: 200 }
+    ]);
+    res.json({ success: true, onlineUsers: active.map(a => a._id), onlineAdmins: 0 });
+  } catch (e) {
+    res.status(500).json({ success: false, message: 'Failed to load presence' });
   }
 });
 

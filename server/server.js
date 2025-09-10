@@ -8,9 +8,7 @@ const MongoStore = require('connect-mongo');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-const http = require('http');
-const { Server } = require('socket.io');
-const ChatMessage = require('./models/ChatMessage');
+// Socket.io removed for serverless compatibility
 
 const app = express();
 
@@ -173,95 +171,12 @@ io.on('connection', async (socket) => {
       });
   const payload = { _id: msg._id, user: targetUserId, sender: msg.sender, message: msg.message, createdAt: msg.createdAt, readByUser: msg.readByUser, readByAdmin: msg.readByAdmin };
       if (isAdmin) {
-        io.to(`user:${targetUserId}`).emit('chat:new', payload);
-        io.to('admins').emit('chat:new', payload);
-      } else {
-        io.to(`user:${targetUserId}`).emit('chat:new', payload); // echo back to user thread
-        io.to('admins').emit('chat:new', payload);
-      }
-    });
-
-    // Admin closes (resets) a chat thread
-    socket.on('chat:close', async (targetUserId) => {
-      if (!isAdmin || !targetUserId) return;
-      try {
-        // Soft close: add a system message marking closure
-        const closeMsg = await ChatMessage.create({
-          user: targetUserId,
-          sender: 'system',
-          message: 'This chat has been closed by support. You can start a new conversation anytime.',
-          readByUser: false,
-          readByAdmin: true
-        });
-        const payload = { _id: closeMsg._id, user: targetUserId, sender: 'system', message: closeMsg.message, createdAt: closeMsg.createdAt, readByUser: closeMsg.readByUser, readByAdmin: closeMsg.readByAdmin };
-        io.to(`user:${targetUserId}`).emit('chat:new', payload);
-        io.to('admins').emit('chat:new', payload);
-        // Optional: purge old messages (uncomment to actually clear)
-        // await ChatMessage.deleteMany({ user: targetUserId, sender: { $in: ['user','admin'] } });
-        io.to('admins').emit('chat:closed', { user: targetUserId });
-      } catch (e) {
-        // ignore
-      }
-    });
-
-    // Hard delete chat thread
-    socket.on('chat:delete', async (targetUserId) => {
-      if (!isAdmin || !targetUserId) return;
-      try {
-        await ChatMessage.deleteMany({ user: targetUserId });
-        io.to(`user:${targetUserId}`).emit('chat:deleted', { user: targetUserId });
-        io.to('admins').emit('chat:deleted', { user: targetUserId });
-      } catch (e) {
-        // ignore
-      }
-    });
-
-    socket.on('chat:markReadUser', async () => {
-      if (isAdmin) return; // user only
-      await ChatMessage.updateMany({ user: userId, sender: 'admin', readByUser: false }, { $set: { readByUser: true } });
-    });
-
-    socket.on('chat:markReadAdmin', async (targetUserId) => {
-      if (!isAdmin || !targetUserId) return;
-      await ChatMessage.updateMany({ user: targetUserId, sender: 'user', readByAdmin: false }, { $set: { readByAdmin: true } });
-    });
-
-    // Typing indicator
-    socket.on('chat:typing', (data) => {
-      try {
-        if (isAdmin) {
-          const targetUserId = data && data.userId ? data.userId : null;
-            if (targetUserId) {
-              io.to(`user:${targetUserId}`).emit('chat:typing', { user: targetUserId, from: 'admin', ts: Date.now() });
-            }
-            io.to('admins').emit('chat:typing', { user: targetUserId || 'all', from: 'admin', ts: Date.now() });
-        } else {
-          io.to('admins').emit('chat:typing', { user: userId, from: 'user', ts: Date.now() });
-          io.to(`user:${userId}`).emit('chat:typing', { user: userId, from: 'user', ts: Date.now() });
+        if (require.main === module) {
+          app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(`Environment: ${process.env.NODE_ENV}`);
+          });
         }
-      } catch (e) {
-        // ignore typing errors
-      }
-    });
 
-    socket.on('disconnect', () => {
-      if (isAdmin) {
-        adminSockets.delete(socket.id);
-      } else if (userSockets.has(userId)) {
-        const set = userSockets.get(userId);
-        set.delete(socket.id);
-        if (set.size === 0) userSockets.delete(userId);
-      }
-      io.to('admins').emit('chat:presence', { onlineUsers: Array.from(userSockets.keys()), onlineAdmins: adminSockets.size });
+        module.exports = app;
     });
-  } catch (err) {
-    console.error('Socket connection error', err);
-    socket.emit('chat:error', 'Internal error');
-    socket.disconnect();
-  }
-});
-
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-});
