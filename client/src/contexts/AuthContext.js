@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE_URL from '../config/api';
 import toast from 'react-hot-toast';
 
-// Configure axios defaults
+// Configure axios defaults (centralized)
 axios.defaults.withCredentials = true;
-// Set base URL to backend server
-axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+if (!axios.defaults.baseURL) {
+  axios.defaults.baseURL = API_BASE_URL;
+}
 
 const AuthContext = createContext();
 

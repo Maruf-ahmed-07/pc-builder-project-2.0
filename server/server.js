@@ -58,10 +58,17 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+// Dynamic CORS origins via env (comma separated), fallback to sensible defaults
+const corsOrigins = (process.env.CORS_ORIGINS && process.env.CORS_ORIGINS.split(',').map(o => o.trim()).filter(Boolean)) || (
+  process.env.NODE_ENV === 'production'
+    ? ['https://your-domain.com']
+    : ['http://localhost:3000', 'http://localhost:3001']
+);
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com'] 
-    : ['http://localhost:3000', 'http://localhost:3001'],
+  origin: function(origin, callback) {
+    if (!origin || corsOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true
 }));
 
@@ -110,9 +117,7 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production'
-      ? ['https://your-domain.com']
-      : ['http://localhost:3000', 'http://localhost:3001'],
+    origin: corsOrigins,
     credentials: true
   }
 });

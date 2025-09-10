@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
+import API_BASE_URL from '../config/api';
 import axios from 'axios';
 import { useAuth } from './AuthContext';
 
@@ -45,8 +46,8 @@ export const ChatProvider = ({ children }) => {
     }
 
     // Connect socket
-    const base = process.env.REACT_APP_API_URL || 'http://localhost:5000';
-  const s = io(base, { withCredentials: true });
+  const base = API_BASE_URL || window.location.origin;
+  const s = io(base || '/', { withCredentials: true, path: '/socket.io' });
   window.socket = s;
     socketRef.current = s;
 
