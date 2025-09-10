@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useChat } from '../contexts/ChatContext';
 import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 import '../App.css';
 import './ChatWidget.css';
 
@@ -63,14 +64,8 @@ const ChatWidget = () => {
     try {
       // Build history from AI thread only (last 10 turns)
       const history = aiThread.concat(userMsg).slice(-10).map(m => ({ role: m.sender === 'user' ? 'user' : 'ai', content: m.message }));
-      const res = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ message: content, history })
-      });
-      const data = await res.json();
-      const reply = data.success ? data.reply : (data.message || 'AI error');
+  const { data } = await axios.post('/api/ai/chat', { message: content, history });
+  const reply = data.success ? data.reply : (data.message || 'AI error');
       const aiMsg = { _id: 'aib-' + Date.now(), sender: 'admin', message: reply, createdAt: new Date().toISOString(), meta: { ai: true } };
       setAiThread(prev => prev.concat(aiMsg));
     } catch (err) {
