@@ -4,6 +4,8 @@ import './index.css';
 import App from './App.jsx';
 import API_BASE_URL from './config/api.js';
 import axios from 'axios';
+import { AuthProvider } from './contexts/AuthContext.js';
+// Optional: add other providers when their content restored (Compare, Cart, Chat)
 
 if (API_BASE_URL) {
 	axios.defaults.baseURL = API_BASE_URL;
@@ -13,6 +15,8 @@ if (API_BASE_URL) {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>
-		<App />
+		<AuthProvider>
+			<App />
+		</AuthProvider>
 	</React.StrictMode>
 );
