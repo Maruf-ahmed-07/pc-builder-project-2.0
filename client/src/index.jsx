@@ -7,7 +7,7 @@ import axios from 'axios';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import { CartProvider } from './contexts/CartContext.jsx';
 import { CompareProvider } from './contexts/CompareContext.jsx';
-import { ChatProvider } from './contexts/ChatContext.jsx';
+import { ChatProvider } from './contexts/ChatContext.js';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 if (API_BASE_URL) {

@@ -7,6 +7,11 @@ const explicit = import.meta.env.VITE_BACKEND_URL && import.meta.env.VITE_BACKEN
 // Fallback logic: if production and no explicit var, keep previous localhost (not ideal) so it's obvious.
 const API_BASE_URL = explicit || (import.meta.env.PROD ? 'http://localhost:5000' : '');
 
+if (import.meta.env.PROD && !explicit) {
+  // Helpful diagnostic so production console shows misconfiguration clearly
+  console.warn('[API] VITE_BACKEND_URL missing – falling back to http://localhost:5000 (this will fail in production). Set VITE_BACKEND_URL in your frontend project env vars.');
+}
+
 // Helper to build full API path whether caller passes already absolute or just /api/... path.
 export function apiUrl(path = '') {
   if (!path) return API_BASE_URL;
