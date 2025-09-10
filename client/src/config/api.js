@@ -1,15 +1,18 @@
-// Central API base URL resolution for frontend (Vite variant)
-// Provide VITE_API_BASE for explicit backend origin in production (e.g. https://api.example.com)
-let API_BASE_URL = '';
+// API base URL resolution.
+// In Vite, env vars exposed to client must be prefixed with VITE_.
+// Set VITE_BACKEND_URL in your Vercel frontend project (e.g. https://your-backend.vercel.app)
+// Do NOT include a trailing slash.
+const explicit = import.meta.env.VITE_BACKEND_URL && import.meta.env.VITE_BACKEND_URL.trim();
 
-if (import.meta.env.VITE_API_BASE) {
-  API_BASE_URL = import.meta.env.VITE_API_BASE.trim().replace(/\/$/, '');
-} else if (import.meta.env.DEV) {
-  API_BASE_URL = 'http://localhost:5000';
-} else {
-  API_BASE_URL = '';
+// Fallback logic: if production and no explicit var, keep previous localhost (not ideal) so it's obvious.
+const API_BASE_URL = explicit || (import.meta.env.PROD ? 'http://localhost:5000' : '');
+
+// Helper to build full API path whether caller passes already absolute or just /api/... path.
+export function apiUrl(path = '') {
+  if (!path) return API_BASE_URL;
+  if (/^https?:\/\//i.test(path)) return path; // already absolute
+  if (path.startsWith('/')) return API_BASE_URL + path; // normal case '/api/...'
+  return API_BASE_URL + '/' + path;
 }
 
 export default API_BASE_URL;
-
-
