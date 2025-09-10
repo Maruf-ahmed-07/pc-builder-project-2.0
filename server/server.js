@@ -22,6 +22,18 @@ console.log('Environment loaded:', {
   MONGODB_URI: process.env.MONGODB_URI ? 'Set' : 'Not set'
 });
 
+// Determine allowed CORS origins.
+// If CORS_ORIGINS is set (comma-separated list), use that. Otherwise fall back to defaults.
+const allowedOrigins = (() => {
+  if (process.env.CORS_ORIGINS) {
+    return process.env.CORS_ORIGINS.split(',').map(o => o.trim()).filter(Boolean);
+  }
+  return process.env.NODE_ENV === 'production'
+    ? ['https://your-domain.com'] // TODO: replace or set CORS_ORIGINS
+    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'];
+})();
+console.log('CORS allowed origins:', allowedOrigins);
+
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -59,9 +71,11 @@ const sessionMiddleware = session({
 app.use(sessionMiddleware);
 
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-domain.com'] 
-    : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow non-browser (curl, server-to-server)
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS not allowed for origin: ' + origin));
+  },
   credentials: true
 }));
 
@@ -110,9 +124,11 @@ const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production'
-      ? ['https://your-domain.com']
-      : ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:5173'],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error('Socket CORS not allowed for origin: ' + origin));
+    },
     credentials: true
   }
 });
