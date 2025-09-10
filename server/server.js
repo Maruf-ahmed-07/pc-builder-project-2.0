@@ -19,7 +19,7 @@ const server = http.createServer(app);
 if (process.env.CHAT_MODE !== 'rest') {
   const corsOrigins = (process.env.CORS_ORIGINS && process.env.CORS_ORIGINS.split(',').map(o => o.trim()).filter(Boolean)) || (
     process.env.NODE_ENV === 'production'
-      ? ['https://your-frontend-domain.com']
+      ? ['https://pc-builder-project-2-0-ui2x.vercel.app']
       : ['http://localhost:3000', 'http://localhost:3001']
   );
   const io = new Server(server, { cors: { origin: corsOrigins, credentials: true } });
