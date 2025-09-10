@@ -11,7 +11,7 @@ const Community = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   
-  const [activeTab, setActiveTab] = useState('featured');
+  // Removed inactive tab state (was unused and caused lint error in CI)
   const [currentPage, setCurrentPage] = useState(1);
   const [filterCategory, setFilterCategory] = useState('all');
   const [featuredOnly, setFeaturedOnly] = useState(false);
@@ -21,7 +21,8 @@ const Community = () => {
   // Removed separate featured section; using single grid with optional featured-only toggle
 
   const { data: buildsData, isLoading } = useQuery({
-    queryKey: ['community-builds', activeTab, currentPage, filterCategory, searchTerm, followingOnly, sortMode, featuredOnly],
+    // activeTab removed from key (no UI to switch tabs currently)
+    queryKey: ['community-builds', currentPage, filterCategory, searchTerm, followingOnly, sortMode, featuredOnly],
     queryFn: async () => {
       const params = new URLSearchParams({
         page: currentPage,

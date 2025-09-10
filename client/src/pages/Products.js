@@ -113,8 +113,7 @@ const Products = () => {
   const products = productsData?.products || [];
   const totalProducts = productsData?.pagination?.totalProducts || 0;
   const totalPages = productsData?.pagination?.totalPages || 0;
-  const hasNext = productsData?.pagination?.hasNext || false;
-  const hasPrev = productsData?.pagination?.hasPrev || false;
+  // hasNext / hasPrev not used directly in UI; removed to satisfy lint
 
   return (
     <div className="products-page">

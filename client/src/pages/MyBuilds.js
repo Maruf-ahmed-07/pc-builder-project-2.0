@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import axios from 'axios';
@@ -18,13 +18,7 @@ const MyBuilds = () => {
   const [editBuildName, setEditBuildName] = useState('');
   const [editBuildDescription, setEditBuildDescription] = useState('');
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchUserBuilds();
-    }
-  }, [isAuthenticated]);
-
-  const fetchUserBuilds = async () => {
+  const fetchUserBuilds = useCallback(async () => {
     console.log('fetchUserBuilds called, isAuthenticated:', isAuthenticated, 'user:', user);
     try {
       setIsLoading(true);
@@ -38,7 +32,13 @@ const MyBuilds = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  // fetch depends on auth state
+  }, [isAuthenticated]);
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchUserBuilds();
+    }
+  }, [isAuthenticated, fetchUserBuilds]);
 
   const deleteBuild = async (buildId) => {
     if (!window.confirm('Are you sure you want to delete this build? This action cannot be undone.')) {

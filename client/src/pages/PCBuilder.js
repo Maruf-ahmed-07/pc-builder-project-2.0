@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import './PCBuilder.css';
 
 const PCBuilder = () => {
   const { addToCart } = useCart();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   // Removed global search (per-category search only now)
   const [activeFilter, setActiveFilter] = useState('all');
@@ -51,11 +51,7 @@ const PCBuilder = () => {
 
   const componentCategories = { ...mainComponents, ...peripherals };
 
-  useEffect(() => {
-    fetchAllComponents();
-  }, []);
-
-  const fetchAllComponents = async () => {
+  const fetchAllComponents = useCallback(async () => {
     setIsLoading(true);
     try {
       const uniqueCategories = [...new Set(Object.values(componentCategories).map(cat => cat.category))];
@@ -111,7 +107,11 @@ const PCBuilder = () => {
       toast.error('Failed to load components');
     }
     setIsLoading(false);
-  };
+  }, [componentCategories]);
+
+  useEffect(() => {
+    fetchAllComponents();
+  }, [fetchAllComponents]);
 
   // Filter components based on search terms and filters
   const filterComponents = (category) => {
@@ -353,7 +353,7 @@ const PCBuilder = () => {
   };
 
   const compatibility = compatResult || { isCompatible: false, issues: [], warnings: [], message: 'Run compatibility check' };
-  const categoriesToShow = activeFilter === 'all' ? Object.keys(componentCategories) : [activeFilter];
+  // categoriesToShow removed (unused)
 
   const computeBenchmark = async () => {
     if (Object.keys(currentBuild).length === 0) {
