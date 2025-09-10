@@ -9,5 +9,8 @@
       "source": "/api/(.*)",
       "destination": "/api/index.js"
     }
-  ]
+  ],
+  "engines": {
+    "node": "18.x"
+  }
 }
