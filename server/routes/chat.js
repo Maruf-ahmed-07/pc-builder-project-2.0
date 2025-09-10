@@ -25,26 +25,17 @@ router.get('/thread', protect, async (req, res) => {
   }
 });
 
-// Send a message (user or admin). Admin must provide userId.
-router.post('/send', protect, async (req, res) => {
+// User sends a message (REST alternative to socket)
+router.post('/message', protect, async (req, res) => {
   try {
-    const { text, userId } = req.body || {};
-    if (!text || typeof text !== 'string' || !text.trim()) {
-      return res.status(400).json({ success: false, message: 'Message text required' });
-    }
-    let targetUserId = req.user._id;
-    let sender = 'user';
-    if (req.user.role === 'admin') {
-      if (!userId) return res.status(400).json({ success: false, message: 'userId required for admin message' });
-      targetUserId = userId;
-      sender = 'admin';
-    }
+    const text = (req.body.text || '').trim();
+    if (!text) return res.status(400).json({ success: false, message: 'Message required' });
     const msg = await ChatMessage.create({
-      user: targetUserId,
-      sender,
-      message: text.trim(),
-      readByUser: sender === 'admin' ? false : true,
-      readByAdmin: sender === 'admin' ? true : false
+      user: req.user._id,
+      sender: 'user',
+      message: text,
+      readByUser: true,
+      readByAdmin: false
     });
     res.json({ success: true, message: msg });
   } catch (e) {
@@ -110,18 +101,47 @@ router.get('/thread/:userId', protect, adminOnly, async (req, res) => {
   }
 });
 
-// Presence approximation (users active in last 5 minutes)
-router.get('/presence', protect, async (req, res) => {
+// Admin sends a message to a user's thread
+router.post('/message/:userId', protect, adminOnly, async (req, res) => {
   try {
-    const since = new Date(Date.now() - 5 * 60 * 1000);
-    const active = await ChatMessage.aggregate([
-      { $match: { createdAt: { $gte: since } } },
-      { $group: { _id: '$user', lastAt: { $max: '$createdAt' } } },
-      { $limit: 200 }
-    ]);
-    res.json({ success: true, onlineUsers: active.map(a => a._id), onlineAdmins: 0 });
+    const text = (req.body.text || '').trim();
+    if (!text) return res.status(400).json({ success: false, message: 'Message required' });
+    const msg = await ChatMessage.create({
+      user: req.params.userId,
+      sender: 'admin',
+      message: text,
+      readByUser: false,
+      readByAdmin: true
+    });
+    res.json({ success: true, message: msg });
   } catch (e) {
-    res.status(500).json({ success: false, message: 'Failed to load presence' });
+    res.status(500).json({ success: false, message: 'Failed to send message' });
+  }
+});
+
+// Admin closes a chat thread (adds system message)
+router.post('/close/:userId', protect, adminOnly, async (req, res) => {
+  try {
+    const closeMsg = await ChatMessage.create({
+      user: req.params.userId,
+      sender: 'system',
+      message: 'This chat has been closed by support. You can start a new conversation anytime.',
+      readByUser: false,
+      readByAdmin: true
+    });
+    res.json({ success: true, message: closeMsg });
+  } catch (e) {
+    res.status(500).json({ success: false, message: 'Failed to close chat' });
+  }
+});
+
+// Admin deletes (purges) a chat thread
+router.delete('/thread/:userId', protect, adminOnly, async (req, res) => {
+  try {
+    await ChatMessage.deleteMany({ user: req.params.userId });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ success: false, message: 'Failed to delete thread' });
   }
 });
 
