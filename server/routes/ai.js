@@ -19,6 +19,7 @@ router.post('/chat', protect, async (req, res) => {
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
+      console.error('[AI] Missing GEMINI_API_KEY');
       return res.status(500).json({ success: false, message: 'AI not configured' });
     }
 
@@ -41,6 +42,7 @@ router.post('/chat', protect, async (req, res) => {
 
     if (!resp.ok) {
       const text = await resp.text();
+      console.error('[AI] Upstream error', resp.status, text.slice(0,300));
       return res.status(502).json({ success: false, message: 'AI service error', detail: text.slice(0, 500) });
     }
     const data = await resp.json();
