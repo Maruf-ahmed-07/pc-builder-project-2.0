@@ -1,8 +1,8 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../config/api';
-import toast from 'react-hot-toast';
-
+import toast from 'react-hot-toast';  const value = { ...state, login, register, logout, updateProfile, changePassword, isInitialized };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 // Ensure axios has correct base + credentials for session cookies
 axios.defaults.withCredentials = true;
 if (API_BASE_URL) axios.defaults.baseURL = API_BASE_URL;
@@ -49,47 +49,95 @@ const authReducer = (state, action) => {
 };
 
 export const AuthProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-	// (Session based; no token header needed. Remove token logic if previously present.)
+  // Add axios interceptor to handle auth failures globally
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        // If we get 401 on any authenticated endpoint (except /auth/me which we handle separately)
+        if (error.response?.status === 401 && 
+            !error.config.url?.includes('/auth/me') && 
+            state.isAuthenticated) {
+          console.log('Session expired, logging out...');
+          sessionStorage.removeItem('user_session');
+          dispatch({ type: 'LOGOUT' });
+          toast('Session expired. Please log in again.', { icon: '🔒' });
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, [state.isAuthenticated]);	// (Session based; no token header needed. Remove token logic if previously present.)
   useEffect(() => {
     const loadUser = async () => {
+      // Check if we think user should be logged in
+      const hadSession = sessionStorage.getItem('user_session') === 'active';
+      
       try {
-        // Add retry logic for session restoration
-        let retries = 2;
-        let lastError;
+        // Try multiple times with increasing delays for better reliability
+        let maxRetries = hadSession ? 3 : 1; // More retries if we expect to be logged in
+        let retryDelay = 1000;
         
-        while (retries > 0) {
+        for (let attempt = 1; attempt <= maxRetries; attempt++) {
           try {
-            const response = await axios.get('/api/auth/me', { timeout: 8000 });
+            const response = await axios.get('/api/auth/me', { 
+              timeout: hadSession ? 12000 : 6000 // Longer timeout if expecting session
+            });
+            
             dispatch({ type: 'SET_USER', payload: response.data.user });
-            return; // Success, exit
+            sessionStorage.setItem('user_session', 'active');
+            setIsInitialized(true);
+            return;
+            
           } catch (error) {
-            lastError = error;
+            // If it's a clear 401, user is not logged in - don't retry
             if (error?.response?.status === 401) {
-              // 401 is expected when not logged in, don't retry
+              sessionStorage.removeItem('user_session');
               break;
             }
-            if (retries > 1 && (error.code === 'ECONNABORTED' || !error.response)) {
-              // Retry on timeout or network error
-              retries--;
-              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
-              continue;
+            
+            // If it's the last attempt, give up
+            if (attempt === maxRetries) {
+              throw error;
             }
-            break;
+            
+            // Only retry on network/timeout errors
+            if (error.code === 'ECONNABORTED' || !error.response) {
+              console.log(`Auth retry ${attempt}/${maxRetries} after ${retryDelay}ms...`);
+              await new Promise(resolve => setTimeout(resolve, retryDelay));
+              retryDelay *= 1.5; // Exponential backoff
+            } else {
+              throw error;
+            }
           }
         }
-        
-        // Handle final error
-        if (lastError?.response?.status !== 401) {
-          console.warn('Auth session restore failed after retries:', lastError?.response?.status || lastError?.code);
-          // Don't show error toast on page load, just log it
-        }
-        dispatch({ type: 'SET_LOADING', payload: false });
-        
       } catch (error) {
-        console.error('Unexpected error in loadUser:', error);
+        if (error?.response?.status !== 401) {
+          console.warn('Auth session restore failed:', {
+            status: error?.response?.status,
+            code: error?.code,
+            hadSession,
+            url: error?.config?.url
+          });
+          
+          // If we expected to be logged in but failed, show a subtle message
+          if (hadSession) {
+            toast('Session expired or connection issue', { 
+              icon: '⚠️',
+              duration: 3000 
+            });
+          }
+        }
+        sessionStorage.removeItem('user_session');
+      } finally {
         dispatch({ type: 'SET_LOADING', payload: false });
+        setIsInitialized(true);
       }
     };
     

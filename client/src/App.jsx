@@ -35,7 +35,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
 import ApiStatusBanner from './components/ApiStatusBanner';
-import ApiDiagnostics from './components/ApiDiagnostics';
 
 function App() {
 	const { user } = useAuth();
@@ -126,7 +125,6 @@ function App() {
 				<FloatingCompareBar />
 				{(!user || user.role === 'user') && <ChatWidget />}
 				<Footer />
-				<ApiDiagnostics />
 				<Toaster
 					position="top-right"
 					toastOptions={{
