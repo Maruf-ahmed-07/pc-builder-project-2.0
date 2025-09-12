@@ -49,7 +49,9 @@ const Products = () => {
     queryFn: async () => {
       const response = await axios.get('/api/products/categories');
       return response.data;
-    }
+    },
+    staleTime: 15 * 60 * 1000, // Categories don't change often, cache for 15 min
+    gcTime: 30 * 60 * 1000
   });
 
   const { data: brandsData } = useQuery({
@@ -57,7 +59,9 @@ const Products = () => {
     queryFn: async () => {
       const response = await axios.get('/api/products/brands');
       return response.data;
-    }
+    },
+    staleTime: 15 * 60 * 1000, // Brands don't change often, cache for 15 min
+    gcTime: 30 * 60 * 1000
   });
   useEffect(() => {
     const params = new URLSearchParams();
