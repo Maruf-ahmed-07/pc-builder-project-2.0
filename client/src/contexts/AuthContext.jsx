@@ -68,20 +68,37 @@ export const AuthProvider = ({ children }) => {
 		loadUser();
 	}, []);
 
-	const login = async (email, password) => {
-		try {
-			dispatch({ type: 'SET_LOADING', payload: true });
-			const response = await axios.post('/api/auth/login', { email, password });
-			dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user } });
-			return { success: true };
-		} catch (error) {
-			dispatch({ type: 'SET_LOADING', payload: false });
-			const message = error.response?.data?.message || 'Login failed';
-			return { success: false, message };
-		}
-	};
-
-	const register = async (userData) => {
+  const login = async (email, password) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const response = await axios.post('/api/auth/login', { email, password });
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user } });
+      toast.success('Login successful!');
+      return { success: true };
+    } catch (error) {
+      dispatch({ type: 'SET_LOADING', payload: false });
+      let message = 'Login failed';
+      
+      if (error.code === 'ECONNABORTED') {
+        message = 'Login timeout - backend may be unreachable';
+      } else if (error.response?.data?.message) {
+        message = error.response.data.message;
+      } else if (error.response?.status === 401) {
+        message = 'Invalid email or password';
+      } else if (!error.response) {
+        message = 'Cannot connect to server';
+      }
+      
+      toast.error(message);
+      console.error('Login error:', { 
+        status: error.response?.status, 
+        message: error.message,
+        url: error.config?.url,
+        baseURL: error.config?.baseURL 
+      });
+      return { success: false, message };
+    }
+  };	const register = async (userData) => {
 		try {
 			dispatch({ type: 'SET_LOADING', payload: true });
 			const response = await axios.post('/api/auth/register', userData);
