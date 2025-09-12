@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useReducer, useEffect, useState } from 'react';
 import axios from 'axios';
 import API_BASE_URL from '../config/api';
-import toast from 'react-hot-toast';  const value = { ...state, login, register, logout, updateProfile, changePassword, isInitialized };
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+import toast from 'react-hot-toast';
+
 // Ensure axios has correct base + credentials for session cookies
 axios.defaults.withCredentials = true;
 if (API_BASE_URL) axios.defaults.baseURL = API_BASE_URL;
@@ -221,7 +221,7 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const value = { ...state, login, register, logout, updateProfile, changePassword };
+	const value = { ...state, login, register, logout, updateProfile, changePassword, isInitialized };
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
