@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-import Header from './components/Layout/Header';
+import Header from './components/Layout/Header.jsx';
 import Footer from './components/Layout/Footer';
 import FloatingCompareBar from './components/Compare/FloatingCompareBar';
 import ChatWidget from './components/ChatWidget';
