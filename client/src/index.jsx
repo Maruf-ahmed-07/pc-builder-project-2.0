@@ -13,7 +13,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 if (API_BASE_URL) {
 	axios.defaults.baseURL = API_BASE_URL;
 	axios.defaults.withCredentials = true;
+	axios.defaults.timeout = 10000; // 10 second timeout
 	console.log('Axios baseURL set to', API_BASE_URL);
+} else {
+	// Set timeout even without baseURL to prevent hanging
+	axios.defaults.timeout = 10000;
 }
 
 const queryClient = new QueryClient({
@@ -22,6 +26,8 @@ const queryClient = new QueryClient({
 			refetchOnWindowFocus: false,
 			retry: 1,
 			staleTime: 5 * 60 * 1000,
+			gcTime: 10 * 60 * 1000, // Keep data for 10 minutes
+			networkMode: 'offlineFirst', // Show cached data while fetching
 		},
 	},
 });

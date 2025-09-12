@@ -4,29 +4,35 @@ import API_BASE_URL from '../config/api';
 
 // Simple diagnostic banner to surface backend connectivity issues in production.
 export default function ApiStatusBanner() {
-  const [status, setStatus] = useState({ ok: true, msg: '' });
+  const [status, setStatus] = useState({ ok: true, msg: '', loading: true, responseTime: null });
 
   useEffect(() => {
     let cancelled = false;
     const check = async () => {
+      const startTime = Date.now();
       try {
         const res = await axios.get('/api/health', { timeout: 6000 });
+        const responseTime = Date.now() - startTime;
         if (cancelled) return;
         if (!res.data?.status) {
-          setStatus({ ok: false, msg: 'Health endpoint returned unexpected response' });
+          setStatus({ ok: false, msg: 'Health endpoint returned unexpected response', loading: false, responseTime });
         } else {
-          setStatus({ ok: true, msg: '' });
+          setStatus({ ok: true, msg: '', loading: false, responseTime });
         }
       } catch (e) {
+        const responseTime = Date.now() - startTime;
         if (cancelled) return;
-        setStatus({ ok: false, msg: e.response?.status ? `HTTP ${e.response.status}` : 'Network error' });
+        const msg = e.code === 'ECONNABORTED' ? 'Timeout (>6s)' : 
+                   e.response?.status ? `HTTP ${e.response.status}` : 'Network error';
+        setStatus({ ok: false, msg, loading: false, responseTime });
       }
     };
     check();
+    return () => { cancelled = true; };
   }, []);
 
   const missingEnv = import.meta.env.PROD && !import.meta.env.VITE_BACKEND_URL;
-  if (!missingEnv && status.ok) return null;
+  if (!missingEnv && status.ok && !status.loading) return null;
 
   return (
     <div style={{
@@ -44,10 +50,15 @@ export default function ApiStatusBanner() {
       zIndex: 9999
     }}>
       <span>
-        {missingEnv && 'VITE_BACKEND_URL not set – API calls are pointing to http://localhost:5000 (will fail on Vercel).'}
-        {!missingEnv && !status.ok && `Backend unreachable at ${API_BASE_URL || '(unset)'}: ${status.msg}`}
+        {status.loading && '🔄 Checking backend connection...'}
+        {missingEnv && !status.loading && 'VITE_BACKEND_URL not set – API calls are pointing to http://localhost:5000 (will fail on Vercel).'}
+        {!missingEnv && !status.ok && !status.loading && `Backend unreachable at ${API_BASE_URL || '(unset)'}: ${status.msg}`}
+        {status.responseTime && status.responseTime > 3000 && !status.loading && ` (slow: ${status.responseTime}ms)`}
       </span>
-      {API_BASE_URL && <code style={{opacity:0.8}}>API_BASE_URL={API_BASE_URL}</code>}
+      <div style={{fontSize: '11px', opacity: 0.8}}>
+        {API_BASE_URL && <code>API_BASE_URL={API_BASE_URL}</code>}
+        {status.responseTime && status.ok && <span style={{marginLeft: '8px'}}>⚡ {status.responseTime}ms</span>}
+      </div>
     </div>
   );
 }
