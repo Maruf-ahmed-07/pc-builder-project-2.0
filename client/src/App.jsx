@@ -34,12 +34,14 @@ import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
+import ApiStatusBanner from './components/ApiStatusBanner';
 
 function App() {
 	const { user } = useAuth();
 	return (
 		<Router>
 			<div className="App">
+				<ApiStatusBanner />
 				<Header />
 				<main className="main-content">
 					<Routes>
