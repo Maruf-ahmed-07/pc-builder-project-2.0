@@ -52,27 +52,55 @@ export const AuthProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, initialState);
 
 	// (Session based; no token header needed. Remove token logic if previously present.)
-	useEffect(() => {
-			const loadUser = async () => {
-				try {
-					const response = await axios.get('/api/auth/me');
-					dispatch({ type: 'SET_USER', payload: response.data.user });
-				} catch (error) {
-					// A 401 here simply means "not logged in" on first load – suppress noisy console
-					if (error?.response?.status && error.response.status !== 401) {
-						console.warn('Auth load /api/auth/me failed', error.response.status, error.response.data);
-					}
-					dispatch({ type: 'SET_LOADING', payload: false });
-				}
-			};
-		loadUser();
-	}, []);
-
-  const login = async (email, password) => {
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        // Add retry logic for session restoration
+        let retries = 2;
+        let lastError;
+        
+        while (retries > 0) {
+          try {
+            const response = await axios.get('/api/auth/me', { timeout: 8000 });
+            dispatch({ type: 'SET_USER', payload: response.data.user });
+            return; // Success, exit
+          } catch (error) {
+            lastError = error;
+            if (error?.response?.status === 401) {
+              // 401 is expected when not logged in, don't retry
+              break;
+            }
+            if (retries > 1 && (error.code === 'ECONNABORTED' || !error.response)) {
+              // Retry on timeout or network error
+              retries--;
+              await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+              continue;
+            }
+            break;
+          }
+        }
+        
+        // Handle final error
+        if (lastError?.response?.status !== 401) {
+          console.warn('Auth session restore failed after retries:', lastError?.response?.status || lastError?.code);
+          // Don't show error toast on page load, just log it
+        }
+        dispatch({ type: 'SET_LOADING', payload: false });
+        
+      } catch (error) {
+        console.error('Unexpected error in loadUser:', error);
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }
+    };
+    
+    loadUser();
+  }, []);  const login = async (email, password) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       const response = await axios.post('/api/auth/login', { email, password });
       dispatch({ type: 'LOGIN_SUCCESS', payload: { user: response.data.user } });
+      // Store session indicator to help with reload persistence
+      sessionStorage.setItem('user_session', 'active');
       toast.success('Login successful!');
       return { success: true };
     } catch (error) {
@@ -111,12 +139,16 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const logout = async () => {
-		try { await axios.post('/api/auth/logout'); } catch (error) { console.warn('Logout error', error); }
-		dispatch({ type: 'LOGOUT' });
-	};
-
-	const updateProfile = async (profileData) => {
+  const logout = async () => {
+    try { 
+      await axios.post('/api/auth/logout'); 
+      // Clear any local session indicators
+      sessionStorage.removeItem('user_session');
+    } catch (error) { 
+      console.warn('Logout error', error); 
+    }
+    dispatch({ type: 'LOGOUT' });
+  };	const updateProfile = async (profileData) => {
 		try {
 			const response = await axios.put('/api/auth/profile', profileData);
 			dispatch({ type: 'SET_USER', payload: response.data.user });

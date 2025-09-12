@@ -32,7 +32,10 @@ export default function ApiStatusBanner() {
   }, []);
 
   const missingEnv = import.meta.env.PROD && !import.meta.env.VITE_BACKEND_URL;
-  if (!missingEnv && status.ok && !status.loading) return null;
+  
+  // Only show banner for critical issues, not during loading
+  const shouldShow = missingEnv || (!status.ok && !status.loading);
+  if (!shouldShow) return null;
 
   return (
     <div style={{
@@ -50,10 +53,9 @@ export default function ApiStatusBanner() {
       zIndex: 9999
     }}>
       <span>
-        {status.loading && '🔄 Checking backend connection...'}
-        {missingEnv && !status.loading && 'VITE_BACKEND_URL not set – API calls are pointing to http://localhost:5000 (will fail on Vercel).'}
-        {!missingEnv && !status.ok && !status.loading && `Backend unreachable at ${API_BASE_URL || '(unset)'}: ${status.msg}`}
-        {status.responseTime && status.responseTime > 3000 && !status.loading && ` (slow: ${status.responseTime}ms)`}
+        {missingEnv && 'VITE_BACKEND_URL not set – API calls are pointing to http://localhost:5000 (will fail on Vercel).'}
+        {!missingEnv && !status.ok && `Backend unreachable at ${API_BASE_URL || '(unset)'}: ${status.msg}`}
+        {status.responseTime && status.responseTime > 3000 && ` (slow: ${status.responseTime}ms)`}
       </span>
       <div style={{fontSize: '11px', opacity: 0.8}}>
         {API_BASE_URL && <code>API_BASE_URL={API_BASE_URL}</code>}
